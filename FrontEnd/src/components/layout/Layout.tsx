@@ -6,6 +6,7 @@ import Footer from './Footer';
 const Layout: React.FC = () => {
   const location = useLocation();
   const isReaderPage = location.pathname.startsWith('/reader');
+  const isAiPage = location.pathname.startsWith('/ai');
   
   return (
     <div className="flex flex-col min-h-screen">
@@ -13,7 +14,7 @@ const Layout: React.FC = () => {
       <main className={`flex-grow ${!isReaderPage ? 'pt-16 md:pt-20' : ''}`}>
         <Outlet />
       </main>
-      {!isReaderPage && <Footer />}
+      {!isReaderPage && !isAiPage && <Footer />}
     </div>
   );
 };

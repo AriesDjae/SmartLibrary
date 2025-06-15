@@ -9,7 +9,8 @@ import {
   BarChart3, 
   LogOut, 
   Menu, 
-  X
+  X,
+  Cpu
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
@@ -86,6 +87,15 @@ const Header: React.FC = () => {
           >
             <BookOpenText className="h-4 w-4" />
             <span>Books</span>
+          </Link>
+          <Link 
+            to="/ai" 
+            className={`flex items-center space-x-1 hover:text-primary-600 transition-colors ${
+              isActivePath('/ai') ? 'text-primary-600 font-medium' : 'text-gray-700'
+            }`}
+          >
+            <Cpu className="h-4 w-4" />
+            <span>AI</span>
           </Link>
           {isAuthenticated && (
             <Link 
@@ -205,38 +215,29 @@ const Header: React.FC = () => {
                   <BookOpenText className="h-5 w-5" />
                   <span>Books</span>
                 </Link>
+                <Link 
+                  to="/ai" 
+                  className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
+                    isActivePath('/ai') 
+                      ? 'bg-primary-50 text-primary-600' 
+                      : 'hover:bg-gray-50'
+                  }`}
+                >
+                  <Cpu className="h-5 w-5" />
+                  <span>AI</span>
+                </Link>
                 {isAuthenticated && (
-                  <>
-                    <Link 
-                      to="/dashboard" 
-                      className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
-                        isActivePath('/dashboard') 
-                          ? 'bg-primary-50 text-primary-600' 
-                          : 'hover:bg-gray-50'
-                      }`}
-                    >
-                      <BarChart3 className="h-5 w-5" />
-                      <span>Dashboard</span>
-                    </Link>
-                    <Link 
-                      to="/profile" 
-                      className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
-                        isActivePath('/profile') 
-                          ? 'bg-primary-50 text-primary-600' 
-                          : 'hover:bg-gray-50'
-                      }`}
-                    >
-                      <User className="h-5 w-5" />
-                      <span>Profile</span>
-                    </Link>
-                    <button 
-                      onClick={signOut}
-                      className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-md w-full text-left transition-colors"
-                    >
-                      <LogOut className="h-5 w-5" />
-                      <span>Sign Out</span>
-                    </button>
-                  </>
+                  <Link 
+                    to="/dashboard" 
+                    className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
+                      isActivePath('/dashboard') 
+                        ? 'bg-primary-50 text-primary-600' 
+                        : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <BarChart3 className="h-5 w-5" />
+                    <span>Dashboard</span>
+                  </Link>
                 )}
               </nav>
               

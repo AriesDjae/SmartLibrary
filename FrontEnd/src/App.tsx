@@ -11,6 +11,7 @@ import ProfilePage from './pages/ProfilePage';
 import ReaderPage from './pages/ReaderPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { useAuth } from './contexts/AuthContext';
+import AiPage from './pages/AiPage';
 
 function App() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -32,6 +33,7 @@ function App() {
         <Route path="sign-in" element={<SignInPage />} />
         <Route path="sign-up" element={<SignUpPage />} />
         
+        <Route path="ai" element={<AiPage />} />
         <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="profile" element={<ProfilePage />} />
