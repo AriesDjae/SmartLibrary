@@ -11,7 +11,7 @@ import {
   Menu, 
   X
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Header: React.FC = () => {
@@ -39,7 +39,15 @@ const Header: React.FC = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/books?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
     }
+  };
+
+  const isActivePath = (path: string) => {
+    if (path === '/') {
+      return location.pathname === path;
+    }
+    return location.pathname.startsWith(path);
   };
   
   const toggleMenu = () => {
@@ -49,7 +57,7 @@ const Header: React.FC = () => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
+        isScrolled ? 'bg-white shadow-md py-2' : 'bg-white/95 backdrop-blur-sm py-4'
       }`}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
@@ -64,7 +72,7 @@ const Header: React.FC = () => {
           <Link 
             to="/" 
             className={`flex items-center space-x-1 hover:text-primary-600 transition-colors ${
-              location.pathname === '/' ? 'text-primary-600 font-medium' : 'text-gray-700'
+              isActivePath('/') ? 'text-primary-600 font-medium' : 'text-gray-700'
             }`}
           >
             <Home className="h-4 w-4" />
@@ -73,7 +81,7 @@ const Header: React.FC = () => {
           <Link 
             to="/books" 
             className={`flex items-center space-x-1 hover:text-primary-600 transition-colors ${
-              location.pathname === '/books' ? 'text-primary-600 font-medium' : 'text-gray-700'
+              isActivePath('/books') ? 'text-primary-600 font-medium' : 'text-gray-700'
             }`}
           >
             <BookOpenText className="h-4 w-4" />
@@ -83,7 +91,7 @@ const Header: React.FC = () => {
             <Link 
               to="/dashboard" 
               className={`flex items-center space-x-1 hover:text-primary-600 transition-colors ${
-                location.pathname === '/dashboard' ? 'text-primary-600 font-medium' : 'text-gray-700'
+                isActivePath('/dashboard') ? 'text-primary-600 font-medium' : 'text-gray-700'
               }`}
             >
               <BarChart3 className="h-4 w-4" />
@@ -97,7 +105,7 @@ const Header: React.FC = () => {
           <input
             type="text"
             placeholder="Search for books, authors, or genres..."
-            className="input py-1.5 pl-9 pr-4 text-sm"
+            className="input py-1.5 pl-9 pr-4 text-sm w-full"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -108,7 +116,7 @@ const Header: React.FC = () => {
         <div className="flex items-center space-x-4">
           {isAuthenticated ? (
             <div className="hidden md:flex items-center space-x-4">
-              <Link to="/profile\" className="flex items-center space-x-2">
+              <Link to="/profile" className="flex items-center space-x-2 hover:text-primary-600 transition-colors">
                 {currentUser?.profileImage ? (
                   <img 
                     src={currentUser.profileImage} 
@@ -125,6 +133,7 @@ const Header: React.FC = () => {
               <button 
                 onClick={signOut}
                 className="text-gray-600 hover:text-primary-600 transition-colors"
+                aria-label="Sign out"
               >
                 <LogOut className="h-5 w-5" />
               </button>
@@ -138,7 +147,7 @@ const Header: React.FC = () => {
           
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden flex items-center text-gray-700"
+            className="md:hidden flex items-center text-gray-700 hover:text-primary-600 transition-colors"
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >
@@ -152,64 +161,95 @@ const Header: React.FC = () => {
       </div>
       
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <motion.div 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-white shadow-lg absolute top-full left-0 right-0 border-t border-gray-100"
-        >
-          <div className="p-4 space-y-4">
-            <form onSubmit={handleSearch} className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="input py-2 pl-9 pr-4"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-            </form>
-            
-            <nav className="space-y-2">
-              <Link to="/" className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-md">
-                <Home className="h-5 w-5 text-primary-600" />
-                <span>Home</span>
-              </Link>
-              <Link to="/books" className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-md">
-                <BookOpenText className="h-5 w-5 text-primary-600" />
-                <span>Books</span>
-              </Link>
-              {isAuthenticated && (
-                <>
-                  <Link to="/dashboard" className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-md">
-                    <BarChart3 className="h-5 w-5 text-primary-600" />
-                    <span>Dashboard</span>
-                  </Link>
-                  <Link to="/profile" className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-md">
-                    <User className="h-5 w-5 text-primary-600" />
-                    <span>Profile</span>
-                  </Link>
-                  <button 
-                    onClick={signOut}
-                    className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-md w-full text-left"
-                  >
-                    <LogOut className="h-5 w-5 text-primary-600" />
-                    <span>Sign Out</span>
-                  </button>
-                </>
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-white shadow-lg absolute top-full left-0 right-0 border-t border-gray-100 overflow-hidden"
+          >
+            <div className="p-4 space-y-4">
+              <form onSubmit={handleSearch} className="relative">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="input py-2 pl-9 pr-4 w-full"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              </form>
+              
+              <nav className="space-y-2">
+                <Link 
+                  to="/" 
+                  className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
+                    isActivePath('/') 
+                      ? 'bg-primary-50 text-primary-600' 
+                      : 'hover:bg-gray-50'
+                  }`}
+                >
+                  <Home className="h-5 w-5" />
+                  <span>Home</span>
+                </Link>
+                <Link 
+                  to="/books" 
+                  className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
+                    isActivePath('/books') 
+                      ? 'bg-primary-50 text-primary-600' 
+                      : 'hover:bg-gray-50'
+                  }`}
+                >
+                  <BookOpenText className="h-5 w-5" />
+                  <span>Books</span>
+                </Link>
+                {isAuthenticated && (
+                  <>
+                    <Link 
+                      to="/dashboard" 
+                      className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
+                        isActivePath('/dashboard') 
+                          ? 'bg-primary-50 text-primary-600' 
+                          : 'hover:bg-gray-50'
+                      }`}
+                    >
+                      <BarChart3 className="h-5 w-5" />
+                      <span>Dashboard</span>
+                    </Link>
+                    <Link 
+                      to="/profile" 
+                      className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
+                        isActivePath('/profile') 
+                          ? 'bg-primary-50 text-primary-600' 
+                          : 'hover:bg-gray-50'
+                      }`}
+                    >
+                      <User className="h-5 w-5" />
+                      <span>Profile</span>
+                    </Link>
+                    <button 
+                      onClick={signOut}
+                      className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-md w-full text-left transition-colors"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span>Sign Out</span>
+                    </button>
+                  </>
+                )}
+              </nav>
+              
+              {!isAuthenticated && (
+                <div className="pt-2 border-t border-gray-100 flex flex-col space-y-2">
+                  <Link to="/sign-in" className="btn-outline w-full">Sign In</Link>
+                  <Link to="/sign-up" className="btn-primary w-full">Sign Up</Link>
+                </div>
               )}
-            </nav>
-            
-            {!isAuthenticated && (
-              <div className="pt-2 border-t border-gray-100 flex flex-col space-y-2">
-                <Link to="/sign-in" className="btn-outline w-full">Sign In</Link>
-                <Link to="/sign-up" className="btn-primary w-full">Sign Up</Link>
-              </div>
-            )}
-          </div>
-        </motion.div>
-      )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
