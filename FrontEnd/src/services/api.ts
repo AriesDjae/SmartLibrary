@@ -1,44 +1,66 @@
-import axiosInstance from "./axios";
+import axios from 'axios';
 
-// Auth Services
-export const authService = {
-  login: async (credentials: { email: string; password: string }) => {
-    const response = await axiosInstance.post("/auth/login", credentials);
-    return response.data;
+// Create axios instance with default config
+const api = axios.create({
+  baseURL: 'http://localhost:5000', // Backend server URL
+  headers: {
+    'Content-Type': 'application/json',
   },
-  register: async (userData: {
-    name: string;
-    email: string;
-    password: string;
-  }) => {
-    const response = await axiosInstance.post("/auth/register", userData);
-    return response.data;
+});
+
+// Request interceptor for adding auth token
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
   },
-  logout: () => {
-    localStorage.removeItem("token");
-  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor for handling errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Handle unauthorized access
+      localStorage.removeItem('token');
+      window.location.href = '/sign-in';
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Auth API
+export const authAPI = {
+  signIn: (credentials: { email: string; password: string }) =>
+    api.post('/auth/signin', credentials),
+  signUp: (userData: { name: string; email: string; password: string }) =>
+    api.post('/auth/signup', userData),
+  signOut: () => api.post('/auth/signout'),
 };
 
-// Book Services
-export const bookService = {
-  getAllBooks: async () => {
-    const response = await axiosInstance.get("/books");
-    return response.data;
-  },
-  getBookById: async (id: string) => {
-    const response = await axiosInstance.get(`/books/${id}`);
-    return response.data;
-  },
-  createBook: async (bookData: any) => {
-    const response = await axiosInstance.post("/books", bookData);
-    return response.data;
-  },
-  updateBook: async (id: string, bookData: any) => {
-    const response = await axiosInstance.put(`/books/${id}`, bookData);
-    return response.data;
-  },
-  deleteBook: async (id: string) => {
-    const response = await axiosInstance.delete(`/books/${id}`);
-    return response.data;
-  },
+// Books API
+export const booksAPI = {
+  getAll: (params?: { search?: string; page?: number; limit?: number }) =>
+    api.get('/books', { params }),
+  getById: (id: string) => api.get(`/books/${id}`),
+  create: (bookData: any) => api.post('/books', bookData),
+  update: (id: string, bookData: any) => api.put(`/books/${id}`, bookData),
+  delete: (id: string) => api.delete(`/books/${id}`),
 };
+
+// User API
+export const userAPI = {
+  getProfile: () => api.get('/users/profile'),
+  updateProfile: (userData: any) => api.put('/users/profile', userData),
+  getBorrowedBooks: () => api.get('/users/borrowed-books'),
+  borrowBook: (bookId: string) => api.post(`/users/borrow/${bookId}`),
+  returnBook: (bookId: string) => api.post(`/users/return/${bookId}`),
+};
+
+export default api;

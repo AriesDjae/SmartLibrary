@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { mockUsers } from '../data/mockData';
+import { authAPI } from '../services/api';
+import { useApi } from '../hooks/useApi';
 
 interface User {
   id: string;
@@ -14,7 +15,7 @@ interface AuthContextType {
   isLoading: boolean;
   signIn: (email: string, password: string) => Promise<boolean>;
   signUp: (name: string, email: string, password: string) => Promise<boolean>;
-  signOut: () => void;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,56 +31,59 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { execute } = useApi<User>();
   
   useEffect(() => {
-    // Check for stored user in localStorage
+    // Check for stored token and user in localStorage
+    const token = localStorage.getItem('token');
     const storedUser = localStorage.getItem('currentUser');
-    if (storedUser) {
+    
+    if (token && storedUser) {
       setCurrentUser(JSON.parse(storedUser));
     }
     setIsLoading(false);
   }, []);
   
   const signIn = async (email: string, password: string): Promise<boolean> => {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const user = mockUsers.find(u => u.email === email);
-        if (user) {
-          setCurrentUser(user);
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      }, 1000);
-    });
+    try {
+      const response = await execute(authAPI.signIn({ email, password }));
+      const { token, user } = response;
+      
+      localStorage.setItem('token', token);
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      setCurrentUser(user);
+      return true;
+    } catch (error) {
+      console.error('Sign in error:', error);
+      return false;
+    }
   };
   
   const signUp = async (name: string, email: string, password: string): Promise<boolean> => {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const existingUser = mockUsers.find(u => u.email === email);
-        if (existingUser) {
-          resolve(false);
-        } else {
-          const newUser = {
-            id: `user-${Date.now()}`,
-            name,
-            email,
-          };
-          setCurrentUser(newUser);
-          localStorage.setItem('currentUser', JSON.stringify(newUser));
-          resolve(true);
-        }
-      }, 1000);
-    });
+    try {
+      const response = await execute(authAPI.signUp({ name, email, password }));
+      const { token, user } = response;
+      
+      localStorage.setItem('token', token);
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      setCurrentUser(user);
+      return true;
+    } catch (error) {
+      console.error('Sign up error:', error);
+      return false;
+    }
   };
   
-  const signOut = () => {
-    setCurrentUser(null);
-    localStorage.removeItem('currentUser');
+  const signOut = async () => {
+    try {
+      await authAPI.signOut();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('currentUser');
+      setCurrentUser(null);
+    }
   };
   
   const value = {
