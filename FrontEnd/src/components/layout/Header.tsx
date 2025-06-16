@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   ArrowLeft,
+  Cpu,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../contexts/AuthContext";
