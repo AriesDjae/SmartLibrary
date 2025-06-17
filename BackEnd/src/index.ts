@@ -1,25 +1,20 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import connectDB from "./config/db";
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
 
+// Connect to MongoDB
+connectDB();
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Database connection
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/smartlibrary";
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((error) => console.error("MongoDB connection error:", error));
 
 // Routes
 app.get("/", (req, res) => {
