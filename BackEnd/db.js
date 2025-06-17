@@ -1,7 +1,9 @@
 const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
 let dbConnection
-let uri ='mongodb+srv://inspira:inspira123@cluster0.nliqxbr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+
+let uri = process.env.MONGODB_URI;
 
 module.exports = {
     connectToDb : (cb) => {
