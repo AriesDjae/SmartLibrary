@@ -1,104 +1,140 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { BookOpen, Github, Twitter, Instagram, Mail } from 'lucide-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { BookOpen, Mail, Phone, MapPin } from "lucide-react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-900 text-white pt-12 pb-8">
-      <div className="container mx-auto px-4">
+    <footer className="bg-white border-t border-gray-100">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
+          {/* Brand Section */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <BookOpen className="h-8 w-8 text-highlight-400" />
-              <span className="text-xl font-bold">Lumina</span>
-            </div>
-            <p className="text-gray-400 text-sm">
-              Discover, read, and grow with our AI-powered digital library platform. Access thousands of books and resources anytime, anywhere.
+            <Link to="/" className="flex items-center space-x-2">
+              <BookOpen className="h-8 w-8 text-primary-700" />
+              <span className="text-xl font-bold text-gray-900">
+                Smart Library
+              </span>
+            </Link>
+            <p className="text-gray-600 text-sm">
+              Platform perpustakaan digital modern dengan fitur AI untuk
+              pengalaman membaca yang lebih baik.
             </p>
-            <div className="flex space-x-4 pt-2">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Github className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-            </div>
           </div>
-          
+
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-medium mb-4">Quick Links</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">Menu Cepat</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link>
+                <Link
+                  to="/books"
+                  className="text-gray-600 hover:text-primary-600 text-sm"
+                >
+                  Koleksi Buku
+                </Link>
               </li>
               <li>
-                <Link to="/books" className="text-gray-400 hover:text-white transition-colors">Book Collection</Link>
+                <Link
+                  to="/forum"
+                  className="text-gray-600 hover:text-primary-600 text-sm"
+                >
+                  Forum Diskusi
+                </Link>
               </li>
               <li>
-                <Link to="/dashboard" className="text-gray-400 hover:text-white transition-colors">Dashboard</Link>
+                <Link
+                  to="/borrow"
+                  className="text-gray-600 hover:text-primary-600 text-sm"
+                >
+                  Peminjaman
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">About Us</a>
+                <Link
+                  to="/ai"
+                  className="text-gray-600 hover:text-primary-600 text-sm"
+                >
+                  AI Assistant
+                </Link>
               </li>
             </ul>
           </div>
-          
-          {/* Resources */}
+
+          {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-medium mb-4">Resources</h3>
+            <h3 className="font-semibold text-gray-900 mb-4">Kontak</h3>
             <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Blog</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Reading Guides</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Book Clubs</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">FAQ</a>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Contact */}
-          <div>
-            <h3 className="text-lg font-medium mb-4">Contact Us</h3>
-            <ul className="space-y-2">
-              <li className="flex items-center space-x-2">
-                <Mail className="h-4 w-4 text-gray-400" />
-                <a href="mailto:support@lumina.com" className="text-gray-400 hover:text-white transition-colors">
-                  support@lumina.com
+              <li className="flex items-center space-x-2 text-gray-600 text-sm">
+                <Mail className="h-4 w-4" />
+                <a
+                  href="mailto:info@smartlibrary.com"
+                  className="hover:text-primary-600"
+                >
+                  info@smartlibrary.com
                 </a>
               </li>
+              <li className="flex items-center space-x-2 text-gray-600 text-sm">
+                <Phone className="h-4 w-4" />
+                <a href="tel:+6281234567890" className="hover:text-primary-600">
+                  +62 812 3456 7890
+                </a>
+              </li>
+              <li className="flex items-center space-x-2 text-gray-600 text-sm">
+                <MapPin className="h-4 w-4" />
+                <span>Jakarta, Indonesia</span>
+              </li>
             </ul>
-            <div className="mt-6">
-              <h4 className="text-sm font-medium mb-2">Subscribe to our newsletter</h4>
-              <form className="flex">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="px-3 py-2 bg-gray-800 text-white rounded-l-md focus:outline-none focus:ring-1 focus:ring-highlight-400 w-full"
-                />
-                <button
-                  type="submit"
-                  className="bg-highlight-500 hover:bg-highlight-600 px-4 py-2 rounded-r-md transition-colors"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
+          </div>
+
+          {/* Newsletter */}
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-4">Newsletter</h3>
+            <p className="text-gray-600 text-sm mb-4">
+              Dapatkan update terbaru tentang koleksi buku dan acara kami.
+            </p>
+            <form className="space-y-2">
+              <input
+                type="email"
+                placeholder="Email Anda"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+              />
+              <button
+                type="submit"
+                className="w-full bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors text-sm"
+              >
+                Berlangganan
+              </button>
+            </form>
           </div>
         </div>
-        
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} Lumina Digital Library. All rights reserved.</p>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-100 mt-12 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-gray-600 text-sm">
+              © {new Date().getFullYear()} Smart Library. All rights reserved.
+            </p>
+            <div className="flex space-x-6">
+              <a
+                href="#"
+                className="text-gray-600 hover:text-primary-600 text-sm"
+              >
+                Syarat & Ketentuan
+              </a>
+              <a
+                href="#"
+                className="text-gray-600 hover:text-primary-600 text-sm"
+              >
+                Kebijakan Privasi
+              </a>
+              <a
+                href="#"
+                className="text-gray-600 hover:text-primary-600 text-sm"
+              >
+                FAQ
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

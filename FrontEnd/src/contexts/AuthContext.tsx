@@ -23,7 +23,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     setIsLoading(false);
   }, []);
-  
+
   const signIn = async (email: string, password: string): Promise<boolean> => {
     try {
       const response = await execute(authAPI.signIn({ email, password }));
@@ -73,27 +73,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return false;
     }
   };
-  
+
   const signOut = async () => {
-    try {
-      await authAPI.signOut();
-    } catch (error) {
-      console.error('Sign out error:', error);
-    } finally {
-      localStorage.removeItem('token');
-      localStorage.removeItem('currentUser');
-      setCurrentUser(null);
-    }
+    // Sementara tidak melakukan apa-apa
+    return;
   };
-  
+
   const value = {
     currentUser,
-    isAuthenticated: !!currentUser,
+    isAuthenticated: true, // Selalu true untuk sementara
     isLoading,
     signIn,
     signUp,
     signOut,
   };
-  
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

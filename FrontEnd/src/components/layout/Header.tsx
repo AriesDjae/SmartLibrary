@@ -12,9 +12,41 @@ import {
   X,
   ArrowLeft,
   Cpu,
+  MessageSquare,
+  BookCheck,
+  Sparkles,
+  Library,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../contexts/AuthContext";
+
+const navItems = [
+  {
+    label: "Beranda",
+    to: "/",
+    icon: Home,
+  },
+  {
+    label: "Koleksi",
+    to: "/books",
+    icon: Library,
+  },
+  {
+    label: "Forum",
+    to: "/forum",
+    icon: MessageSquare,
+  },
+  {
+    label: "Peminjaman",
+    to: "/borrow",
+    icon: BookCheck,
+  },
+  {
+    label: "AI",
+    to: "/ai",
+    icon: Sparkles,
+  },
+];
 
 const Header: React.FC = () => {
   const { currentUser, isAuthenticated, signOut } = useAuth();
@@ -69,147 +101,103 @@ const Header: React.FC = () => {
   };
 
   const handleBack = () => {
-    navigate(-1);
+    if (window.history.length > 2) {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
   };
 
-  return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white shadow-md py-2"
-          : "bg-white/95 backdrop-blur-sm py-4"
-      }`}
-    >
-      <div className="container mx-auto px-4 flex items-center justify-between">
-        {/* Back Button - Only show when not on home page */}
-        {location.pathname !== "/" && (
+  const isReaderPage = location.pathname.startsWith("/reader/");
+  const isAiPage = location.pathname.startsWith("/ai");
+
+  if (isReaderPage) {
+    return (
+      <header className="bg-white shadow-sm">
+        <div className="container mx-auto px-4 py-4">
           <button
             onClick={handleBack}
-            className="mr-4 p-2 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="Go back"
+            className="flex items-center text-gray-600 hover:text-gray-900"
           >
-            <ArrowLeft className="h-5 w-5 text-gray-600" />
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            Kembali
           </button>
-        )}
-
-        {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2">
-          <BookOpen className="h-8 w-8 text-primary-900" />
-          <span className="text-xl font-bold text-primary-900">
-            Smart Library
-          </span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          <Link
-            to="/"
-            className={`flex items-center space-x-1 hover:text-primary-600 transition-colors ${
-              isActivePath("/")
-                ? "text-primary-600 font-medium"
-                : "text-gray-700"
-            }`}
-          >
-            <Home className="h-4 w-4" />
-            <span>Home</span>
-          </Link>
-          <Link
-            to="/books"
-            className={`flex items-center space-x-1 hover:text-primary-600 transition-colors ${
-              isActivePath("/books")
-                ? "text-primary-600 font-medium"
-                : "text-gray-700"
-            }`}
-          >
-            <BookOpenText className="h-4 w-4" />
-            <span>Books</span>
-          </Link>
-          <Link
-            to="/ai"
-            className={`flex items-center space-x-1 hover:text-primary-600 transition-colors ${
-              isActivePath("/ai")
-                ? "text-primary-600 font-medium"
-                : "text-gray-700"
-            }`}
-          >
-            <Cpu className="h-4 w-4" />
-            <span>AI</span>
-          </Link>
-          {isAuthenticated && (
-            <Link
-              to="/dashboard"
-              className={`flex items-center space-x-1 hover:text-primary-600 transition-colors ${
-                isActivePath("/dashboard")
-                  ? "text-primary-600 font-medium"
-                  : "text-gray-700"
-              }`}
-            >
-              <BarChart3 className="h-4 w-4" />
-              <span>Dashboard</span>
-            </Link>
-          )}
         </div>
+      </header>
+    );
+  }
 
-        {/* Search Bar */}
-        <form
-          onSubmit={handleSearch}
-          className="hidden md:flex relative mx-4 flex-1 max-w-md"
-        >
-          <input
-            type="text"
-            placeholder="Search for books, authors, or genres..."
-            className="input py-1.5 pl-9 pr-4 text-sm w-full"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-        </form>
+  return (
+    <header className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <BookOpen className="h-8 w-8 text-primary-700" />
+            <span className="text-xl font-bold text-gray-900">
+              Smart Library
+            </span>
+          </Link>
 
-        {/* User Actions */}
-        <div className="flex items-center space-x-4">
-          {isAuthenticated ? (
-            <div className="hidden md:flex items-center space-x-4">
-              <Link
-                to="/profile"
-                className="flex items-center space-x-2 hover:text-primary-600 transition-colors"
-              >
-                {currentUser?.profileImage ? (
-                  <img
-                    src={currentUser.profileImage}
-                    alt={currentUser.name}
-                    className="h-8 w-8 rounded-full object-cover border-2 border-primary-100"
-                  />
-                ) : (
-                  <div className="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center">
-                    <User className="h-4 w-4 text-primary-600" />
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-2 lg:space-x-4">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={`flex items-center px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    location.pathname === item.to
+                      ? "bg-primary-50 text-primary-700"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  <Icon className="h-5 w-5 mr-2" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* User Menu */}
+          <div className="hidden md:flex items-center space-x-4">
+            {isAuthenticated ? (
+              <>
+                <Link
+                  to="/profile"
+                  className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                >
+                  <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
+                    <span className="text-sm font-medium text-primary-700">
+                      {currentUser?.name?.[0] || "U"}
+                    </span>
                   </div>
-                )}
-                <span className="text-sm font-medium">{currentUser?.name}</span>
+                  <span className="text-sm font-medium hidden lg:inline">
+                    {currentUser?.name}
+                  </span>
+                </Link>
+                <button
+                  onClick={signOut}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+                >
+                  <LogOut className="h-5 w-5" />
+                  <span className="text-sm font-medium hidden lg:inline">
+                    Keluar
+                  </span>
+                </button>
+              </>
+            ) : (
+              <Link to="/sign-in" className="btn-primary">
+                Masuk
               </Link>
-              <button
-                onClick={signOut}
-                className="text-gray-600 hover:text-primary-600 transition-colors"
-                aria-label="Sign out"
-              >
-                <LogOut className="h-5 w-5" />
-              </button>
-            </div>
-          ) : (
-            <div className="hidden md:flex items-center space-x-3">
-              <Link to="/sign-in" className="btn-outline py-1.5 text-sm">
-                Sign In
-              </Link>
-              <Link to="/sign-up" className="btn-primary py-1.5 text-sm">
-                Sign Up
-              </Link>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden flex items-center text-gray-700 hover:text-primary-600 transition-colors"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100"
           >
             {isMenuOpen ? (
               <X className="h-6 w-6" />
@@ -221,110 +209,66 @@ const Header: React.FC = () => {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-white shadow-lg absolute top-full left-0 right-0 border-t border-gray-100 overflow-hidden"
-          >
-            <div className="p-4 space-y-4">
-              <form onSubmit={handleSearch} className="relative">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="input py-2 pl-9 pr-4 w-full"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-              </form>
-
-              <nav className="space-y-2">
-                <Link
-                  to="/"
-                  className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
-                    isActivePath("/")
-                      ? "bg-primary-50 text-primary-600"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  <Home className="h-5 w-5" />
-                  <span>Home</span>
-                </Link>
-                <Link
-                  to="/books"
-                  className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
-                    isActivePath("/books")
-                      ? "bg-primary-50 text-primary-600"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  <BookOpenText className="h-5 w-5" />
-                  <span>Books</span>
-                </Link>
-                <Link
-                  to="/ai"
-                  className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
-                    isActivePath("/ai")
-                      ? "bg-primary-50 text-primary-600"
-                      : "hover:bg-gray-50"
-                  }`}
-                >
-                  <Cpu className="h-5 w-5" />
-                  <span>AI</span>
-                </Link>
-                {isAuthenticated && (
-                  <>
-                    <Link
-                      to="/dashboard"
-                      className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
-                        isActivePath("/dashboard")
-                          ? "bg-primary-50 text-primary-600"
-                          : "hover:bg-gray-50"
-                      }`}
-                    >
-                      <BarChart3 className="h-5 w-5" />
-                      <span>Dashboard</span>
-                    </Link>
-                    <Link
-                      to="/profile"
-                      className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
-                        isActivePath("/profile")
-                          ? "bg-primary-50 text-primary-600"
-                          : "hover:bg-gray-50"
-                      }`}
-                    >
-                      <User className="h-5 w-5" />
-                      <span>Profile</span>
-                    </Link>
-                    <button
-                      onClick={signOut}
-                      className="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded-md w-full text-left transition-colors"
-                    >
-                      <LogOut className="h-5 w-5" />
-                      <span>Sign Out</span>
-                    </button>
-                  </>
-                )}
-              </nav>
-
-              {!isAuthenticated && (
-                <div className="pt-2 border-t border-gray-100 flex flex-col space-y-2">
-                  <Link to="/sign-in" className="btn-outline w-full">
-                    Sign In
+      {isMenuOpen && (
+        <div className="md:hidden border-t border-gray-100">
+          <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+            <div className="py-3 space-y-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      location.pathname === item.to
+                        ? "bg-primary-50 text-primary-700"
+                        : "text-gray-600 hover:bg-gray-50"
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Icon className="h-5 w-5 mr-3" />
+                    {item.label}
                   </Link>
-                  <Link to="/sign-up" className="btn-primary w-full">
-                    Sign Up
+                );
+              })}
+            </div>
+
+            {/* Mobile User Menu */}
+            <div className="py-3 border-t border-gray-100">
+              {isAuthenticated ? (
+                <>
+                  <Link
+                    to="/profile"
+                    className="flex items-center px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <User className="h-5 w-5 mr-3" />
+                    Profil
                   </Link>
-                </div>
+                  <button
+                    onClick={() => {
+                      signOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex items-center w-full px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50"
+                  >
+                    <LogOut className="h-5 w-5 mr-3" />
+                    Keluar
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/sign-in"
+                  className="flex items-center justify-center w-full px-4 py-3 rounded-lg text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Masuk
+                </Link>
               )}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

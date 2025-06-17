@@ -1,20 +1,18 @@
-import React from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const Layout: React.FC = () => {
-  const location = useLocation();
-  const isReaderPage = location.pathname.startsWith('/reader');
-  const isAiPage = location.pathname.startsWith('/ai');
-  
+  console.log("Layout component rendering");
+
   return (
-    <div className="flex flex-col min-h-screen">
-      {!isReaderPage && <Header />}
-      <main className={`flex-grow ${!isReaderPage ? 'pt-16 md:pt-20' : ''}`}>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Header />
+      <main className="flex-grow w-full">
         <Outlet />
       </main>
-      {!isReaderPage && !isAiPage && <Footer />}
+      <Footer />
     </div>
   );
 };
