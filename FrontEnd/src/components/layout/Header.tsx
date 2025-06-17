@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   ArrowLeft,
+  Cpu,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../contexts/AuthContext";
@@ -123,10 +124,12 @@ const Header: React.FC = () => {
             <BookOpenText className="h-4 w-4" />
             <span>Books</span>
           </Link>
-          <Link 
-            to="/ai" 
+          <Link
+            to="/ai"
             className={`flex items-center space-x-1 hover:text-primary-600 transition-colors ${
-              isActivePath('/ai') ? 'text-primary-600 font-medium' : 'text-gray-700'
+              isActivePath("/ai")
+                ? "text-primary-600 font-medium"
+                : "text-gray-700"
             }`}
           >
             <Cpu className="h-4 w-4" />
@@ -262,12 +265,12 @@ const Header: React.FC = () => {
                   <BookOpenText className="h-5 w-5" />
                   <span>Books</span>
                 </Link>
-                <Link 
-                  to="/ai" 
+                <Link
+                  to="/ai"
                   className={`flex items-center space-x-2 p-2 rounded-md transition-colors ${
-                    isActivePath('/ai') 
-                      ? 'bg-primary-50 text-primary-600' 
-                      : 'hover:bg-gray-50'
+                    isActivePath("/ai")
+                      ? "bg-primary-50 text-primary-600"
+                      : "hover:bg-gray-50"
                   }`}
                 >
                   <Cpu className="h-5 w-5" />
