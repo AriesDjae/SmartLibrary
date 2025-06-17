@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { authAPI } from '../services/api';
-import { useApi } from '../hooks/useApi';
 
 interface User {
   id: string;
@@ -31,7 +30,6 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { execute } = useApi<User>();
   
   useEffect(() => {
     // Check for stored token and user in localStorage
@@ -39,14 +37,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const storedUser = localStorage.getItem('currentUser');
     
     if (token && storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
+      try {
+        setCurrentUser(JSON.parse(storedUser));
+      } catch (error) {
+        console.error('Error parsing stored user:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('currentUser');
+      }
     }
     setIsLoading(false);
   }, []);
   
   const signIn = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await execute(authAPI.signIn({ email, password }));
+      const response = await authAPI.signIn({ email, password });
       const { token, user } = response;
       
       localStorage.setItem('token', token);
@@ -61,7 +65,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
   const signUp = async (name: string, email: string, password: string): Promise<boolean> => {
     try {
-      const response = await execute(authAPI.signUp({ name, email, password }));
+      const response = await authAPI.signUp({ name, email, password });
       const { token, user } = response;
       
       localStorage.setItem('token', token);

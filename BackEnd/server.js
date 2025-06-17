@@ -2,9 +2,10 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
 const { connectToDb, getDb } = require('./db');
-const aiRoutes = require('./src/routes/aiRoutes');
+const authRoutes = require('./src/routes/authRoutes');
+// const aiRoutes = require('./src/routes/aiRoutes');
 
-// //baca file .env
+//baca file .env
 require('dotenv').config();
 
 // // //untuk konek dan berinteraksi dengan MongoDB
@@ -19,6 +20,16 @@ const port = process.env.PORT || 3000;
 // // Middleware untuk parsing request body dalam format JSON
 app.use(express.json());
 
+// Enable CORS
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
 
 // //db connection
 let db;
@@ -31,8 +42,10 @@ connectToDb((err) => {
     }
 })
 
+// ===================== ROUTES =====================
 
-// // ===================== ROUTES =====================
+// Auth routes
+app.use('/api/auth', authRoutes);
 
 app.get('/api/books', (req, res) => {
 
@@ -108,4 +121,4 @@ app.patch('/api/books/:id', (req, res) => {
 })
 
 // Routes
-app.use('/api/ai', aiRoutes);
+// app.use('/api/ai', aiRoutes);

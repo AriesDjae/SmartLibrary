@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: 'http://localhost:5000', // Backend server URL
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000', // Backend server URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -24,14 +24,15 @@ api.interceptors.request.use(
 
 // Response interceptor for handling errors
 api.interceptors.response.use(
-  (response) => response,
+  (response) => response.data,
   (error) => {
     if (error.response?.status === 401) {
       // Handle unauthorized access
       localStorage.removeItem('token');
+      localStorage.removeItem('currentUser');
       window.location.href = '/sign-in';
     }
-    return Promise.reject(error);
+    return Promise.reject(error.response?.data || error.message);
   }
 );
 
