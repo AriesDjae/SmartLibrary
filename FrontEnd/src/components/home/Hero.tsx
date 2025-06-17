@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/books?search=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/ai?prompt=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
   
@@ -51,7 +51,7 @@ const Hero: React.FC = () => {
             <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto mb-8">
               <input
                 type="text"
-                placeholder="Search for books, authors, or genres..."
+                placeholder="Tanyakan sesuatu ke AI..."
                 className="w-full px-5 py-4 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-highlight-500 shadow-lg"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -63,15 +63,6 @@ const Hero: React.FC = () => {
                 <Search className="h-6 w-6" />
               </button>
             </form>
-            
-            <div className="flex flex-wrap justify-center gap-4 mt-6">
-              <Link to="/books" className="btn-primary px-6 py-3">
-                Browse Collection
-              </Link>
-              <Link to="/sign-up" className="btn bg-white text-primary-800 hover:bg-blue-50 focus:ring-primary-500 px-6 py-3">
-                Create Free Account
-              </Link>
-            </div>
           </motion.div>
         </div>
       </div>

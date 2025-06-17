@@ -1,0 +1,23 @@
+{
+  "name": "smartlibrary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node BackEnd/server.js",
+    "dev": "nodemon BackEnd/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AriesDjae/SmartLibrary.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AriesDjae/SmartLibrary/issues"
+  },
+  "homepage": "https://github.com/AriesDjae/SmartLibrary#readme"
+}
