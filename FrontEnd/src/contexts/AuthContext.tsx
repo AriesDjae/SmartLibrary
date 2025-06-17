@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { authAPI } from '../services/api';
-import { useApi } from '../hooks/useApi';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { authAPI } from "../services/api";
+import { useApi } from "../hooks/useApi";
 
 interface User {
   id: string;
@@ -23,77 +23,58 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+// Dummy user untuk development
+const dummyUser: User = {
+  id: "1",
+  name: "User Dummy",
+  email: "user@example.com",
+  profileImage: "https://ui-avatars.com/api/?name=User+Dummy",
+};
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(dummyUser);
+  const [isLoading, setIsLoading] = useState(false);
   const { execute } = useApi<User>();
-  
+
+  // Sementara kita skip pengecekan token dan user di localStorage
   useEffect(() => {
-    // Check for stored token and user in localStorage
-    const token = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('currentUser');
-    
-    if (token && storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
-    }
     setIsLoading(false);
   }, []);
-  
+
   const signIn = async (email: string, password: string): Promise<boolean> => {
-    try {
-      const response = await execute(authAPI.signIn({ email, password }));
-      const { token, user } = response;
-      
-      localStorage.setItem('token', token);
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      setCurrentUser(user);
-      return true;
-    } catch (error) {
-      console.error('Sign in error:', error);
-      return false;
-    }
+    // Sementara selalu return true
+    return true;
   };
-  
-  const signUp = async (name: string, email: string, password: string): Promise<boolean> => {
-    try {
-      const response = await execute(authAPI.signUp({ name, email, password }));
-      const { token, user } = response;
-      
-      localStorage.setItem('token', token);
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      setCurrentUser(user);
-      return true;
-    } catch (error) {
-      console.error('Sign up error:', error);
-      return false;
-    }
+
+  const signUp = async (
+    name: string,
+    email: string,
+    password: string
+  ): Promise<boolean> => {
+    // Sementara selalu return true
+    return true;
   };
-  
+
   const signOut = async () => {
-    try {
-      await authAPI.signOut();
-    } catch (error) {
-      console.error('Sign out error:', error);
-    } finally {
-      localStorage.removeItem('token');
-      localStorage.removeItem('currentUser');
-      setCurrentUser(null);
-    }
+    // Sementara tidak melakukan apa-apa
+    return;
   };
-  
+
   const value = {
     currentUser,
-    isAuthenticated: !!currentUser,
+    isAuthenticated: true, // Selalu true untuk sementara
     isLoading,
     signIn,
     signUp,
     signOut,
   };
-  
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
