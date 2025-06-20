@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useBooks } from "../contexts/BookContext";
 import { useAuth } from "../contexts/AuthContext";
+import { useBorrow } from "../contexts/BorrowContext";
 import {
   Calendar,
   Star,
@@ -18,6 +19,7 @@ import {
 import { motion } from "framer-motion";
 import BookCard from "../components/books/BookCard";
 import ReviewForm from "../components/books/ReviewForm";
+import axios from "axios";
 
 interface Review {
   id: string;
@@ -34,6 +36,7 @@ const BookDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { getBookById, filterBooksByGenre } = useBooks();
   const { isAuthenticated, currentUser } = useAuth();
+  const { addBorrowedBook, fetchBorrowedBooks } = useBorrow();
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([
     {
@@ -93,8 +96,36 @@ const BookDetailPage: React.FC = () => {
     setShowReviewForm(false);
   };
 
-  const handleBorrow = () => {
-    navigate("/borrow");
+  const handleBorrow = async () => {
+    // Buat tanggal pinjam dan jatuh tempo (misal 14 hari)
+    const today = new Date();
+    const due = new Date();
+    due.setDate(today.getDate() + 14);
+
+    // Data yang akan dikirim ke backend
+    const borrowData = {
+      userId: currentUser?.id || "guest",
+      bookId: book.id,
+      title: book.title,
+      author: book.author,
+      borrowedDate: today.toISOString().slice(0, 10),
+      dueDate: due.toISOString().slice(0, 10),
+      status: "Dipinjam",
+      cover: book.coverImage,
+      category: book.genres[0] || "Lainnya",
+      description: book.description,
+    };
+
+    try {
+      // Kirim ke backend
+      await axios.post("/api/peminjaman", borrowData);
+      // Fetch ulang data pinjaman dari backend agar list selalu update
+      await fetchBorrowedBooks();
+      // Redirect ke halaman peminjaman
+      navigate("/borrow");
+    } catch (err) {
+      alert("Gagal meminjam buku. Silakan coba lagi.");
+    }
   };
 
   // Get related books based on primary genre
@@ -185,13 +216,13 @@ const BookDetailPage: React.FC = () => {
                             >
                               Baca Sekarang
                             </Link>
-                            <Link
-                              to="/borrow"
+                            <button
+                              onClick={handleBorrow}
                               className="btn bg-blue-500 hover:bg-blue-600 text-white"
                             >
                               <BookCheck className="h-5 w-5 mr-2" />
                               Pinjam Buku
-                            </Link>
+                            </button>
                           </>
                         ) : (
                           <Link to="/sign-in" className="btn-primary">
