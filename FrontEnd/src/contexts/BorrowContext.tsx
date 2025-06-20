@@ -8,6 +8,8 @@ interface BorrowedBook {
   dueDate: string;
   status: string;
   cover: string;
+  category?: string;
+  description?: string;
 }
 
 interface BorrowContextType {
