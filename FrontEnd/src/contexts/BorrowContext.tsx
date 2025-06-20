@@ -8,12 +8,15 @@ interface BorrowedBook {
   dueDate: string;
   status: string;
   cover: string;
+  category?: string;
+  description?: string;
 }
 
 interface BorrowContextType {
   borrowedBooks: BorrowedBook[];
   addBorrowedBook: (book: BorrowedBook) => void;
   removeBorrowedBook: (id: number) => void;
+  fetchBorrowedBooks: () => Promise<void>;
 }
 
 const BorrowContext = createContext<BorrowContextType | undefined>(undefined);
@@ -41,9 +44,21 @@ export const BorrowProvider: React.FC<BorrowProviderProps> = ({ children }) => {
     setBorrowedBooks((prev) => prev.filter((book) => book.id !== id));
   };
 
+  // Fetch data dari backend
+  const fetchBorrowedBooks = async () => {
+    try {
+      const res = await fetch('/api/peminjaman');
+      const data = await res.json();
+      setBorrowedBooks(data);
+    } catch (err) {
+      // Optional: handle error
+      setBorrowedBooks([]);
+    }
+  };
+
   return (
     <BorrowContext.Provider
-      value={{ borrowedBooks, addBorrowedBook, removeBorrowedBook }}
+      value={{ borrowedBooks, addBorrowedBook, removeBorrowedBook, fetchBorrowedBooks }}
     >
       {children}
     </BorrowContext.Provider>
