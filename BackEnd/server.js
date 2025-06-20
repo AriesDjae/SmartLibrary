@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 // const { ObjectId } = require('mongodb');
 // const { connectToDb, getDb } = require('./db');
-const peminjamanRoutes = require('./peminjaman');
+const peminjamanRoutes = require('./controllers/peminjaman');
 // const aiRoutes = require('./src/routes/aiRoutes');
 
 //baca file .env
@@ -12,7 +12,7 @@ require('dotenv').config();
 // // //untuk konek dan berinteraksi dengan MongoDB
 // // const mongoose = require('mongoose');
 
-// //Inisialisasi aplikasi Express
+//Inisialisasi aplikasi Express
 const app = express();
 
 // // //port untuk server
