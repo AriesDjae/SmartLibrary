@@ -1,8 +1,9 @@
 //framework untuk buat server di Node.js
 const express = require('express');
 const cors = require('cors');
-const { ObjectId } = require('mongodb');
-const { connectToDb, getDb } = require('./db');
+// const { ObjectId } = require('mongodb');
+// const { connectToDb, getDb } = require('./db');
+const peminjamanRoutes = require('./peminjaman');
 // const aiRoutes = require('./src/routes/aiRoutes');
 
 //baca file .env
@@ -27,104 +28,33 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// //db connection
-let db;
-connectToDb((err) => {
-    if (err) {
-        console.error('Database connection error:', err);
-        return;
-    }
-
-    app.listen(port, () => {
-        console.log(`Server berjalan di http://localhost:${port}`);
-    });
-    db = getDb();
-});
-
 // ===================== ROUTES =====================
 
-// Books Routes
-app.get('/api/books', (req, res) => {
-    const page = req.query.p || 0;
-    const booksPerPage = 3;
-    let books = [];
+// Nonaktifkan koneksi database sementara (in-memory only)
+// let db;
+// connectToDb((err) => {
+//     if (err) {
+//         console.error('Database connection error:', err);
+//         return;
+//     }
+//
+//     app.listen(port, () => {
+//         console.log(`Server berjalan di http://localhost:${port}`);
+//     });
+//     db = getDb();
+// });
 
-    db.collection('books')
-        .find()
-        .sort({ author: 1 })
-        .skip(page * booksPerPage)
-        .limit(booksPerPage)
-        .forEach(book => books.push(book))
-        .then(() => {
-            res.status(200).json(books);
-        })
-        .catch((err) => {
-            console.error('Error fetching books:', err);
-            res.status(500).json({ error: 'Could not fetch the documents' });
-        });
+// Jalankan server langsung tanpa database
+app.listen(port, () => {
+    console.log(`Server berjalan di http://localhost:${port}`);
 });
 
-app.get('/api/books/:id', (req, res) => {
-    const bookId = req.params.id;
-    db.collection('books')
-        .findOne({ _id: new ObjectId(bookId) })
-        .then(doc => {
-            if (!doc) {
-                return res.status(404).json({ error: 'Book not found' });
-            }
-            res.status(200).json(doc);
-        })
-        .catch(err => {
-            console.error('Error fetching book:', err);
-            res.status(500).json({ error: 'Could not fetch the document' });
-        });
-});
-
-app.post('/api/books', (req, res) => {
-    const book = req.body;
-    db.collection('books')
-        .insertOne(book)
-        .then(result => {
-            res.status(201).json(result);
-        })
-        .catch(err => {
-            console.error('Error creating book:', err);
-            res.status(500).json({ error: 'Could not create a new document' });
-        });
-});
-
-app.delete('/api/books/:id', (req, res) => {
-    const bookId = req.params.id;
-    db.collection('books')
-        .deleteOne({ _id: new ObjectId(bookId) })
-        .then(result => {
-            if (result.deletedCount === 0) {
-                return res.status(404).json({ error: 'Book not found' });
-            }
-            res.status(200).json(result);
-        })
-        .catch(err => {
-            console.error('Error deleting book:', err);
-            res.status(500).json({ error: 'Could not delete the document' });
-        });
-});
-
-app.patch('/api/books/:id', (req, res) => {
-    const updates = req.body;
-    const bookId = req.params.id;
-    db.collection('books')
-        .updateOne({ _id: new ObjectId(bookId) }, { $set: updates })
-        .then(result => {
-            if (result.matchedCount === 0) {
-                return res.status(404).json({ error: 'Book not found' });
-            }
-            res.status(200).json(result);
-        })
-        .catch(err => {
-            console.error('Error updating book:', err);
-            res.status(500).json({ error: 'Could not update the document' });
-        });
-});
+// Books Routes (DISABLED - membutuhkan database)
+// app.get('/api/books', ...)
+// app.get('/api/books/:id', ...)
+// app.post('/api/books', ...)
+// app.delete('/api/books/:id', ...)
+// app.patch('/api/books/:id', ...)
 
 // AI Routes
 app.post('/api/ai/chat', async (req, res) => {
@@ -148,4 +78,4 @@ app.post('/api/ai/chat', async (req, res) => {
 });
 
 // Routes
-app.use('/api/', Routes);
+app.use(peminjamanRoutes);
