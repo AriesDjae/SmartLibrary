@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BookOpen,
   Smile,
-  CheckCircle,
-  ArrowLeftCircle,
   Search,
-  Filter,
   Calendar,
   Clock,
   AlertCircle,
@@ -19,42 +16,16 @@ import {
 import { Link } from "react-router-dom";
 import { useBorrow } from "../contexts/BorrowContext";
 
-// Data dummy peminjaman buku
-const dummyBorrowedBooks = [
-  {
-    id: 1,
-    title: "Petualangan di Negeri Ajaib",
-    author: "A. Fabel",
-    borrowedDate: "2024-06-01",
-    dueDate: "2024-06-15",
-    status: "Dipinjam",
-    cover:
-      "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=200&q=80",
-    category: "Fiksi",
-    description: "Petualangan seru di negeri ajaib yang penuh kejutan.",
-  },
-  {
-    id: 2,
-    title: "Ensiklopedia Hewan",
-    author: "B. Satwa",
-    borrowedDate: "2024-06-03",
-    dueDate: "2024-06-17",
-    status: "Dipinjam",
-    cover:
-      "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=200&q=80",
-    category: "Pendidikan",
-    description: "Ensiklopedia lengkap tentang berbagai jenis hewan di dunia.",
-  },
-];
-
 const BorrowPage: React.FC = () => {
-  const [borrowedBooks, setBorrowedBooks] = useState(dummyBorrowedBooks);
+  const { borrowedBooks, removeBorrowedBook, fetchBorrowedBooks } = useBorrow();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("semua");
-  const { removeBorrowedBook } = useBorrow();
+
+  useEffect(() => {
+    fetchBorrowedBooks();
+  }, []);
 
   const handleReturn = (id: number) => {
-    setBorrowedBooks((prev) => prev.filter((book) => book.id !== id));
     removeBorrowedBook(id);
   };
 
@@ -64,7 +35,7 @@ const BorrowPage: React.FC = () => {
       book.author.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter =
       selectedFilter === "semua" ||
-      book.category.toLowerCase() === selectedFilter;
+      (book.category && book.category.toLowerCase() === selectedFilter);
     return matchesSearch && matchesFilter;
   });
 
