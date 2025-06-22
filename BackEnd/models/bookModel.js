@@ -1,5 +1,5 @@
 // models/bookModel.js
-// Sang Arsitek Data - Master Blueprint untuk semua hal tentang buku
+// Arsitek Data - Master Blueprint untuk semua hal tentang buku
 
 const { ObjectId } = require('mongodb');
 const { getDb } = require('../config/db');
