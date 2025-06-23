@@ -14,6 +14,7 @@ import {
   Moon,
   Menu
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const ReaderPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -147,10 +148,18 @@ const ReaderPage: React.FC = () => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                const confirm = window.confirm('Apakah Anda ingin meringkas buku ini?');
-                if (confirm) {
-                  window.alert('Fitur ringkas akan segera tersedia.');
-                }
+                toast('Fitur ringkas akan segera tersedia.', {
+                  icon: '✨',
+                  style: {
+                    borderRadius: '8px',
+                    background: theme === 'dark' ? '#22223b' : '#fff',
+                    color: theme === 'dark' ? '#fff' : '#22223b',
+                    fontWeight: '500',
+                    fontSize: '1rem',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.07)'
+                  },
+                  duration: 2500
+                });
               }}
               className={`rounded-full p-2 ${
                 theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
