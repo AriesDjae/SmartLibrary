@@ -143,7 +143,22 @@ const ReaderPage: React.FC = () => {
             >
               <Settings className="h-5 w-5" />
             </button>
-            
+            {/* Tombol Ringkas */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                const confirm = window.confirm('Apakah Anda ingin meringkas buku ini?');
+                if (confirm) {
+                  window.alert('Fitur ringkas akan segera tersedia.');
+                }
+              }}
+              className={`rounded-full p-2 ${
+                theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+              }`}
+              title="Ringkas Buku"
+            >
+              <span className="font-semibold text-xs">Ringkas</span>
+            </button>
             <button 
               onClick={(e) => {
                 e.stopPropagation();
