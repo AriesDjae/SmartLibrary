@@ -49,137 +49,95 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-6 border-b pb-4">
-          <div>
-            <h3 className="text-2xl font-semibold">Write a Review</h3>
-            <p className="text-gray-600 mt-1">
-              Share your thoughts about this book
-            </p>
-          </div>
-          <button
-            onClick={onCancel}
-            className="text-gray-500 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          {/* Rating Section */}
-          <div className="mb-6">
-            <label className="block text-gray-700 text-lg font-medium mb-3">
-              How would you rate this book?
-            </label>
-            <div className="flex gap-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  type="button"
-                  className="focus:outline-none transform hover:scale-110 transition-transform"
-                  onClick={() => setRating(star)}
-                  onMouseEnter={() => setHoveredRating(star)}
-                  onMouseLeave={() => setHoveredRating(0)}
-                >
-                  <Star
-                    className={`h-10 w-10 ${
-                      star <= (hoveredRating || rating)
-                        ? "text-yellow-400 fill-yellow-400"
-                        : "text-gray-300"
-                    }`}
-                  />
-                </button>
-              ))}
-            </div>
-            <p className="text-sm text-gray-500 mt-2">
-              {rating === 0
-                ? "Select a rating"
-                : rating === 1
-                ? "Poor"
-                : rating === 2
-                ? "Fair"
-                : rating === 3
-                ? "Good"
-                : rating === 4
-                ? "Very Good"
-                : "Excellent"}
-            </p>
-          </div>
-
-          {/* Comment Section */}
-          <div className="mb-6">
-            <label className="block text-gray-700 text-lg font-medium mb-3">
-              Your Review
-            </label>
-            <div className="relative">
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-h-[150px] resize-none"
-                placeholder="Share your experience with this book. What did you like or dislike about it?"
-                required
-              />
-              <div className="absolute bottom-3 right-3 text-sm text-gray-500">
-                {comment.length}/1000
+    <div className="flex items-start gap-3 w-full mb-6">
+      {/* Avatar */}
+      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-700 text-white flex items-center justify-center font-bold text-lg shadow">
+        {currentUser?.name?.[0] || 'U'}
+      </div>
+      {/* Input & Actions */}
+      <div className="flex-1">
+        <form onSubmit={handleSubmit} className="w-full">
+          {/* Input Box */}
+          <div className="flex flex-col gap-2">
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="w-full px-4 py-2 rounded-xl border border-gray-200 bg-gray-50 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-none text-gray-900 placeholder-gray-400"
+              placeholder="Tambahkan komentar..."
+              rows={2}
+              maxLength={1000}
+              style={{ minHeight: 44 }}
+            />
+            {/* Image Preview */}
+            {previewUrls.length > 0 && (
+              <div className="grid grid-cols-4 gap-2 mb-1">
+                {previewUrls.map((url, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={url}
+                      alt={`Preview ${index + 1}`}
+                      className="w-full h-16 object-cover rounded-lg border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
               </div>
-            </div>
+            )}
           </div>
-
-          {/* Image Upload Section */}
-          <div className="mb-6">
-            <label className="block text-gray-700 text-lg font-medium mb-3">
-              Add Photos (Optional)
-            </label>
-            <div className="grid grid-cols-4 gap-4">
-              {previewUrls.map((url, index) => (
-                <div key={index} className="relative group">
-                  <img
-                    src={url}
-                    alt={`Preview ${index + 1}`}
-                    className="w-full h-24 object-cover rounded-lg"
-                  />
+          {/* Actions Row */}
+          <div className="flex items-center justify-between mt-2">
+            <div className="flex items-center gap-2">
+              {/* Star Rating */}
+              <div className="flex gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
                   <button
+                    key={star}
                     type="button"
-                    onClick={() => removeImage(index)}
-                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="focus:outline-none"
+                    onClick={() => setRating(star)}
+                    onMouseEnter={() => setHoveredRating(star)}
+                    onMouseLeave={() => setHoveredRating(0)}
                   >
-                    <X className="h-4 w-4" />
+                    <Star
+                      className={`h-6 w-6 ${star <= (hoveredRating || rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
+                    />
                   </button>
-                </div>
-              ))}
-              {previewUrls.length < 4 && (
-                <label className="border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center cursor-pointer hover:border-primary-500 transition-colors">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    className="hidden"
-                    onChange={handleImageSelect}
-                  />
-                  <ImageIcon className="h-8 w-8 text-gray-400 mb-2" />
-                  <span className="text-sm text-gray-500">Add Photos</span>
-                </label>
-              )}
+                ))}
+              </div>
+              {/* Emoji Button (optional, can be replaced with real emoji picker) */}
+              <button type="button" className="text-gray-400 hover:text-primary-500 p-1 rounded-full">
+                <span role="img" aria-label="emoji">😊</span>
+              </button>
+              {/* Image Upload */}
+              <label className="cursor-pointer text-gray-400 hover:text-primary-500 p-1 rounded-full">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleImageSelect}
+                  disabled={previewUrls.length >= 4}
+                />
+                <ImageIcon className="h-6 w-6" />
+              </label>
             </div>
-          </div>
-
-          {/* Submit Button */}
-          <div className="flex justify-end gap-3 border-t pt-4">
-            <button
-              type="button"
-              onClick={onCancel}
-              className="px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium flex items-center gap-2"
-            >
-              <Send className="h-5 w-5" />
-              Post Review
-            </button>
+            <div className="flex gap-2">
+              {/* Cancel button only if needed, can be hidden if not used */}
+              {/* <button type="button" onClick={onCancel} className="text-gray-500 font-medium px-3 py-1 rounded hover:bg-gray-100">Batal</button> */}
+              <button
+                type="submit"
+                className={`px-5 py-1.5 rounded-full font-semibold transition text-white ${comment.trim() && rating ? 'bg-primary-600 hover:bg-primary-700' : 'bg-gray-300 cursor-not-allowed'}`}
+                disabled={!comment.trim() || !rating}
+              >
+                Komentar
+              </button>
+            </div>
           </div>
         </form>
       </div>

@@ -22,11 +22,47 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <BorrowProvider>
-        <Toaster position="top-center" />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: {
+              borderRadius: '12px',
+              background: '#fff',
+              color: '#22223b',
+              fontWeight: 500,
+              fontSize: '1rem',
+              boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
+              padding: '16px 24px',
+              border: '1px solid #e0e7ef',
+            },
+            success: {
+              iconTheme: {
+                primary: '#22c55e',
+                secondary: '#fff',
+              },
+              style: {
+                background: '#f0fdf4',
+                color: '#166534',
+                border: '1px solid #bbf7d0',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#fff',
+              },
+              style: {
+                background: '#fef2f2',
+                color: '#991b1b',
+                border: '1px solid #fecaca',
+              },
+            },
+          }}
+        />
         <Routes>
           {/* Public Routes */}
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
 
           {/* Protected Routes */}
           <Route element={<Layout />}>

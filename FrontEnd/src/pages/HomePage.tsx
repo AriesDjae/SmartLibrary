@@ -36,6 +36,43 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Hero />
+      {/* Education News Section */}
+      <section className="container mx-auto px-4 mt-8">
+        <h2 className="text-2xl font-bold mb-4 text-primary-800">Berita Pendidikan</h2>
+        <div className="flex gap-6 overflow-x-auto pb-2 hide-scrollbar">
+          {/* Example news items, replace with dynamic fetch if needed */}
+          <div className="min-w-[320px] bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col justify-between">
+            <div className="flex gap-3 items-start mb-2">
+              <img src="https://img.freepik.com/free-vector/flat-design-education-logo-template_23-2149491502.jpg?w=60" alt="Kurikulum Merdeka" className="w-12 h-12 object-cover rounded-md flex-shrink-0" />
+              <div>
+                <h3 className="font-semibold text-lg mb-1">Kurikulum Merdeka Resmi Diterapkan Nasional</h3>
+                <p className="text-gray-600 text-sm">Pemerintah mengumumkan penerapan Kurikulum Merdeka di seluruh sekolah mulai tahun ajaran baru. Kurikulum ini diharapkan mendorong kreativitas dan kemandirian siswa.</p>
+              </div>
+            </div>
+            <a href="https://www.kemdikbud.go.id/" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline text-sm font-medium mt-auto">Baca selengkapnya</a>
+          </div>
+          <div className="min-w-[320px] bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col justify-between">
+            <div className="flex gap-3 items-start mb-2">
+              <img src="https://img.freepik.com/free-vector/flat-design-scholarship-logo-template_23-2149491506.jpg?w=60" alt="Beasiswa Pendidikan" className="w-12 h-12 object-cover rounded-md flex-shrink-0" />
+              <div>
+                <h3 className="font-semibold text-lg mb-1">Beasiswa Pendidikan 2024 Dibuka</h3>
+                <p className="text-gray-600 text-sm">Pendaftaran beasiswa pendidikan untuk pelajar dan mahasiswa tahun 2024 telah dibuka. Segera cek persyaratan dan jadwal seleksi.</p>
+              </div>
+            </div>
+            <a href="https://beasiswa.kemdikbud.go.id/" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline text-sm font-medium mt-auto">Baca selengkapnya</a>
+          </div>
+          <div className="min-w-[320px] bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col justify-between">
+            <div className="flex gap-3 items-start mb-2">
+              <img src="https://img.freepik.com/free-vector/flat-design-online-education-logo-template_23-2149491504.jpg?w=60" alt="Tips Belajar Efektif" className="w-12 h-12 object-cover rounded-md flex-shrink-0" />
+              <div>
+                <h3 className="font-semibold text-lg mb-1">Tips Belajar Efektif di Era Digital</h3>
+                <p className="text-gray-600 text-sm">Simak tips dan strategi belajar efektif memanfaatkan teknologi digital agar prestasi akademik semakin meningkat.</p>
+              </div>
+            </div>
+            <a href="https://edukasi.kompas.com/" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline text-sm font-medium mt-auto">Baca selengkapnya</a>
+          </div>
+        </div>
+      </section>
       
       <div className="container mx-auto px-4 py-12">
         {/* Recommended Books (for authenticated users) */}

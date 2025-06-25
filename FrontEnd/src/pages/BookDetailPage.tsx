@@ -269,93 +269,78 @@ const BookDetailPage: React.FC = () => {
                   {book.description}
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                  <div className="card p-4 border border-gray-200">
-                    <h3 className="font-medium text-gray-500 mb-1">ISBN</h3>
-                    <p>{book.isbn}</p>
+                {/* Elegant Book Info Section */}
+                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                  <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3 flex-1 min-w-0">
+                    <BookOpenText className="h-5 w-5 text-primary-600" />
+                    <span className="text-gray-500 text-sm font-medium flex-shrink-0">ISBN:</span>
+                    <span className="text-gray-900 text-sm truncate">{book.isbn}</span>
                   </div>
-                  <div className="card p-4 border border-gray-200">
-                    <h3 className="font-medium text-gray-500 mb-1">
-                      Tanggal Terbit
-                    </h3>
-                    <p>
-                      {new Date(book.publishedDate).toLocaleDateString(
-                        "id-ID",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      )}
-                    </p>
+                  <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3 flex-1 min-w-0">
+                    <Calendar className="h-5 w-5 text-primary-600" />
+                    <span className="text-gray-500 text-sm font-medium flex-shrink-0">Tanggal Terbit:</span>
+                    <span className="text-gray-900 text-sm truncate">{new Date(book.publishedDate).toLocaleDateString("id-ID", { year: "numeric", month: "long", day: "numeric" })}</span>
                   </div>
-                  <div className="card p-4 border border-gray-200">
-                    <h3 className="font-medium text-gray-500 mb-1">Status</h3>
-                    <p
-                      className={
-                        book.isAvailable ? "text-green-600" : "text-red-600"
-                      }
-                    >
-                      {book.isAvailable ? "Tersedia" : "Sedang Dipinjam"}
-                    </p>
+                  <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3 flex-1 min-w-0">
+                    <Bookmark className="h-5 w-5 text-primary-600" />
+                    <span className="text-gray-500 text-sm font-medium flex-shrink-0">Status:</span>
+                    <span className={book.isAvailable ? "text-green-600 font-semibold" : "text-red-600 font-semibold"}>{book.isAvailable ? "Tersedia" : "Sedang Dipinjam"}</span>
                   </div>
                 </div>
 
                 {/* Reader Reviews Section */}
-                <div className="mt-12">
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-semibold">Ulasan Pembaca</h2>
-                    {isAuthenticated ? (
-                      <button
-                        onClick={() => setShowReviewForm(true)}
-                        className="btn-primary"
-                      >
-                        <MessageSquare className="h-5 w-5 mr-2" />
-                        Tulis Ulasan
-                      </button>
-                    ) : (
-                      <Link to="/sign-in" className="btn-primary">
-                        Masuk untuk Menulis Ulasan
-                      </Link>
-                    )}
-                  </div>
-
-                  {showReviewForm && (
-                    <div className="mb-8">
+                <div className="mt-12" id="review-section">
+                  <h2 className="text-2xl font-semibold mb-6">Ulasan Pembaca</h2>
+                  {isAuthenticated && (
+                    <div className="mb-8" id="review-form">
                       <ReviewForm
                         bookId={book.id}
                         onSubmit={handleAddReview}
-                        onCancel={() => setShowReviewForm(false)}
+                        onCancel={() => {}}
                       />
                     </div>
                   )}
-
-                  <div className="space-y-6">
-                    {reviews.map((review) => (
+                  <div className="space-y-8">
+                    {reviews.map((review, idx) => (
                       <div
                         key={review.id}
-                        className="bg-gray-50 rounded-lg p-6 border border-gray-100"
+                        className="bg-white rounded-xl shadow p-6 border border-gray-100 flex gap-4 relative"
                       >
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex items-center">
-                            <div className="w-10 h-10 rounded-full bg-primary-100 text-primary-800 flex items-center justify-center font-medium mr-3">
-                              {review.userInitials}
-                            </div>
-                            <div>
-                              <h4 className="font-medium">{review.userName}</h4>
-                              <p className="text-sm text-gray-500">
-                                {review.date}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex items-center">
-                            <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
-                            <span className="ml-1 font-medium">
-                              {review.rating}
-                            </span>
+                        {/* Avatar */}
+                        <div className="flex-shrink-0">
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-400 to-primary-700 text-white flex items-center justify-center font-bold text-lg shadow">
+                            {review.userInitials}
                           </div>
                         </div>
-                        <p className="text-gray-700">{review.comment}</p>
+                        {/* Review Content */}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-1">
+                            <span className="font-semibold text-gray-900 truncate">{review.userName}</span>
+                            <span className="text-xs text-gray-500">{review.date}</span>
+                            <span className="flex items-center gap-0.5 ml-0 sm:ml-2">
+                              {[1,2,3,4,5].map((star) => (
+                                <Star key={star} className={`h-4 w-4 ${star <= review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`} />
+                              ))}
+                            </span>
+                          </div>
+                          <p className="text-gray-800 mb-2 leading-relaxed break-words">{review.comment}</p>
+                          {review.images && review.images.length > 0 && (
+                            <div className="grid grid-cols-3 gap-2 mt-2">
+                              {review.images.map((img, i) => (
+                                <img key={i} src={img} alt={`Review image ${i+1}`} className="w-full h-20 object-cover rounded-lg border" />
+                              ))}
+                            </div>
+                          )}
+                          {/* Action Buttons */}
+                          <div className="flex gap-4 mt-3 text-sm text-gray-500">
+                            <button className="flex items-center gap-1 hover:text-primary-600 font-medium transition">
+                              <svg xmlns='http://www.w3.org/2000/svg' className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5A2.5 2.5 0 014.5 8h2.379a.5.5 0 00.354-.146l3.793-3.793A2.5 2.5 0 0115.5 7.5V8h1A2.5 2.5 0 0119 10.5v2A2.5 2.5 0 0116.5 15h-7.379a.5.5 0 00-.354.146l-2.793 2.793A2.5 2.5 0 012 15.5v-5z" /></svg>
+                              Suka <span className="ml-1">· 0</span>
+                            </button>
+                            <button className="hover:text-primary-600 font-medium transition">Balas</button>
+                          </div>
+                        </div>
+                        {idx < reviews.length - 1 && <div className="absolute left-0 right-0 bottom-0 h-px bg-gray-100 mt-6" />}
                       </div>
                     ))}
                   </div>
@@ -384,3 +369,4 @@ const BookDetailPage: React.FC = () => {
 };
 
 export default BookDetailPage;
+

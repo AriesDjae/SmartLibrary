@@ -41,7 +41,6 @@ const ProfilePage: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Profile</h1>
-        
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 mb-8">
           {/* Profile Header */}
           <div className="bg-gradient-to-r from-primary-800 to-primary-700 p-6 md:p-8 text-white">
@@ -62,7 +61,6 @@ const ProfilePage: React.FC = () => {
                   <Camera className="h-4 w-4" />
                 </button>
               </div>
-              
               <div className="text-center md:text-left">
                 <h2 className="text-2xl md:text-3xl font-bold">{currentUser.name}</h2>
                 <p className="text-blue-100 mt-1">{currentUser.email}</p>

@@ -16,6 +16,8 @@ import {
   BookCheck,
   Sparkles,
   Library,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../contexts/AuthContext";
@@ -55,6 +57,9 @@ const Header: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const [isDark, setIsDark] = useState(() =>
+    typeof window !== 'undefined' ? document.documentElement.classList.contains('dark') : false
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -111,6 +116,30 @@ const Header: React.FC = () => {
   const isReaderPage = location.pathname.startsWith("/reader/");
   const isAiPage = location.pathname.startsWith("/ai");
 
+  const toggleDarkMode = () => {
+    const html = document.documentElement;
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark');
+      setIsDark(false);
+      localStorage.setItem('theme', 'light');
+    } else {
+      html.classList.add('dark');
+      setIsDark(true);
+      localStorage.setItem('theme', 'dark');
+    }
+  };
+
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      setIsDark(true);
+    } else if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+      setIsDark(false);
+    }
+  }, []);
+
   if (isReaderPage) {
     return (
       <header className="bg-white shadow-sm">
@@ -128,13 +157,13 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-white shadow-sm sticky top-0 z-50 dark:bg-gray-900 dark:shadow-none">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <BookOpen className="h-8 w-8 text-primary-700" />
-            <span className="text-xl font-bold text-gray-900">
+            <BookOpen className="h-8 w-8 text-primary-700 dark:text-primary-300" />
+            <span className="text-xl font-bold text-gray-900 dark:text-gray-100">
               Smart Library
             </span>
           </Link>
@@ -160,6 +189,13 @@ const Header: React.FC = () => {
             })}
           </nav>
 
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800 transition-colors mr-2"
+            title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          >
+            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           {/* User Menu */}
           <div className="hidden md:flex items-center space-x-4">
             {isAuthenticated ? (

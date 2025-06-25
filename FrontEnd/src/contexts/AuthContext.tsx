@@ -44,6 +44,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(false);
   }, []);
 
+  // DEV MODE: Bypass login for testing
+  if (!currentUser) {
+    setCurrentUser({ id: 'dev', name: 'Developer', email: 'dev@inspira.com' });
+  }
+
   const signIn = async (email: string, password: string): Promise<boolean> => {
     try {
       const response = await execute(authAPI.signIn({ email, password }));
@@ -75,13 +80,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
-    // Sementara tidak melakukan apa-apa
-    return;
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    setCurrentUser(null);
+    window.location.href = '/sign-in';
   };
 
   const value = {
-    currentUser,
-    isAuthenticated: true, // Selalu true untuk sementara
+    currentUser: currentUser || { id: 'dev', name: 'Developer', email: 'dev@inspira.com' },
+    isAuthenticated: true,
     isLoading,
     signIn,
     signUp,
