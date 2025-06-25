@@ -12,7 +12,7 @@ const authRoutes = require('./routes/authRoutes');
 
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const environment = process.env.NODE_ENV || 'development';
 
 // Security Middleware
@@ -176,7 +176,6 @@ connectToDb((err) => {
     console.log('📚 BOOK MANAGEMENT API STARTED');
     console.log('🚀 ================================');
     console.log(`✅ Environment: ${environment}`);
-    console.log(`✅ Database: Connected to ${process.env.MONGO_URI}`);
     console.log(`✅ Server: http://localhost:${port}`);
     console.log(`✅ Health Check: http://localhost:${port}/health`);
     console.log(`✅ API Documentation: http://localhost:${port}/api`);

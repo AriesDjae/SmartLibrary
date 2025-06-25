@@ -8,7 +8,7 @@ const getAllBooks = async (req, res) => {
   try {
     const options = {
       page: parseInt(req.query.page) || 0,
-      limit: parseInt(req.query.limit) || 5,
+      limit: parseInt(req.query.limit) || 100,
       sortBy: req.query.sortBy || 'author',
       sortOrder: req.query.sortOrder === 'desc' ? -1 : 1,
       genre: req.query.genre,
