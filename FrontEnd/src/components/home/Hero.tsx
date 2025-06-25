@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Hero: React.FC = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -10,6 +10,7 @@ const Hero: React.FC = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
+      localStorage.setItem('ai_initial_prompt', searchQuery.trim());
       navigate(`/ai?prompt=${encodeURIComponent(searchQuery.trim())}`);
     }
   };

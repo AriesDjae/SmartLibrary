@@ -1,10 +1,10 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
 const Layout: React.FC = () => {
-  console.log("Layout component rendering");
+  const location = useLocation();
+  const hideFooter = location.pathname === "/ai";
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -12,9 +12,9 @@ const Layout: React.FC = () => {
       <main className="flex-grow w-full">
         <Outlet />
       </main>
-      <Footer />
+      {!hideFooter && <Footer />}
     </div>
   );
 };
 
-export default Layout;
+export default Layout; 
