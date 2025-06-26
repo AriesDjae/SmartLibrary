@@ -3,6 +3,7 @@ import { useBooks } from "../contexts/BookContext";
 import BookCard from "../components/books/BookCard";
 import { Filter, Search, BookOpen } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface Book {
   id: string;

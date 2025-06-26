@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000', // Backend server URL
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001', // Backend server URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -63,5 +63,16 @@ export const userAPI = {
   borrowBook: (bookId: string) => api.post(`/users/borrow/${bookId}`),
   returnBook: (bookId: string) => api.post(`/users/return/${bookId}`),
 };
+
+//aulira
+// Fungsi untuk mengambil detail buku berdasarkan ID
+export async function fetchBookDetail(bookId: string) {
+  const response = await fetch(`/books/${bookId}`);
+  if (!response.ok) {
+    throw new Error('Gagal mengambil detail buku');
+  }
+  return response.json();
+}
+
 
 export default api;
