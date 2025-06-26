@@ -123,6 +123,7 @@ app.get('/api', (req, res) => {
 // API Routes
 app.use('/books', bookRoutes);
 app.use('/users', authRoutes);
+// router.put('/books/:id/genres', bookController.updateBookGenres);
 
 
 // 404 Handler

@@ -10,12 +10,8 @@ const validateObjectId = (req, res, next) => {
   const { ObjectId } = require('mongodb');
   const id = req.params.id;
   
-  if (id && !ObjectId.isValid(id)) {
-    return res.status(400).json({
-      success: false,
-      error: 'Invalid ID format',
-      details: 'ID must be a valid MongoDB ObjectId'
-    });
+  if (typeof req.params.id !== 'string' || req.params.id.trim() === '') {
+    return res.status(400).json({ success: false, error: "Invalid ID format", details: "ID must be a non-empty string" });
   }
   
   next();
@@ -41,12 +37,14 @@ router.get('/', bookController.getAllBooks);
 router.get('/:id', validateObjectId, bookController.getBookById);
 router.post('/', bookController.createBook);
 router.patch('/:id', validateObjectId, bookController.updateBook);
+router.put('/books/:id/genres', bookController.updateBookGenres);
 router.delete('/:id', validateObjectId, bookController.deleteBook);
 
 // Additional Feature Routes
 router.get('/author/:author', bookController.getBooksByAuthor);
 router.get('/recent/list', bookController.getRecentBooks);
 router.get('/stats/summary', bookController.getBookStats);
+
 
 // Route untuk mendapatkan semua genre yang tersedia
 router.get('/meta/genres', (req, res) => {

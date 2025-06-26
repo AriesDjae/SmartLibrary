@@ -8,7 +8,7 @@ const getAllBooks = async (req, res) => {
   try {
     const options = {
       page: parseInt(req.query.page) || 0,
-      limit: parseInt(req.query.limit) || 100,
+      limit: parseInt(req.query.limit) || 1000,
       sortBy: req.query.sortBy || 'author',
       sortOrder: req.query.sortOrder === 'desc' ? -1 : 1,
       genre: req.query.genre,
@@ -36,8 +36,7 @@ const getAllBooks = async (req, res) => {
 // Get book by ID
 const getBookById = async (req, res) => {
   try {
-    const book = await BookModel.findById(req.params.id);
-    
+    const book = await BookModel.getBookWithGenres(req.params.id);
     res.status(200).json({
       success: true,
       data: book,
@@ -46,7 +45,6 @@ const getBookById = async (req, res) => {
   } catch (error) {
     const statusCode = error.message.includes('not found') ? 404 : 
                       error.message.includes('Invalid') ? 400 : 500;
-    
     res.status(statusCode).json({
       success: false,
       error: 'Could not fetch the book',
@@ -95,6 +93,43 @@ const updateBook = async (req, res) => {
     res.status(statusCode).json({
       success: false,
       error: 'Could not update book',
+      details: error.message
+    });
+  }
+};
+
+// Update genres untuk sebuah buku
+const updateBookGenres = async (req, res) => {
+  try {
+    // 1. Ambil bookId dari parameter URL
+    const bookId = req.params.id;
+
+    // 2. Ambil array genreIds dari body request
+    //    Pastikan frontend mengirim: { "genreIds": ["id1", "id2", ...] }
+    const { genreIds } = req.body;
+
+    // 3. Validasi input
+    if (!Array.isArray(genreIds) || genreIds.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'genreIds harus berupa array dan tidak boleh kosong'
+      });
+    }
+
+    // 4. Panggil fungsi model untuk update relasi genre
+    const result = await BookModel.updateBookGenres(bookId, genreIds);
+
+    // 5. Kirim response sukses
+    res.status(200).json({
+      success: true,
+      message: 'Book genres updated successfully',
+      data: result
+    });
+  } catch (error) {
+    // 6. Tangani error
+    res.status(500).json({
+      success: false,
+      error: 'Could not update book genres',
       details: error.message
     });
   }
@@ -188,5 +223,6 @@ module.exports = {
   deleteBook,
   getBooksByAuthor,
   getRecentBooks,
-  getBookStats
+  getBookStats,
+  updateBookGenres
 };

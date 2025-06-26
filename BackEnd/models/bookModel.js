@@ -9,15 +9,13 @@ class BookModel {
   static schema = {
     title: { type: 'string', required: true, maxLength: 100 },
     author: { type: 'string', required: true, maxLength: 50 },
-    publishedYear: { type: 'number', min: 1000, max: new Date().getFullYear() },
-    pages: { type: 'number', min: 1 },
-    genre: { 
-      type: 'string', 
-      enum: ['Fiction', 'Non-Fiction', 'Science', 'History', 'Biography', 'Fantasy', 'Mystery', 'Romance']
-    },
-    isbn: { type: 'string', pattern: /^(?:\d{10}|\d{13})$/ },
-    description: { type: 'string', maxLength: 500 },
-    price: { type: 'number', min: 0 }
+    coverImage: { type: 'string', required: true }, // URL atau path gambar
+    description: { type: 'string', required: true, maxLength: 500 },
+    publishDate: { type: 'string', required: true }, // Format tanggal string
+    pageCount: { type: 'number', required: true, min: 1 },
+    isbn: { type: 'string', required: true },
+    isAvailable: { type: 'boolean', required: true },
+    isPopular: { type: 'boolean', required: true }
   };
 
   // Validasi data buku - Quality Control
@@ -46,36 +44,9 @@ class BookModel {
       errors.push('Author must be less than 50 characters');
     }
 
-    // Validasi publishedYear (optional)
-    if (bookData.publishedYear !== undefined) {
-      if (typeof bookData.publishedYear !== 'number') {
-        errors.push('Published year must be a number');
-      } else if (bookData.publishedYear < 1000 || bookData.publishedYear > new Date().getFullYear()) {
-        errors.push(`Published year must be between 1000 and ${new Date().getFullYear()}`);
-      }
-    }
-
-    // Validasi pages (optional)
-    if (bookData.pages !== undefined) {
-      if (typeof bookData.pages !== 'number') {
-        errors.push('Pages must be a number');
-      } else if (bookData.pages < 1) {
-        errors.push('Pages must be at least 1');
-      }
-    }
-
-    // Validasi genre (optional)
-    if (bookData.genre !== undefined) {
-      if (!this.schema.genre.enum.includes(bookData.genre)) {
-        errors.push(`Genre must be one of: ${this.schema.genre.enum.join(', ')}`);
-      }
-    }
-
-    // Validasi ISBN (optional)
-    if (bookData.isbn !== undefined) {
-      if (!this.schema.isbn.pattern.test(bookData.isbn)) {
-        errors.push('ISBN must be 10 or 13 digits');
-      }
+      // Validasi coverImage
+    if (bookData.coverImage !== undefined && typeof bookData.coverImage !== 'string') {
+      errors.push('Cover image must be a string');
     }
 
     // Validasi description (optional)
@@ -87,13 +58,37 @@ class BookModel {
       }
     }
 
-    // Validasi price (optional)
-    if (bookData.price !== undefined) {
-      if (typeof bookData.price !== 'number') {
-        errors.push('Price must be a number');
-      } else if (bookData.price < 0) {
-        errors.push('Price cannot be negative');
+    // Validasi publishDate (optional)
+    if (bookData.publishDate !== undefined && typeof bookData.publishDate !== 'string') {
+      errors.push('Publish date must be a string');
+    }
+
+    // Validasi pages (optional)
+    if (bookData.pages !== undefined) {
+      if (typeof bookData.pages !== 'number') {
+        errors.push('Pages must be a number');
+      } else if (bookData.pages < 1) {
+        errors.push('Pages must be at least 1');
       }
+    }
+
+    // Validasi ISBN (optional)
+    if (bookData.isbn !== undefined) {
+      if (typeof bookData.isbn !== 'string') {
+        errors.push('ISBN must be a string');
+      } else if (![10, 13].includes(bookData.isbn.length)) {
+        errors.push('ISBN must be 10 or 13 characters');
+      }
+    }
+
+    // Validasi isAvailable (optional)
+    if (bookData.isAvailable !== undefined && typeof bookData.isAvailable !== 'boolean') {
+      errors.push('isAvailable must be a boolean');
+    }
+
+    // Validasi isPopular (optional)
+    if (bookData.isPopular !== undefined && typeof bookData.isPopular !== 'boolean') {
+      errors.push('isPopular must be a boolean');
     }
 
     return errors;
@@ -102,21 +97,26 @@ class BookModel {
   // Sanitize data sebelum disimpan
   static sanitize(bookData) {
     const sanitized = {};
-    
+  
     if (bookData.title) sanitized.title = bookData.title.trim();
     if (bookData.author) sanitized.author = bookData.author.trim();
-    if (bookData.publishedYear) sanitized.publishedYear = parseInt(bookData.publishedYear);
-    if (bookData.pages) sanitized.pages = parseInt(bookData.pages);
-    if (bookData.genre) sanitized.genre = bookData.genre.trim();
-    if (bookData.isbn) sanitized.isbn = bookData.isbn.replace(/\D/g, ''); // Remove non-digits
+    if (bookData.coverImage) sanitized.coverImage = bookData.coverImage.trim();
     if (bookData.description) sanitized.description = bookData.description.trim();
-    if (bookData.price) sanitized.price = parseFloat(bookData.price);
-    
-    // Tambahkan timestamp
-    sanitized.createdAt = new Date();
+    if (bookData.publishDate) sanitized.publishDate = bookData.publishDate.trim();
+    if (bookData.pageCount) sanitized.pageCount = parseInt(bookData.pageCount);
+    if (bookData.isbn) sanitized.isbn = bookData.isbn.trim();
+    if (typeof bookData.isAvailable === 'boolean') sanitized.isAvailable = bookData.isAvailable;
+    if (typeof bookData.isPopular === 'boolean') sanitized.isPopular = bookData.isPopular;
+  
     sanitized.updatedAt = new Date();
-    
+    if (!bookData.createdAt) sanitized.createdAt = new Date();
+  
     return sanitized;
+  }
+
+  // Fungsi validasi ID buku: hanya cek id harus string dan tidak kosong
+  static isValidBookId(id) {
+    return typeof id === 'string' && id.trim().length > 0;
   }
 
   // CRUD Operations - Business Logic Layer
@@ -135,11 +135,6 @@ class BookModel {
     } = options;
 
     let query = {};
-    
-    // Filter by genre
-    if (genre) {
-      query.genre = genre;
-    }
     
     // Filter by author
     if (author) {
@@ -181,18 +176,15 @@ class BookModel {
   // Get book by ID
   static async findById(id) {
     const db = getDb();
-    
     try {
-      if (!ObjectId.isValid(id)) {
+      if (!this.isValidBookId(id)) {
         throw new Error('Invalid book ID format');
       }
-      
-      const book = await db.collection('books').findOne({ _id: new ObjectId(id) });
-      
+      // Query dengan string id
+      const book = await db.collection('books').findOne({ _id: id });
       if (!book) {
         throw new Error('Book not found');
       }
-      
       return book;
     } catch (error) {
       throw new Error(`Failed to fetch book: ${error.message}`);
@@ -237,31 +229,23 @@ class BookModel {
   // Update book
   static async updateById(id, updateData) {
     const db = getDb();
-    
     try {
-      if (!ObjectId.isValid(id)) {
+      if (!this.isValidBookId(id)) {
         throw new Error('Invalid book ID format');
       }
-      
       // Validasi data update
       const validationErrors = this.validate(updateData);
       if (validationErrors.length > 0) {
         throw new Error(`Validation failed: ${validationErrors.join(', ')}`);
       }
-      
       // Sanitize data
       const sanitizedData = this.sanitize(updateData);
       sanitizedData.updatedAt = new Date();
-      
-      const result = await db.collection('books').updateOne(
-        { _id: new ObjectId(id) },
-        { $set: sanitizedData }
-      );
-      
+      // Query dengan string id
+      const result = await db.collection('books').updateOne({ _id: id }, { $set: sanitizedData });
       if (result.matchedCount === 0) {
         throw new Error('Book not found');
       }
-      
       return await this.findById(id);
     } catch (error) {
       throw new Error(`Failed to update book: ${error.message}`);
@@ -271,18 +255,15 @@ class BookModel {
   // Delete book
   static async deleteById(id) {
     const db = getDb();
-    
     try {
-      if (!ObjectId.isValid(id)) {
+      if (!this.isValidBookId(id)) {
         throw new Error('Invalid book ID format');
       }
-      
-      const result = await db.collection('books').deleteOne({ _id: new ObjectId(id) });
-      
+      // Query dengan string id
+      const result = await db.collection('books').deleteOne({ _id: id });
       if (result.deletedCount === 0) {
         throw new Error('Book not found');
       }
-      
       return { message: 'Book deleted successfully', deletedCount: result.deletedCount };
     } catch (error) {
       throw new Error(`Failed to delete book: ${error.message}`);
@@ -355,6 +336,64 @@ class BookModel {
       throw new Error(`Failed to fetch book statistics: ${error.message}`);
     }
   }
+
+  // Get book with genres
+  static async getBookWithGenres(bookId){
+    const db = getDb();
+    if (!this.isValidBookId(bookId)) {
+      throw new Error('Invalid book ID format');
+    }
+    //1. Ambil data buku
+    const book = await db.collection('books').findOne({ _id: bookId });
+    if (!book) throw new Error("Book not found");
+    //2. Ambil semua genres_id dari book_genres (books_id = string)
+    const bookGenres = await db.collection('book_genres').find({ books_id: bookId }).toArray();
+    //3. Ambil array genres_id (ObjectId)
+    const genreIds = bookGenres.map(bg => bg.genres_id);
+    //4. Query ke koleksi genres (field: genres_name)
+    const genres = genreIds.length > 0
+      ? await db.collection('genres').find({ _id: { $in: genreIds } }).toArray()
+      : [];
+    //5. Gabungkan data buku dan array nama genre
+    console.log("bookGenres:", bookGenres);
+    console.log("genreIds:", genreIds);
+    console.log("genres:", genres);
+    return {
+      ...book,
+      genres: genres.map(g => g.genres_name)
+    }
+  }
+
+  // Update book genres
+  static async updateBookGenres(bookId, newGenreIds){
+    const db = getDb();
+    if (!this.isValidBookId(bookId)) {
+      throw new Error('Invalid book ID format');
+    }
+    //1. hapus semua relasi lama
+    await db.collection('book_genres').deleteMany({ books_id: bookId });
+    //2. tambahkan relasi baru
+    const newBookGenres = newGenreIds.map(genreId => ({
+      books_id : bookId,
+      genres_id : genreId
+    }));
+    await db.collection('book_genres').insertMany(newBookGenres);
+    return { message: "Book genres updated" };
+  }
+
+  // Delete book and genres
+  static async  deleteBookAndGenres(bookId) {
+    const db = getDb();
+    if (!this.isValidBookId(bookId)) {
+      throw new Error('Invalid book ID format');
+    }
+    // 1. Hapus buku
+    await db.collection('books').deleteOne({ _id: bookId });
+    // 2. Hapus semua relasi genre
+    await db.collection('book_genres').deleteMany({ books_id: bookId });
+    return { message: "Book and its genres deleted" };
+  }
+
 }
 
 module.exports = BookModel;
