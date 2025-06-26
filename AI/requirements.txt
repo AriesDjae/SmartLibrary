@@ -4,3 +4,6 @@ scikit-learn
 openai
 pymongo
 python-dotenv
+flask
+flask-cors
+requests
