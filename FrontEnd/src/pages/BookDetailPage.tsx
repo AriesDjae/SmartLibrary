@@ -80,6 +80,7 @@ const BookDetailPage: React.FC = () => {
     setLoading(true);
     booksAPI.getById(id)
       .then((response) => {
+        console.log("Book detail response:", response);
         setBook(response.data);
         setLoading(false);
       })

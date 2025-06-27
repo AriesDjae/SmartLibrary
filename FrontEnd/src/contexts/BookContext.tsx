@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useMemo } from "react";
-import { mockBooks } from "../data/mockData";
+import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
+// import { mockBooks } from "../data/mockData";
+import axios from "../services/axios";
 
 export interface Book {
   id: string;
@@ -30,6 +31,7 @@ interface BookContextType {
 }
 
 const BookContext = createContext<BookContextType | undefined>(undefined);
+// const BookContext = createContext();
 
 export const useBooks = () => {
   const context = useContext(BookContext);
@@ -42,21 +44,24 @@ export const useBooks = () => {
 export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [books] = useState<Book[]>(mockBooks);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
+  const [popularBooks, setPopularBooks] = useState<Book[]>([]);
+  const [newArrivals, setNewArrivals] = useState<Book[]>([]);
 
-  // Memoize filtered books to prevent unnecessary recalculations
-  const featuredBooks = useMemo(
-    () => books.filter((book) => book.isFeatured),
-    [books]
-  );
-  const popularBooks = useMemo(
-    () => books.filter((book) => book.isPopular),
-    [books]
-  );
-  const newArrivals = useMemo(
-    () => books.filter((book) => book.isNew),
-    [books]
-  );
+  //Data Fetching
+  useEffect(() => {
+    axios.get("/books/featured").then(res => {
+      console.log("Featured books response:", res.data);
+      setFeaturedBooks(res.data.data)});
+    axios.get("/books/popular").then(res => {
+      console.log("Popular books response:", res.data);
+      setPopularBooks(res.data.data)});
+    axios.get("/books/new-arrivals").then(res => {
+      console.log("new arrivals books response:", res.data);
+      setNewArrivals(res.data.data)});
+    axios.get("/books").then(res => setBooks(res.data.data));
+  }, []);
 
   const getBookById = (id: string) => {
     if (!id) return undefined;
@@ -72,9 +77,10 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
         book.title.toLowerCase().includes(lowercaseQuery) ||
         book.author.toLowerCase().includes(lowercaseQuery) ||
         book.description.toLowerCase().includes(lowercaseQuery) ||
+        (book.genres && Array.isArray(book.genres) &&
         book.genres.some((genre) =>
           genre.toLowerCase().includes(lowercaseQuery)
-        )
+        ))
     );
   };
 
@@ -83,6 +89,7 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const lowercaseGenre = genre.toLowerCase();
     return books.filter((book) =>
+      book.genres && Array.isArray(book.genres) &&
       book.genres.some((g) => g.toLowerCase() === lowercaseGenre)
     );
   };
@@ -91,6 +98,10 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
   const getUserRecommendations = () => {
     if (!books.length) return [];
 
+    // Filter buku yang memiliki genres
+    const booksWithGenres = books.filter(book => 
+    book.genres && Array.isArray(book.genres)
+    );
     // In a real app, this would use user preferences, reading history, etc.
     // For now, return a random selection of books
     return [...books].sort(() => 0.5 - Math.random()).slice(0, 6);

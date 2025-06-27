@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001', // Backend server URL
+  baseURL: '/api', // Backend server URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -67,7 +67,7 @@ export const userAPI = {
 //aulira
 // Fungsi untuk mengambil detail buku berdasarkan ID
 export async function fetchBookDetail(bookId: string) {
-  const response = await fetch(`/books/${bookId}`);
+  const response = await fetch(`/api/books/${bookId}`);
   if (!response.ok) {
     throw new Error('Gagal mengambil detail buku');
   }
