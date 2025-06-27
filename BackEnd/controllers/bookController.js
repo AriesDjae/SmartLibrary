@@ -8,7 +8,7 @@ const getAllBooks = async (req, res) => {
   try {
     const options = {
       page: parseInt(req.query.page) || 0,
-      limit: parseInt(req.query.limit) || 1000,
+      limit: parseInt(req.query.limit) || 100,
       sortBy: req.query.sortBy || 'author',
       sortOrder: req.query.sortOrder === 'desc' ? -1 : 1,
       genre: req.query.genre,
@@ -18,11 +18,13 @@ const getAllBooks = async (req, res) => {
 
     const result = await BookModel.findAll(options);
     
+    // Mapping _id ke id
+    const books = result.books.map(b => ({ id: b._id, ...b, _id: undefined }));
     res.status(200).json({
       success: true,
-      data: result.books,
+      data: books,
       pagination: result.pagination,
-      message: `Found ${result.books.length} books`
+      message: `Found ${books.length} books`
     });
   } catch (error) {
     res.status(500).json({
@@ -37,11 +39,21 @@ const getAllBooks = async (req, res) => {
 const getBookById = async (req, res) => {
   try {
     const book = await BookModel.getBookWithGenres(req.params.id);
-    res.status(200).json({
-      success: true,
-      data: book,
-      message: 'Book found successfully'
-    });
+    if (book) {
+      // Mapping _id ke id
+      const { _id, ...rest } = book;
+      res.status(200).json({
+        success: true,
+        data: { id: _id, ...rest },
+        message: 'Book found successfully'
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        error: 'Book not found',
+        details: 'No book found with the given ID'
+      });
+    }
   } catch (error) {
     const statusCode = error.message.includes('not found') ? 404 : 
                       error.message.includes('Invalid') ? 400 : 500;
@@ -215,6 +227,43 @@ const getBookStats = async (req, res) => {
   }
 };
 
+// Get featured books
+const getFeaturedBooks = async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 10;
+    let books = await BookModel.findFeatured(limit);
+    // Mapping _id ke id
+    books = books.map(b => ({ id: b._id, ...b, _id: undefined }));
+    res.status(200).json({ success: true, data: books });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// Get popular books
+const getPopularBooks = async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 10;
+    let books = await BookModel.findPopular(limit);
+    books = books.map(b => ({ id: b._id, ...b, _id: undefined }));
+    res.status(200).json({ success: true, data: books });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// Get new arrivals
+const getNewArrivals = async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 10;
+    let books = await BookModel.findNewArrivals(limit);
+    books = books.map(b => ({ id: b._id, ...b, _id: undefined }));
+    res.status(200).json({ success: true, data: books });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   getAllBooks,
   getBookById,
@@ -224,5 +273,8 @@ module.exports = {
   getBooksByAuthor,
   getRecentBooks,
   getBookStats,
-  updateBookGenres
+  updateBookGenres,
+  getFeaturedBooks,
+  getPopularBooks,
+  getNewArrivals
 };

@@ -121,8 +121,8 @@ app.get('/api', (req, res) => {
 });
 
 // API Routes
-app.use('/books', bookRoutes);
-app.use('/users', authRoutes);
+app.use('/api/books', bookRoutes);
+app.use('/api/users', authRoutes);
 // router.put('/books/:id/genres', bookController.updateBookGenres);
 
 

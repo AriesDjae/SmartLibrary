@@ -394,6 +394,80 @@ class BookModel {
     return { message: "Book and its genres deleted" };
   }
 
+
+
+// Get featured books
+static async findFeatured(limit = 10) {
+  const db = getDb();
+
+  //1.Hitung rata-rata rating tiap buku
+  const topRated = await db.collection('ratings').aggregate([
+    {
+      $group: {
+        _id: "$book_id",  //Mengelompokkan berdasarkan book_id
+        avgRating: { $avg: "$rating_value" }, //Menghitung rata-rata rating dan jumlah total rating per buku
+        count: { $sum: 1 }
+      }
+    },
+    { $sort: { avgRating: -1, count: -1 } }, // urutkan rating tertinggi, lalu jumlah rating terbanyak
+    { $limit: limit }
+  ]).toArray();
+
+  // 2. Ambil daftar book_id
+  const bookIds = topRated.map(r => r._id);
+
+  // 3. Ambil detail buku dari koleksi books
+  const books = await db.collection('books')
+    .find({ _id: { $in: bookIds } })
+    .toArray();
+  
+  // 4. Gabungkan data rating ke data buku
+  // (optional, supaya frontend bisa tahu ratingnya)
+  const booksWithRating = books.map(book => {
+    const ratingInfo = topRated.find(r => r._id === book._id);
+    return {
+      ...book,
+      avgRating: ratingInfo ? ratingInfo.avgRating : null,
+      ratingCount: ratingInfo ? ratingInfo.count : 0
+      .find({ isPopular: true })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .toArray()
+    };
+  });
+
+  return booksWithRating;
+
+  // return await db.collection('books')
+  //   .find({ isFeatured: true })
+  //   .sort({ createdAt: -1 })
+  //   .limit(limit)
+  //   .toArray();
+}
+
+// Get popular books
+static async findPopular(limit = 10) {
+  const db = getDb();
+  return await db.collection('books')
+    .find({ isPopular: true })
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .toArray();
+}
+
+// Get new arrivals
+static async findNewArrivals(limit = 10) {
+  const db = getDb();
+  return await db.collection('books')
+    .find()
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .toArray();
+}
+
+
+
+
 }
 
 module.exports = BookModel;
