@@ -60,7 +60,15 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
     axios.get("/books/new-arrivals").then(res => {
       console.log("new arrivals books response:", res.data);
       setNewArrivals(res.data.data)});
-    axios.get("/books").then(res => setBooks(res.data.data));
+    // axios.get("/books").then(res => setBooks(res.data.data));
+    axios.get("/books/with-genres").then(res => {
+      // Mapping agar setiap buku pasti punya field id
+      const booksWithId = res.data.data.map((b: any) => ({
+        ...b,
+        id: b.id || b._id // gunakan id jika ada, fallback ke _id
+      }));
+      setBooks(booksWithId);
+    });
   }, []);
 
   const getBookById = (id: string) => {
@@ -84,15 +92,25 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
     );
   };
 
+  // const filterBooksByGenre = (genre: string) => {
+  //   if (!genre) return books;
+
+  //   const lowercaseGenre = genre.toLowerCase();
+  //   return books.filter((book) =>
+  //     book.genres && Array.isArray(book.genres) &&
+  //     book.genres.some((g) => g.toLowerCase() === lowercaseGenre)
+  //   );
+  // };
+
+  //aulira
   const filterBooksByGenre = (genre: string) => {
     if (!genre) return books;
-
-    const lowercaseGenre = genre.toLowerCase();
-    return books.filter((book) =>
-      book.genres && Array.isArray(book.genres) &&
-      book.genres.some((g) => g.toLowerCase() === lowercaseGenre)
+    return books.filter(book =>
+      Array.isArray(book.genres) &&
+      book.genres.some(g => g.toLowerCase() === genre.toLowerCase())
     );
   };
+  //aulira end
 
   // Simulated AI recommendation algorithm
   const getUserRecommendations = () => {
