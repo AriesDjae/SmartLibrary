@@ -34,22 +34,23 @@ const logRequest = (req, res, next) => {
 router.use(logRequest);
 
 // Basic CRUD Routes
+router.get('/with-genres', bookController.getAllBooksWithGenres);
 router.get('/featured', bookController.getFeaturedBooks);
 router.get('/popular', bookController.getPopularBooks);
 router.get('/new-arrivals', bookController.getNewArrivals);
 router.get('/:id', validateObjectId, bookController.getBookById);
-
-router.get('/', bookController.getAllBooks);
-router.get('/:id', validateObjectId, bookController.getBookById);
-router.post('/', bookController.createBook);
-router.patch('/:id', validateObjectId, bookController.updateBook);
-router.put('/books/:id/genres', bookController.updateBookGenres);
-// router.delete('/:id', validateObjectId, bookController.deleteBook);
-
 // Additional Feature Routes
 router.get('/author/:author', bookController.getBooksByAuthor);
 router.get('/recent/list', bookController.getRecentBooks);
 router.get('/stats/summary', bookController.getBookStats);
+
+router.get('/', bookController.getAllBooks);
+// router.get('/:id', validateObjectId, bookController.getBookById);
+router.post('/', bookController.createBook);
+router.patch('/:id', validateObjectId, bookController.updateBook);
+router.put('/books/:id/genres', bookController.updateBookGenres);
+router.delete('/:id', validateObjectId, bookController.deleteBook);
+
 
 
 
@@ -86,3 +87,5 @@ router.use((error, req, res, next) => {
 });
 
 module.exports = router;
+
+// http://localhost:3001/api/books/with-genres

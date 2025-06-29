@@ -9,6 +9,7 @@ const morgan = require('morgan');
 const { connectToDb, getDb } = require('./config/db');
 const bookRoutes = require('./routes/bookRoutes');
 const authRoutes = require('./routes/authRoutes');
+const genreRoutes = require('./routes/genreRoutes');
 
 
 const app = express();
@@ -123,6 +124,7 @@ app.get('/api', (req, res) => {
 // API Routes
 app.use('/api/books', bookRoutes);
 app.use('/api/users', authRoutes);
+app.use('/api/genres', genreRoutes);
 // router.put('/books/:id/genres', bookController.updateBookGenres);
 
 

@@ -264,6 +264,17 @@ const getNewArrivals = async (req, res) => {
   }
 };
 
+// aulira
+const getAllBooksWithGenres = async (req, res) => {
+  try {
+    const books = await BookModel.findAllWithGenres();
+    res.status(200).json({ success: true, data: books });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+//^^
+
 module.exports = {
   getAllBooks,
   getBookById,
@@ -276,5 +287,7 @@ module.exports = {
   updateBookGenres,
   getFeaturedBooks,
   getPopularBooks,
-  getNewArrivals
+  getNewArrivals,
+  getAllBooksWithGenres
+  
 };
