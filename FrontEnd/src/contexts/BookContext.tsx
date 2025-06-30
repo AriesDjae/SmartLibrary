@@ -24,6 +24,7 @@ interface BookContextType {
   featuredBooks: Book[];
   popularBooks: Book[];
   newArrivals: Book[];
+  loading: boolean; //aulira
   getBookById: (id: string) => Book | undefined;
   searchBooks: (query: string) => Book[];
   filterBooksByGenre: (genre: string) => Book[];
@@ -48,6 +49,7 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
   const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
   const [popularBooks, setPopularBooks] = useState<Book[]>([]);
   const [newArrivals, setNewArrivals] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
 
   //Data Fetching
   useEffect(() => {
@@ -112,6 +114,7 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
     featuredBooks,
     popularBooks,
     newArrivals,
+    loading,
     getBookById,
     searchBooks,
     filterBooksByGenre,

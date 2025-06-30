@@ -29,6 +29,11 @@ const navItems = [
     icon: Home,
   },
   {
+    label: "Dashboard",
+    to: "/dashboard",
+    icon: BarChart3
+  },
+  {
     label: "Koleksi",
     to: "/books",
     icon: Library,
