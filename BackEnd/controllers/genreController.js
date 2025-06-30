@@ -8,7 +8,7 @@ exports.getAllGenres = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
-
+//
 exports.getGenreById = async (req, res) => {
   try {
     const genre = await GenreModel.findById(req.params.id);
