@@ -337,6 +337,49 @@ class BookModel {
     }
   }
 
+  //aulira
+  // Ambil semua buku beserta nama genre
+  static async findAllWithGenres() {
+    const db = getDb();
+    // Aggregation pipeline untuk join ke book_genres dan genres
+    return db.collection('books').aggregate([
+      {
+        $lookup: {
+          from: 'book_genres',
+          localField: '_id',
+          foreignField: 'books_id',
+          as: 'book_genres'
+        }
+      },
+      {
+        $lookup: {
+          from: 'genres',
+          localField: 'book_genres.genres_id',
+          foreignField: '_id',
+          as: 'genresArr'
+        }
+      },
+      {
+        $addFields: {
+          genres: {
+            $map: {
+              input: '$genresArr',
+              as: 'g',
+              in: '$$g.genres_name'
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          genresArr: 0,
+          book_genres: 0
+        }
+      }
+    ]).toArray();
+  }
+  //aulira^^
+
   // Get book with genres
   static async getBookWithGenres(bookId){
     const db = getDb();

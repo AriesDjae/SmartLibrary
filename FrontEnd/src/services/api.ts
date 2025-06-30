@@ -74,5 +74,10 @@ export async function fetchBookDetail(bookId: string) {
   return response.json();
 }
 
+// export const fetchGenres = async () => {
+//   const response = await axios.get('/genres');
+//   return response.data.data; // sesuai response backend
+// };
+
 
 export default api;
