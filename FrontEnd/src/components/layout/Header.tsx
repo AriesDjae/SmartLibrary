@@ -21,12 +21,18 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../contexts/AuthContext";
+import { label } from "framer-motion/client";
 
 const navItems = [
   {
     label: "Beranda",
     to: "/",
     icon: Home,
+  },
+  {
+    label: "Dashboard",
+    to : "/dashboard",
+    icon: BarChart3,
   },
   {
     label: "Koleksi",
