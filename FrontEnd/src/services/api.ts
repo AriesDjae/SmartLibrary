@@ -37,13 +37,13 @@ api.interceptors.response.use(
 );
 
 // Auth API
-export const authAPI = {
-  signIn: (credentials: { email: string; password: string }) =>
-    api.post('/auth/signin', credentials),
-  signUp: (userData: { name: string; email: string; password: string }) =>
-    api.post('/auth/signup', userData),
-  signOut: () => api.post('/auth/signout'),
-};
+// export const authAPI = {
+//   signIn: (credentials: { email: string; password: string }) =>
+//     api.post('/auth/signin', credentials),
+//   signUp: (userData: { name: string; email: string; password: string }) =>
+//     api.post('/auth/signup', userData),
+//   signOut: () => api.post('/auth/signout'),
+// };
 
 // Books API
 export const booksAPI = {
@@ -73,6 +73,36 @@ export async function fetchBookDetail(bookId: string) {
   }
   return response.json();
 }
+
+export const register = async (userData) => {
+  const res = await api.post('/users/register', userData);
+  // return res.data;
+  return res;
+};
+// export const register = async (userData:{ username: string; email: string; password: string; full_name: string }) => {
+//   const res = await api.post('/users/register', userData);
+//   // return res.data;
+//   return res;
+// };
+
+export const login = async (email, password) => {
+  const res = await api.post('/users/login', {email, password})
+  // return res.data  //{success, token, message}
+  return res //{success, token, message}
+}
+// export const login = async (email: string, password: string) => {
+//   const res = await api.post('/users/login', {email, password})
+//   // return res.data  //{success, token, message}
+//   return res //{success, token, message}
+// }
+
+
+export const getProfile = async () => {
+  const res = await api.get('/users/profile', {
+    // headers: { Authorization: `Bearer ${token}` }
+  });
+  return res.user; // { user: { ... } }
+};
 
 // export const fetchGenres = async () => {
 //   const response = await axios.get('/genres');
