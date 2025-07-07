@@ -1,99 +1,115 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { authAPI } from '../services/api';
-import { useApi } from '../hooks/useApi';
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  profileImage?: string;
-}
-
-interface AuthContextType {
-  currentUser: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  signIn: (email: string, password: string) => Promise<boolean>;
-  signUp: (name: string, email: string, password: string) => Promise<boolean>;
-  signOut: () => Promise<void>;
-}
+import { login, register, getProfile, updateProfile } from '../services/api';
+import { User, UserUpdateData, RegisterData, ApiResponse, AuthContextType } from '../types/auth';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const { execute } = useApi<User>();
-  
+
   useEffect(() => {
-    // Check for stored token and user in localStorage
     const token = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('currentUser');
-    
-    if (token && storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
+    if (token) {
+      console.log('🔄 AuthContext: Loading user profile from token...');
+      getProfile()
+        .then((user: User) => {
+          console.log('✅ AuthContext: User profile loaded:', {
+            id: user._id,
+            email: user.email,
+            full_name: user.full_name
+          });
+          setCurrentUser(user);
+        })
+        .catch((error) => {
+          console.error('❌ AuthContext: Failed to load user profile:', error);
+          setCurrentUser(null);
+          localStorage.removeItem('token');
+        });
+    } else {
+      console.log('ℹ️ AuthContext: No token found, user not authenticated');
     }
-    setIsLoading(false);
   }, []);
 
-  // DEV MODE: Bypass login for testing
-  if (!currentUser) {
-    setCurrentUser({ id: 'dev', name: 'Developer', email: 'dev@inspira.com' });
-  }
-
-  const signIn = async (email: string, password: string): Promise<boolean> => {
+  const signIn = async (email: string, password: string) => {
     try {
-      const response = await execute(authAPI.signIn({ email, password }));
-      const { token, user } = response;
-      
-      localStorage.setItem('token', token);
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      setCurrentUser(user);
-      return true;
-    } catch (error) {
-      console.error('Sign in error:', error);
-      return false;
-    }
-  };
-  
-  const signUp = async (name: string, email: string, password: string): Promise<boolean> => {
-    try {
-      const response = await execute(authAPI.signUp({ name, email, password }));
-      const { token, user } = response;
-      
-      localStorage.setItem('token', token);
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      setCurrentUser(user);
-      return true;
-    } catch (error) {
-      console.error('Sign up error:', error);
-      return false;
+      const res: ApiResponse = await login(email, password);
+      if (res.success && res.token) {
+        localStorage.setItem('token', res.token);
+        const user = await getProfile();
+        setCurrentUser(user);
+        return { success: true, user };
+      }
+      return { success: false, message: res.message || 'Login failed' };
+    } catch (error: any) {
+      return { success: false, message: error.message || 'Login failed' };
     }
   };
 
-  const signOut = async () => {
+  const signUp = async (userData: RegisterData) => {
+    try {
+      const res: ApiResponse = await register(userData);
+      return { success: res.success, message: res.message };
+    } catch (error: any) {
+      return { success: false, message: error.message || 'Registration failed' };
+    }
+  };
+
+  const signOut = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
     setCurrentUser(null);
     window.location.href = '/sign-in';
   };
 
-  const value = {
-    currentUser: currentUser || { id: 'dev', name: 'Developer', email: 'dev@inspira.com' },
-    isAuthenticated: true,
-    isLoading,
-    signIn,
-    signUp,
-    signOut,
+  const updateUserProfile = async (userData: UserUpdateData) => {
+    console.log('🔄 AuthContext: Updating user profile...', {
+      userId: currentUser?._id,
+      updateData: userData
+    });
+
+    try {
+      if (!currentUser?._id) {
+        console.error('❌ AuthContext: No current user ID found');
+        return { success: false, message: 'User not found' };
+      }
+      
+      const res: ApiResponse = await updateProfile(currentUser._id, userData);
+      console.log('📡 AuthContext: API response:', res);
+      
+      if (res.success) {
+        // Update current user data with the response data if available
+        const updatedUser = res.data ? { ...currentUser, ...res.data } : { ...currentUser, ...userData };
+        setCurrentUser(updatedUser);
+        console.log('✅ AuthContext: User profile updated successfully');
+        return { success: true, message: res.message || 'Profile updated successfully' };
+      }
+      
+      console.error('❌ AuthContext: API returned failure:', res.message);
+      return { success: false, message: res.message || 'Failed to update profile' };
+    } catch (error: any) {
+      console.error('❌ AuthContext: Error updating profile:', {
+        error: error.message,
+        stack: error.stack
+      });
+      return { success: false, message: error.message || 'Failed to update profile' };
+    }
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{
+      currentUser,
+      signIn,
+      signUp,
+      signOut,
+      updateUserProfile,
+      isAuthenticated: !!currentUser
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within an AuthProvider');
+  return context;
 };

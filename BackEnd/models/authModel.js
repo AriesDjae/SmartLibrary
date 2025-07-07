@@ -31,6 +31,12 @@ class UserModel {
         return await db.collection('user').findOne({email});
     }
 
+    //cari user berdasarkan ID
+    static async findById(id) {
+        const db = getDb();
+        return await db.collection('user').findOne({ _id: new ObjectId(id) });
+    }
+
     //get all user
     static async findAll(){
         const db = getDb();

@@ -5,46 +5,83 @@ import { BookOpen, Mail, Lock, User, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const SignUpPage: React.FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const { signUp } = useAuth();
+  // const [name, setName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [confirmPassword, setConfirmPassword] = useState('');
+  const [form, setForm] = useState({
+    username: '',
+    full_name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { signUp } = useAuth();
   const navigate = useNavigate();
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!name || !email || !password || !confirmPassword) {
-      setError('Please fill in all fields');
-      return;
-    }
-    
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-    
-    try {
-      setError('');
-      setIsLoading(true);
-      
-      const success = await signUp(name, email, password);
-      
-      if (success) {
-        navigate('/dashboard');
-      } else {
-        setError('Failed to create an account. Email may already be in use.');
-      }
-    } catch (err) {
-      setError('Failed to create an account. Please try again.');
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
+
+  // //aulira
+  // const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+  // //aulira end
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
+  
+  ///aulira
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError('');
+  setIsLoading(true);
+  const { confirmPassword, ...userData } = form;
+  try {
+    const res = await signUp(userData);
+    setIsLoading(false);
+    if (res.success) {
+      alert('Register berhasil! Silakan login.');
+      navigate('/sign-in');
+    } else {
+      setError(res.message || 'Register gagal!');
+    }
+  } catch (err) {
+    setIsLoading(false);
+    setError('Terjadi kesalahan koneksi ke server.');
+  }
+};
+  //aulira end
+  
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+    
+  //   if (!name || !email || !password || !confirmPassword) {
+  //     setError('Please fill in all fields');
+  //     return;
+  //   }
+    
+  //   if (password !== confirmPassword) {
+  //     setError('Passwords do not match');
+  //     return;
+  //   }
+    
+  //   try {
+  //     setError('');
+  //     setIsLoading(true);
+      
+  //     const success = await signUp(name, email, password);
+      
+  //     if (success) {
+  //       navigate('/dashboard');
+  //     } else {
+  //       setError('Failed to create an account. Email may already be in use.');
+  //     }
+  //   } catch (err) {
+  //     setError('Failed to create an account. Please try again.');
+  //     console.error(err);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
@@ -71,7 +108,27 @@ const SignUpPage: React.FC = () => {
         
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+              Username
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <User className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                required
+                className="input pl-10"
+                placeholder="Username"
+                value={form.username}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 mb-1">
               Full Name
             </label>
             <div className="relative">
@@ -79,14 +136,15 @@ const SignUpPage: React.FC = () => {
                 <User className="h-5 w-5 text-gray-400" />
               </div>
               <input
-                id="name"
-                name="name"
+                id="full_name"
+                name="full_name"
                 type="text"
                 required
                 className="input pl-10"
-                placeholder="John Doe"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                placeholder="Full name"
+                value={form.full_name}
+                onChange={handleChange}
+                // onChange={(e) => setName(e.target.value)}
               />
             </div>
           </div>
@@ -107,8 +165,9 @@ const SignUpPage: React.FC = () => {
                 required
                 className="input pl-10"
                 placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={form.email}
+                onChange={handleChange}
+                // onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>
@@ -128,14 +187,16 @@ const SignUpPage: React.FC = () => {
                 required
                 className="input pl-10"
                 placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={form.password}
+                onChange={handleChange}
+                // value={password}
+                // onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
           
           <div>
-            <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
               Confirm Password
             </label>
             <div className="relative">
@@ -143,14 +204,16 @@ const SignUpPage: React.FC = () => {
                 <Lock className="h-5 w-5 text-gray-400" />
               </div>
               <input
-                id="confirm-password"
-                name="confirm-password"
+                id="confirmPassword"
+                name="confirmPassword"
                 type="password"
                 required
                 className="input pl-10"
                 placeholder="••••••••"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={form.confirmPassword}
+                onChange={handleChange}
+                // value={confirmPassword}
+                // onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
           </div>

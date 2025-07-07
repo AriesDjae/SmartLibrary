@@ -5,43 +5,81 @@ import { BookOpen, Mail, Lock, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const SignInPage: React.FC = () => {
+  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  // const { signIn } = useAuth();
+  // const navigate = useNavigate();
+  // const location = useLocation();
   
   // Get the intended destination (if any)
-  const from = location.state?.from?.pathname || '/';
+  // const from = location.state?.from?.pathname || '/';
   
+  //aulira
+  const validate = () => {
+    if (!email || !password) {
+      return 'Email dan password wajib diisi!';
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return 'Format email tidak valid!';
+    }
+    return '';
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!email || !password) {
-      setError('Please enter both email and password');
+    setError('');
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
       return;
     }
-    
-    try {
-      setError('');
-      setIsLoading(true);
-      
-      const success = await signIn(email, password);
-      
-      if (success) {
-        navigate(from, { replace: true });
-      } else {
-        setError('Invalid email or password');
-      }
-    } catch (err) {
-      setError('Failed to sign in. Please try again.');
-      console.error(err);
-    } finally {
-      setIsLoading(false);
+    setIsLoading(true);
+    const res = await signIn(email, password);
+    setIsLoading(false);
+    if (res.success) {
+      alert('Login berhasil!');
+      if (res.user.role_id === 'r1') navigate('/dashboard-admin');
+      else if (res.user.role_id === 'r2') navigate('/admin');
+      else navigate('/');
+    } else {
+      setError(res.message || 'Login gagal!');
     }
   };
+  //aulira end
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+    
+  //   if (!email || !password) {
+  //     setError('Please enter both email and password');
+  //     return;
+  //   }
+    
+  //   try {
+  //     setError('');
+  //     setIsLoading(true);
+      
+  //     const success = await signIn(email, password);
+      
+  //     if (success) {
+  //       navigate(from, { replace: true });
+  //     } else {
+  //       setError('Invalid email or password');
+  //     }
+  //   } catch (err) {
+  //     setError('Failed to sign in. Please try again.');
+  //     console.error(err);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">

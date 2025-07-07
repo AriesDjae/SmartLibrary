@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { User, UserUpdateData, RegisterData, ApiResponse } from '../types/auth';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -37,13 +38,13 @@ api.interceptors.response.use(
 );
 
 // Auth API
-export const authAPI = {
-  signIn: (credentials: { email: string; password: string }) =>
-    api.post('/auth/signin', credentials),
-  signUp: (userData: { name: string; email: string; password: string }) =>
-    api.post('/auth/signup', userData),
-  signOut: () => api.post('/auth/signout'),
-};
+// export const authAPI = {
+//   signIn: (credentials: { email: string; password: string }) =>
+//     api.post('/auth/signin', credentials),
+//   signUp: (userData: { name: string; email: string; password: string }) =>
+//     api.post('/auth/signup', userData),
+//   signOut: () => api.post('/auth/signout'),
+// };
 
 // Books API
 export const booksAPI = {
@@ -58,7 +59,7 @@ export const booksAPI = {
 // User API
 export const userAPI = {
   getProfile: () => api.get('/users/profile'),
-  updateProfile: (userData: any) => api.put('/users/profile', userData),
+  updateProfile: (userData: UserUpdateData) => api.put('/users/profile', userData),
   getBorrowedBooks: () => api.get('/users/borrowed-books'),
   borrowBook: (bookId: string) => api.post(`/users/borrow/${bookId}`),
   returnBook: (bookId: string) => api.post(`/users/return/${bookId}`),
@@ -74,10 +75,64 @@ export async function fetchBookDetail(bookId: string) {
   return response.json();
 }
 
+export const register = async (userData: RegisterData): Promise<ApiResponse> => {
+  const res = await api.post('/users/register', userData);
+  return res as unknown as ApiResponse;
+};
+
+export const login = async (email: string, password: string): Promise<ApiResponse> => {
+  const res = await api.post('/users/login', {email, password});
+  return res as unknown as ApiResponse;
+};
+
+export const getProfile = async (): Promise<User> => {
+  console.log('🔍 API: Getting user profile...');
+  
+  try {
+    const res = await api.get('/users/profile') as any;
+    console.log('✅ API: Profile retrieved successfully:', {
+      hasUser: !!res.user,
+      userId: res.user?._id,
+      email: res.user?.email
+    });
+    return res.user;
+  } catch (error: any) {
+    console.error('❌ API: Failed to get profile:', {
+      message: error?.response?.data?.message || error.message,
+      status: error?.response?.status
+    });
+    throw error;
+  }
+};
+
 // export const fetchGenres = async () => {
 //   const response = await axios.get('/genres');
 //   return response.data.data; // sesuai response backend
 // };
 
+export const updateProfile = async (userId: string, userData: UserUpdateData): Promise<ApiResponse> => {
+  console.log("🔧 API: Updating user profile...", {
+    userId,
+    userData,
+    endpoint: `/users/${userId}`
+  });
+
+  try {
+    const res = await api.patch(`/users/${userId}`, userData) as unknown as ApiResponse;
+    console.log("✅ API: Update success:", {
+      success: res.success,
+      message: res.message,
+      hasData: !!res.data
+    });
+    return res;
+  } catch (error: any) {
+    console.error("❌ API: Update failed:", {
+      message: error?.response?.data?.message || error.message,
+      status: error?.response?.status,
+      userId: userId
+    });
+    throw error;
+  }
+};
 
 export default api;
