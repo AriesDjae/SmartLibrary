@@ -30,29 +30,22 @@ const Hero: React.FC = () => {
 
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-16 md:py-24 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          <motion.h1
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            className="flex flex-col items-center justify-center mb-4"
           >
-            Discover a World of Knowledge
-          </motion.h1>
-
-          <motion.p
-            className="text-lg md:text-xl mb-8 text-blue-100"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Explore thousands of books and resources with our AI-powered digital
-            library platform. Read, learn, and grow—anytime, anywhere.
-          </motion.p>
+            <img src="/public/favicon.svg" alt="Smart Library" className="w-16 h-16 mb-2 drop-shadow-lg" />
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2">Discover a World of Knowledge</h1>
+            <p className="text-lg md:text-xl mb-2 text-blue-100 font-medium">Perpustakaan digital dengan AI rekomendasi, koleksi lengkap, dan statistik bacaan personal.</p>
+            <span className="text-base text-blue-200 mb-4">Belajar, membaca, dan berkembang—kapan saja, di mana saja.</span>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
             <form
               onSubmit={handleSearch}
@@ -72,6 +65,27 @@ const Hero: React.FC = () => {
                 <Search className="h-6 w-6" />
               </button>
             </form>
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-4 mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <a
+              href="/sign-up"
+              className="btn bg-white text-primary-800 hover:bg-blue-50 focus:ring-white px-6 py-3 font-semibold text-lg shadow-md transition-transform transform hover:scale-105"
+            >
+              Mulai Sekarang
+            </a>
+            <a
+              href="/books"
+              className="btn border border-white text-white hover:bg-primary-600 focus:ring-white px-6 py-3 font-semibold text-lg shadow-md transition-transform transform hover:scale-105"
+            >
+              Jelajahi Koleksi
+            </a>
           </motion.div>
         </div>
       </div>

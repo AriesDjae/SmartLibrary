@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 // import { mockBooks } from "../data/mockData";
 import axios from "../services/axios";
+import { mockBooks } from "../data/mockData";
 
 export interface Book {
   id: string;
@@ -55,13 +56,22 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     axios.get("/books/featured").then(res => {
       console.log("Featured books response:", res.data);
-      setFeaturedBooks(res.data.data)});
+      setFeaturedBooks(res.data.data && res.data.data.length > 0 ? res.data.data : mockBooks.filter(b => b.isFeatured));
+    }).catch(() => {
+      setFeaturedBooks(mockBooks.filter(b => b.isFeatured));
+    });
     axios.get("/books/popular").then(res => {
       console.log("Popular books response:", res.data);
-      setPopularBooks(res.data.data)});
+      setPopularBooks(res.data.data && res.data.data.length > 0 ? res.data.data : mockBooks.filter(b => b.isPopular));
+    }).catch(() => {
+      setPopularBooks(mockBooks.filter(b => b.isPopular));
+    });
     axios.get("/books/new-arrivals").then(res => {
       console.log("new arrivals books response:", res.data);
-      setNewArrivals(res.data.data)});
+      setNewArrivals(res.data.data && res.data.data.length > 0 ? res.data.data : mockBooks.filter(b => b.isNew));
+    }).catch(() => {
+      setNewArrivals(mockBooks.filter(b => b.isNew));
+    });
     // axios.get("/books").then(res => setBooks(res.data.data));
     axios.get("/books/with-genres").then(res => {
       // Mapping agar setiap buku pasti punya field id
@@ -69,7 +79,9 @@ export const BookProvider: React.FC<{ children: React.ReactNode }> = ({
         ...b,
         id: b.id || b._id // gunakan id jika ada, fallback ke _id
       }));
-      setBooks(booksWithId);
+      setBooks(booksWithId.length > 0 ? booksWithId : mockBooks);
+    }).catch(() => {
+      setBooks(mockBooks);
     });
   }, []);
 
