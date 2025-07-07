@@ -81,13 +81,15 @@ const App: React.FC = () => {
             </RequireAdmin>
           } />
 
+          {/* <Route path="/" element={
+            <RequireUser>
+              <HomePage />
+            </RequireUser>
+          } /> */}
+
           {/* Protected Routes */}
           <Route element={<Layout />}>
-            <Route path="/" element={
-              <RequireUser>
-                <HomePage />
-              </RequireUser>
-            } />
+          <Route path="/" element={<HomePage />} />
             <Route path="/books" element={<BookCollectionPage />} />
             <Route path="/books/:id" element={<BookDetailPage />} />
             <Route path="/forum" element={<ForumPage />} />

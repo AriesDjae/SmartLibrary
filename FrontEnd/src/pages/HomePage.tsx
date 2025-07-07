@@ -7,6 +7,7 @@ import { CheckCircle, TrendingUp, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 
+
 const HomePage: React.FC = () => {
   const { featuredBooks, popularBooks, newArrivals, getUserRecommendations } = useBooks();
   const { isAuthenticated, currentUser } = useAuth();
