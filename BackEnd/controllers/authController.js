@@ -70,31 +70,134 @@ const getAllUsers = async (req, res) => {
 
 //get user by id
 const getUserById = async (req, res) => {
+    console.log('🔍 GET USER BY ID REQUEST:', {
+        id: req.params.id,
+        timestamp: new Date().toISOString()
+    });
+
     try {
         const id = req.params.id;
-        const user = await UserModel.findAll();
-        const found = user.find(u => u._id.toString() === id);
-        if (!found) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+        
+        // Validate ID
+        if (!id) {
+            console.error('❌ Missing user ID');
+            return res.status(400).json({ 
+                success: false, 
+                message: 'User ID is required' 
+            });
         }
-        res.status(200).json({ success: true, data: found });
+
+        // Use the new findById method
+        const user = await UserModel.findById(id);
+        if (!user) {
+            console.error('❌ User not found:', id);
+            return res.status(404).json({ 
+                success: false, 
+                message: 'User not found' 
+            });
+        }
+
+        console.log('✅ User found:', {
+            id: id,
+            email: user.email,
+            full_name: user.full_name
+        });
+
+        res.status(200).json({ 
+            success: true, 
+            data: user 
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Gagal mengambil data user', error: error.message });
+        console.error('❌ Error getting user by ID:', {
+            error: error.message,
+            stack: error.stack,
+            id: req.params.id
+        });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to get user', 
+            error: error.message 
+        });
     }
 };
 
 //update user by id
 const updateUser = async (req, res) => {
+    console.log('🔄 UPDATE USER REQUEST:', {
+        id: req.params.id,
+        body: req.body,
+        timestamp: new Date().toISOString()
+    });
+
     try {
         const id = req.params.id;
         const updateData = req.body;
+        
+        // Validate required fields
+        if (!id) {
+            console.error('❌ Missing user ID');
+            return res.status(400).json({ 
+                success: false, 
+                message: 'User ID is required' 
+            });
+        }
+
+        // Check if user exists
+        const existingUser = await UserModel.findById(id);
+        if (!existingUser) {
+            console.error('❌ User not found:', id);
+            return res.status(404).json({ 
+                success: false, 
+                message: 'User not found' 
+            });
+        }
+
+        // If email is being updated, check if it's already taken by another user
+        if (updateData.email && updateData.email !== existingUser.email) {
+            const emailExists = await UserModel.findByEmail(updateData.email);
+            if (emailExists && emailExists._id.toString() !== id) {
+                console.error('❌ Email already exists:', updateData.email);
+                return res.status(409).json({ 
+                    success: false, 
+                    message: 'Email already exists' 
+                });
+            }
+        }
+
+        // Update user
         const updated = await UserModel.updateById(id, updateData);
         if (!updated) {
-            return res.status(404).json({ success: false, message: 'User not found or not updated' });
+            console.error('❌ Failed to update user:', id);
+            return res.status(500).json({ 
+                success: false, 
+                message: 'Failed to update user' 
+            });
         }
-        res.status(200).json({ success: true, message: 'User updated successfully' });
+
+        // Get updated user data
+        const updatedUser = await UserModel.findById(id);
+        
+        console.log('✅ User updated successfully:', {
+            id: id,
+            updatedFields: Object.keys(updateData)
+        });
+
+        res.status(200).json({ 
+            success: true, 
+            message: 'User updated successfully',
+            data: updatedUser
+        });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Gagal update user', error: error.message });
+        console.error('❌ Error updating user:', {
+            error: error.message,
+            stack: error.stack,
+            id: req.params.id
+        });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to update user', 
+            error: error.message 
+        });
     }
 };
 
