@@ -257,7 +257,7 @@ const BookDetailPage: React.FC = () => {
                       {book.title}
                     </h1>
                     <p className="text-xl text-blue-100 mb-4">
-                      oleh {book.author}
+                      By {book.author}
                     </p>
 
                     <div className="flex items-center space-x-4 mb-6">
@@ -267,13 +267,13 @@ const BookDetailPage: React.FC = () => {
                       </div>
                       <div className="flex items-center">
                         <AlignJustify className="h-5 w-5 text-blue-200 mr-1" />
-                        <span>{book.pageCount} halaman</span>
+                        <span>{book.pageCount} pages</span>
                       </div>
                       <div className="flex items-center">
                         <Calendar className="h-5 w-5 text-blue-200 mr-1" />
-                        <span>
-                          {book.publishDate && !isNaN(Date.parse(book.publishDate))
-                            ? new Date(book.publishDate + 'T00:00:00').toLocaleDateString("id-ID", {
+                        <span className="text-white text-sm truncate">
+                          {book.publishedDate && !isNaN(Date.parse(book.publishedDate))
+                            ? new Date(book.publishedDate + 'T00:00:00').toLocaleDateString("id-ID", {
                                 year: "numeric",
                                 month: "long",
                                 day: "numeric"
@@ -291,19 +291,19 @@ const BookDetailPage: React.FC = () => {
                               to={`/reader/${book.id}`}
                               className="btn-primary"
                             >
-                              Baca Sekarang
+                              Read Now
                             </Link>
                             <button
                               onClick={handleBorrow}
                               className="btn bg-blue-500 hover:bg-blue-600 text-white"
                             >
                               <BookCheck className="h-5 w-5 mr-2" />
-                              Pinjam Buku
+                              Borrow
                             </button>
                           </>
                         ) : (
                           <Link to="/sign-in" className="btn-primary">
-                            Masuk untuk Membaca
+                            Sign In to Read
                           </Link>
                         )
                       ) : (
@@ -311,20 +311,20 @@ const BookDetailPage: React.FC = () => {
                           disabled
                           className="btn bg-gray-400 text-white cursor-not-allowed"
                         >
-                          Saat Ini Tidak Tersedia
+                          Not Available
                         </button>
                       )}
 
                       {isAuthenticated && (
                         <button className="btn bg-white/10 hover:bg-white/20 text-white">
                           <Bookmark className="h-5 w-5 mr-2" />
-                          Simpan untuk Nanti
+                          Read Later
                         </button>
                       )}
 
                       <button className="btn bg-white/10 hover:bg-white/20 text-white">
                         <Share2 className="h-5 w-5 mr-2" />
-                        Bagikan
+                        Share
                       </button>
                     </div>
                   </motion.div>
@@ -355,7 +355,7 @@ const BookDetailPage: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-3 bg-gray-50 rounded-lg px-4 py-3 flex-1 min-w-0">
                     <Calendar className="h-5 w-5 text-primary-600" />
-                    <span className="text-gray-500 text-sm font-medium flex-shrink-0">Tanggal Terbit:</span>
+                    <span className="text-gray-500 text-sm font-medium flex-shrink-0">Published Date:</span>
                     <span className="text-gray-900 text-sm truncate">
                       {book.publishedDate && !isNaN(Date.parse(book.publishedDate))
                         ? new Date(book.publishedDate + 'T00:00:00').toLocaleDateString("id-ID", {
@@ -370,7 +370,7 @@ const BookDetailPage: React.FC = () => {
                     <Bookmark className="h-5 w-5 text-primary-600" />
                     <span className="text-gray-500 text-sm font-medium flex-shrink-0">Status:</span>
                     <span className={book.isAvailable ? "text-green-600 font-semibold" : "text-red-600 font-semibold"}>
-                      {book.isAvailable ? "Tersedia" : "Sedang Dipinjam"}
+                      {book.isAvailable ? "Available" : "In Borrow"}
                     </span>
                   </div>
                 </div>

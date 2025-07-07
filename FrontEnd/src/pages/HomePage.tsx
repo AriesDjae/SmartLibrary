@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Hero from '../components/home/Hero';
 import BookCarousel from '../components/books/BookCarousel';
 import { useBooks } from '../contexts/BookContext';
 import { useAuth } from '../contexts/AuthContext';
 import { CheckCircle, TrendingUp, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
   const { featuredBooks, popularBooks, newArrivals, getUserRecommendations } = useBooks();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, currentUser } = useAuth();
+  const navigate = useNavigate();
   
   const recommendations = isAuthenticated ? getUserRecommendations() : [];
   
@@ -33,8 +34,22 @@ const HomePage: React.FC = () => {
     }
   };
   
+  // Mapping role_id ke role (contoh sederhana, sesuaikan dengan backend jika perlu)
+  const getRoleFromRoleId = (role_id?: string) => {
+    if (!role_id) return 'member';
+    if (role_id === '1') return 'admin';
+    if (role_id === '2') return 'librarian';
+    return 'member';
+  };
+
+  useEffect(() => {
+    if (currentUser && getRoleFromRoleId(currentUser.role_id) === 'admin') {
+      navigate('/admin', { replace: true });
+    }
+  }, [currentUser, navigate]);
+  
   return (
-    <>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Hero />
       {/* Education News Section */}
       <section className="container mx-auto px-4 mt-8">
@@ -178,7 +193,7 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

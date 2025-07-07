@@ -46,6 +46,7 @@ export default {
         },
       },
       animation: {
+        // 'spin-slow': 'spin 2.5s linear infinite',
         'fade-in': 'fadeIn 0.5s ease-out',
         'slide-up': 'slideUp 0.3s ease-out',
       },

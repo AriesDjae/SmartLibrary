@@ -46,7 +46,7 @@ const SignInPage: React.FC = () => {
     if (res.success) {
       alert('Login berhasil!');
       if (res.user.role_id === 'r1') navigate('/dashboard-admin');
-      else if (res.user.role_id === 'r2') navigate('/dashboard-pustakawan');
+      else if (res.user.role_id === 'r2') navigate('/admin');
       else navigate('/');
     } else {
       setError(res.message || 'Login gagal!');

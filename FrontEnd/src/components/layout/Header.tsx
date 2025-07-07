@@ -199,10 +199,11 @@ const Header: React.FC = () => {
           {/* Dark Mode Toggle */}
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800 transition-colors mr-2"
+            className="p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800 transition-colors mr-4"
             title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          />
+          >
             {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
           {/* User Menu */}
           <div className="hidden md:flex items-center space-x-4">
             {currentUser ? (
@@ -211,11 +212,19 @@ const Header: React.FC = () => {
                   to="/profile"
                   className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
                 >
-                  <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
-                    <span className="text-sm font-medium text-primary-700">
-                      {currentUser?.full_name?.[0] || "U"}
-                    </span>
-                  </div>
+                  <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center overflow-hidden">
+                      {currentUser?.profile_picture ? (
+                        <img
+                          src={currentUser.profile_picture}
+                          alt={currentUser.full_name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-sm font-medium text-primary-700">
+                          {currentUser?.full_name?.[0] || "U"}
+                        </span>
+                      )}
+                    </div>
                   <span className="text-sm font-medium hidden lg:inline">
                     {currentUser?.full_name}
                   </span>

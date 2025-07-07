@@ -17,6 +17,11 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import ReaderPage from "./pages/ReaderPage";
 import DashboardPage from "./pages/DashboardPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminProfilePage from "./pages/AdminProfilePage";
+import ProtectedProfile from "./pages/ProtectedProfile";
+import RequireAdmin from './routes/RequireAdmin';
+import RequireUser from './routes/RequireUser';
 
 const App: React.FC = () => {
   return (
@@ -64,9 +69,25 @@ const App: React.FC = () => {
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
 
+          {/* Admin Dashboard tanpa Layout global */}
+          <Route path="/admin" element={
+            <RequireAdmin>
+              <AdminDashboardPage />
+            </RequireAdmin>
+          } />
+          <Route path="/admin/profile" element={
+            <RequireAdmin>
+              <AdminProfilePage />
+            </RequireAdmin>
+          } />
+
           {/* Protected Routes */}
           <Route element={<Layout />}>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={
+              <RequireUser>
+                <HomePage />
+              </RequireUser>
+            } />
             <Route path="/books" element={<BookCollectionPage />} />
             <Route path="/books/:id" element={<BookDetailPage />} />
             <Route path="/forum" element={<ForumPage />} />
@@ -74,7 +95,7 @@ const App: React.FC = () => {
             <Route path="/forum/:id" element={<DiscussionDetailPage />} />
             <Route path="/ai" element={<AiPage />} />
             <Route path="/borrow" element={<BorrowPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile" element={<ProtectedProfile />} />
             <Route path="/reader/:id" element={<ReaderPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
           </Route>
