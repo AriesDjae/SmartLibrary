@@ -13,10 +13,42 @@ import json
 # Load environment variables
 load_dotenv()
 
+def mask_connection_string(uri):
+    """Mask connection string untuk keamanan"""
+    if not uri or 'mongodb://' not in uri:
+        return uri
+    
+    try:
+        # Parse URI
+        if 'mongodb+srv://' in uri:
+            # MongoDB Atlas
+            parts = uri.split('@')
+            if len(parts) >= 2:
+                credentials = parts[0].replace('mongodb+srv://', '')
+                if ':' in credentials:
+                    username = credentials.split(':')[0]
+                    return f"mongodb+srv://{username}:***@{parts[1]}"
+        elif 'mongodb://' in uri:
+            # Local MongoDB
+            parts = uri.split('@')
+            if len(parts) >= 2:
+                credentials = parts[0].replace('mongodb://', '')
+                if ':' in credentials:
+                    username = credentials.split(':')[0]
+                    return f"mongodb://{username}:***@{parts[1]}"
+        
+        return uri
+    except:
+        return "mongodb://***:***@***"
+
 def connect_mongodb():
     """Koneksi ke MongoDB"""
     mongodb_uri = os.getenv('MONGODB_URI', 'mongodb://localhost:27017')
-    database_name = os.getenv('DATABASE_NAME', 'inspira')
+    database_name = os.getenv('DATABASE_NAME', 'test')
+    
+    # Mask URI untuk keamanan
+    masked_uri = mask_connection_string(mongodb_uri)
+    print(f"🔗 Mencoba koneksi ke: {masked_uri}")
     
     try:
         client = MongoClient(mongodb_uri)
