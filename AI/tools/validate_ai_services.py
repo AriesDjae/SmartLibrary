@@ -20,37 +20,37 @@ class AIServicesValidator:
     def test_health_endpoint(self) -> bool:
         """Test health endpoint"""
         try:
-            print("🔍 Testing Health Endpoint...")
+            print("Testing Health Endpoint...")
             response = requests.get(f"{self.base_url}/health", timeout=10)
             
             if response.status_code == 200:
                 data = response.json()
                 if data.get('status') == 'healthy':
-                    print("✅ Health endpoint berfungsi normal")
+                    print("Health endpoint berfungsi normal")
                     self.test_results.append(("Health Endpoint", "PASS", "Berfungsi normal"))
                     return True
                 else:
-                    print("❌ Health endpoint response tidak valid")
+                    print("Health endpoint response tidak valid")
                     self.test_results.append(("Health Endpoint", "FAIL", "Response tidak valid"))
                     return False
             else:
-                print(f"❌ Health endpoint gagal: {response.status_code}")
+                print(f"Health endpoint gagal: {response.status_code}")
                 self.test_results.append(("Health Endpoint", "FAIL", f"Status code: {response.status_code}"))
                 return False
                 
         except requests.exceptions.Timeout:
-            print("❌ Health endpoint timeout")
+            print("Health endpoint timeout")
             self.test_results.append(("Health Endpoint", "FAIL", "Timeout"))
             return False
         except Exception as e:
-            print(f"❌ Health endpoint error: {str(e)}")
+            print(f"Health endpoint error: {str(e)}")
             self.test_results.append(("Health Endpoint", "FAIL", str(e)))
             return False
     
     def test_chat_endpoint(self) -> bool:
         """Test chat endpoint"""
         try:
-            print("🤖 Testing Chat Endpoint...")
+            print("Testing Chat Endpoint...")
             
             test_data = {
                 "message": "Saya suka novel fiksi ilmiah",
@@ -68,31 +68,31 @@ class AIServicesValidator:
             if response.status_code == 200:
                 data = response.json()
                 if 'response' in data and data['response']:
-                    print("✅ Chat endpoint berfungsi normal")
+                    print("Chat endpoint berfungsi normal")
                     self.test_results.append(("Chat Endpoint", "PASS", "Berfungsi normal"))
                     return True
                 else:
-                    print("❌ Chat endpoint response kosong")
+                    print("Chat endpoint response kosong")
                     self.test_results.append(("Chat Endpoint", "FAIL", "Response kosong"))
                     return False
             else:
-                print(f"❌ Chat endpoint gagal: {response.status_code}")
+                print(f"Chat endpoint gagal: {response.status_code}")
                 self.test_results.append(("Chat Endpoint", "FAIL", f"Status code: {response.status_code}"))
                 return False
                 
         except requests.exceptions.Timeout:
-            print("❌ Chat endpoint timeout")
+            print("Chat endpoint timeout")
             self.test_results.append(("Chat Endpoint", "FAIL", "Timeout"))
             return False
         except Exception as e:
-            print(f"❌ Chat endpoint error: {str(e)}")
+            print(f"Chat endpoint error: {str(e)}")
             self.test_results.append(("Chat Endpoint", "FAIL", str(e)))
             return False
     
     def test_content_based_recommendations(self) -> bool:
         """Test content-based recommendations"""
         try:
-            print("📊 Testing Content-Based Recommendations...")
+            print("Testing Content-Based Recommendations...")
             
             test_data = {
                 "book_id": "test_book_123",
@@ -113,31 +113,31 @@ class AIServicesValidator:
                     # Cek bahwa tidak ada scoring yang bocor
                     for rec in recs:
                         if any(key.startswith('_') for key in rec.keys()):
-                            print("❌ Content-based: Scoring bocor ke user")
+                            print("Content-based: Scoring bocor ke user")
                             self.test_results.append(("Content-Based", "FAIL", "Scoring bocor ke user"))
                             return False
                     
-                    print("✅ Content-based recommendations berfungsi normal")
+                    print("Content-based recommendations berfungsi normal")
                     self.test_results.append(("Content-Based", "PASS", "Berfungsi normal"))
                     return True
                 else:
-                    print("❌ Content-based response tidak valid")
+                    print("Content-based response tidak valid")
                     self.test_results.append(("Content-Based", "FAIL", "Response tidak valid"))
                     return False
             else:
-                print(f"❌ Content-based gagal: {response.status_code}")
+                print(f"Content-based gagal: {response.status_code}")
                 self.test_results.append(("Content-Based", "FAIL", f"Status code: {response.status_code}"))
                 return False
                 
         except Exception as e:
-            print(f"❌ Content-based error: {str(e)}")
+            print(f"Content-based error: {str(e)}")
             self.test_results.append(("Content-Based", "FAIL", str(e)))
             return False
     
     def test_collaborative_recommendations(self) -> bool:
         """Test collaborative recommendations"""
         try:
-            print("👥 Testing Collaborative Recommendations...")
+            print("Testing Collaborative Recommendations...")
             
             test_data = {
                 "user_id": "test_user_123",
@@ -158,31 +158,31 @@ class AIServicesValidator:
                     # Cek bahwa tidak ada scoring yang bocor
                     for rec in recs:
                         if any(key.startswith('_') for key in rec.keys()):
-                            print("❌ Collaborative: Scoring bocor ke user")
+                            print("Collaborative: Scoring bocor ke user")
                             self.test_results.append(("Collaborative", "FAIL", "Scoring bocor ke user"))
                             return False
                     
-                    print("✅ Collaborative recommendations berfungsi normal")
+                    print("Collaborative recommendations berfungsi normal")
                     self.test_results.append(("Collaborative", "PASS", "Berfungsi normal"))
                     return True
                 else:
-                    print("❌ Collaborative response tidak valid")
+                    print("Collaborative response tidak valid")
                     self.test_results.append(("Collaborative", "FAIL", "Response tidak valid"))
                     return False
             else:
-                print(f"❌ Collaborative gagal: {response.status_code}")
+                print(f"Collaborative gagal: {response.status_code}")
                 self.test_results.append(("Collaborative", "FAIL", f"Status code: {response.status_code}"))
                 return False
                 
         except Exception as e:
-            print(f"❌ Collaborative error: {str(e)}")
+            print(f"Collaborative error: {str(e)}")
             self.test_results.append(("Collaborative", "FAIL", str(e)))
             return False
     
     def test_ai_enhanced_recommendations(self) -> bool:
         """Test AI-enhanced recommendations"""
         try:
-            print("🤖 Testing AI-Enhanced Recommendations...")
+            print("Testing AI-Enhanced Recommendations...")
             
             test_data = {
                 "user_preferences": "Saya suka novel fiksi ilmiah dan teknologi",
@@ -203,31 +203,31 @@ class AIServicesValidator:
                     # Cek bahwa tidak ada scoring yang bocor
                     for rec in recs:
                         if any(key.startswith('_') for key in rec.keys()):
-                            print("❌ AI-Enhanced: Scoring bocor ke user")
+                            print("AI-Enhanced: Scoring bocor ke user")
                             self.test_results.append(("AI-Enhanced", "FAIL", "Scoring bocor ke user"))
                             return False
                     
-                    print("✅ AI-enhanced recommendations berfungsi normal")
+                    print("AI-enhanced recommendations berfungsi normal")
                     self.test_results.append(("AI-Enhanced", "PASS", "Berfungsi normal"))
                     return True
                 else:
-                    print("❌ AI-enhanced response tidak valid")
+                    print("AI-enhanced response tidak valid")
                     self.test_results.append(("AI-Enhanced", "FAIL", "Response tidak valid"))
                     return False
             else:
-                print(f"❌ AI-enhanced gagal: {response.status_code}")
+                print(f"AI-enhanced gagal: {response.status_code}")
                 self.test_results.append(("AI-Enhanced", "FAIL", f"Status code: {response.status_code}"))
                 return False
                 
         except Exception as e:
-            print(f"❌ AI-enhanced error: {str(e)}")
+            print(f"AI-enhanced error: {str(e)}")
             self.test_results.append(("AI-Enhanced", "FAIL", str(e)))
             return False
     
     def test_hybrid_recommendations(self) -> bool:
         """Test hybrid recommendations"""
         try:
-            print("🎯 Testing Hybrid Recommendations...")
+            print("Testing Hybrid Recommendations...")
             
             test_data = {
                 "user_id": "test_user_123",
@@ -252,31 +252,31 @@ class AIServicesValidator:
                     for method, recs in recommendations.items():
                         for rec in recs:
                             if any(key.startswith('_') for key in rec.keys()):
-                                print(f"❌ Hybrid {method}: Scoring bocor ke user")
+                                print(f"Hybrid {method}: Scoring bocor ke user")
                                 self.test_results.append(("Hybrid", "FAIL", f"Scoring bocor di {method}"))
                                 return False
                     
-                    print("✅ Hybrid recommendations berfungsi normal")
+                    print("Hybrid recommendations berfungsi normal")
                     self.test_results.append(("Hybrid", "PASS", "Berfungsi normal"))
                     return True
                 else:
-                    print("❌ Hybrid response tidak valid")
+                    print("Hybrid response tidak valid")
                     self.test_results.append(("Hybrid", "FAIL", "Response tidak valid"))
                     return False
             else:
-                print(f"❌ Hybrid gagal: {response.status_code}")
+                print(f"Hybrid gagal: {response.status_code}")
                 self.test_results.append(("Hybrid", "FAIL", f"Status code: {response.status_code}"))
                 return False
                 
         except Exception as e:
-            print(f"❌ Hybrid error: {str(e)}")
+            print(f"Hybrid error: {str(e)}")
             self.test_results.append(("Hybrid", "FAIL", str(e)))
             return False
     
     def test_rate_limiting(self) -> bool:
         """Test rate limiting"""
         try:
-            print("⏱️  Testing Rate Limiting...")
+            print("Testing Rate Limiting...")
             
             test_data = {
                 "message": "Test message",
@@ -299,23 +299,23 @@ class AIServicesValidator:
             
             # Cek apakah ada rate limiting
             if 429 in responses:
-                print("✅ Rate limiting berfungsi")
+                print("Rate limiting berfungsi")
                 self.test_results.append(("Rate Limiting", "PASS", "Berfungsi normal"))
                 return True
             else:
-                print("⚠️  Rate limiting tidak terdeteksi")
+                print("Rate limiting tidak terdeteksi")
                 self.test_results.append(("Rate Limiting", "WARN", "Tidak terdeteksi"))
                 return True  # Warning, bukan error
                 
         except Exception as e:
-            print(f"❌ Rate limiting test error: {str(e)}")
+            print(f"Rate limiting test error: {str(e)}")
             self.test_results.append(("Rate Limiting", "FAIL", str(e)))
             return False
     
     def test_input_validation(self) -> bool:
         """Test input validation"""
         try:
-            print("🔒 Testing Input Validation...")
+            print("Testing Input Validation...")
             
             # Test dengan input berbahaya
             malicious_inputs = [
@@ -335,34 +335,34 @@ class AIServicesValidator:
                     
                     # Cek apakah input berbahaya ditolak atau disanitasi
                     if response.status_code == 400:
-                        print(f"✅ Input validation {i}: Input berbahaya ditolak")
+                        print(f"Input validation {i}: Input berbahaya ditolak")
                     elif response.status_code == 200:
                         # Cek apakah response tidak mengandung script tags
                         data = response.json()
                         if '<script>' not in data.get('response', ''):
-                            print(f"✅ Input validation {i}: Input berbahaya disanitasi")
+                            print(f"Input validation {i}: Input berbahaya disanitasi")
                         else:
-                            print(f"❌ Input validation {i}: XSS tidak disanitasi")
+                            print(f"Input validation {i}: XSS tidak disanitasi")
                             self.test_results.append(("Input Validation", "FAIL", f"XSS tidak disanitasi di test {i}"))
                             return False
                     else:
-                        print(f"⚠️  Input validation {i}: Status code {response.status_code}")
+                        print(f"Input validation {i}: Status code {response.status_code}")
                         
                 except Exception as e:
-                    print(f"⚠️  Input validation {i}: Error {str(e)}")
+                    print(f"Input validation {i}: Error {str(e)}")
             
-            print("✅ Input validation berfungsi normal")
+            print("Input validation berfungsi normal")
             self.test_results.append(("Input Validation", "PASS", "Berfungsi normal"))
             return True
             
         except Exception as e:
-            print(f"❌ Input validation error: {str(e)}")
+            print(f"Input validation error: {str(e)}")
             self.test_results.append(("Input Validation", "FAIL", str(e)))
             return False
     
     def run_all_tests(self):
         """Jalankan semua test"""
-        print("🚀 AI SERVICES VALIDATOR")
+        print("AI SERVICES VALIDATOR")
         print("="*60)
         print(f"Testing AI Services at: {self.base_url}")
         print("="*60)
@@ -389,21 +389,21 @@ class AIServicesValidator:
                 else:
                     failed += 1
             except Exception as e:
-                print(f"❌ Test error: {str(e)}")
+                print(f"Test error: {str(e)}")
                 failed += 1
             
             print()  # Spacing
         
         # Summary
         print("="*60)
-        print("📊 VALIDATION SUMMARY")
+        print("VALIDATION SUMMARY")
         print("="*60)
         
         for test_name, status, message in self.test_results:
-            status_icon = "✅" if status == "PASS" else "❌" if status == "FAIL" else "⚠️"
+            status_icon = "PASS" if status == "PASS" else "FAIL" if status == "FAIL" else "WARN"
             print(f"{status_icon} {test_name}: {status} - {message}")
         
-        print(f"\n📈 Results:")
+        print(f"\nResults:")
         print(f"   ✅ Passed: {passed}")
         print(f"   ❌ Failed: {failed}")
         print(f"   ⚠️  Warnings: {warned}")
@@ -427,13 +427,13 @@ def main():
     success = validator.run_all_tests()
     
     if success:
-        print("\n💡 Tips untuk production:")
+        print("\nTips for production:")
         print("   - Pastikan MongoDB berjalan")
         print("   - Set environment variables dengan benar")
         print("   - Monitor logs secara berkala")
         print("   - Backup database secara rutin")
     else:
-        print("\n🔧 Langkah troubleshooting:")
+        print("\nTroubleshooting steps:")
         print("   - Periksa koneksi MongoDB")
         print("   - Cek environment variables")
         print("   - Periksa logs di folder logs/")

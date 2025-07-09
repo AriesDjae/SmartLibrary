@@ -1,0 +1,2 @@
+_id,user_id,books_id,borrow_date,due_date,return_date,is_borrow,handled_by
+6857afa6fdb7f7924c390c09,68554d25c4e15be62deeac01,book-18,2025-06-17 10:00:00,2025-06-24 10:00:00,,True,r2

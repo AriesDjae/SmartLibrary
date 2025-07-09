@@ -20,7 +20,7 @@ class HybridScoringLogViewer:
     def get_log_files(self) -> List[str]:
         """Dapatkan daftar file log"""
         if not os.path.exists(self.logs_dir):
-            print(f"❌ Direktori {self.logs_dir} tidak ditemukan")
+            print(f"Direktori {self.logs_dir} tidak ditemukan")
             return []
         
         log_files = []
@@ -44,7 +44,7 @@ class HybridScoringLogViewer:
                 line = line.strip()
                 
                 # Deteksi awal request hybrid
-                if "🔍 HYBRID RECOMMENDATION REQUEST" in line:
+                if "HYBRID RECOMMENDATION REQUEST" in line:
                     current_request = {
                         'timestamp': self._extract_timestamp(line),
                         'request': {},
@@ -66,7 +66,7 @@ class HybridScoringLogViewer:
                     current_request['request']['n_recommendations'] = int(line.split("N Recommendations:")[1].strip())
                 
                 # Parse content-based recommendations
-                elif current_request and "📊 CONTENT-BASED:" in line:
+                elif current_request and "CONTENT-BASED:" in line:
                     current_request['content_based'].append({
                         'type': 'content_based',
                         'message': line
@@ -92,7 +92,7 @@ class HybridScoringLogViewer:
                         })
                 
                 # Parse collaborative recommendations
-                elif current_request and "👥 COLLABORATIVE:" in line:
+                elif current_request and "COLLABORATIVE:" in line:
                     current_request['collaborative'].append({
                         'type': 'collaborative',
                         'message': line
@@ -116,7 +116,7 @@ class HybridScoringLogViewer:
                         })
                 
                 # Parse AI-enhanced recommendations
-                elif current_request and "🤖 AI-ENHANCED:" in line:
+                elif current_request and "AI-ENHANCED:" in line:
                     current_request['ai_enhanced'].append({
                         'type': 'ai_enhanced',
                         'message': line
@@ -140,7 +140,7 @@ class HybridScoringLogViewer:
                         })
                 
                 # Parse summary
-                elif current_request and "🎯 HYBRID RECOMMENDATION SUMMARY" in line:
+                elif current_request and "HYBRID RECOMMENDATION SUMMARY" in line:
                     current_request['summary']['type'] = 'summary'
                 elif current_request and "Total Recommendations:" in line:
                     total_match = re.search(r'Total Recommendations: (\d+)', line)
@@ -156,7 +156,7 @@ class HybridScoringLogViewer:
                         current_request = None
         
         except Exception as e:
-            print(f"❌ Error parsing log file {log_file}: {str(e)}")
+            print(f"Error parsing log file {log_file}: {str(e)}")
         
         return hybrid_logs
     
@@ -180,29 +180,29 @@ class HybridScoringLogViewer:
     def show_main_menu(self):
         """Tampilkan menu utama"""
         print("\n" + "="*60)
-        print("📊 HYBRID SCORING LOG VIEWER")
+        print("HYBRID SCORING LOG VIEWER")
         print("="*60)
-        print("1. 📋 Lihat Semua Log Hybrid")
-        print("2. 📊 Lihat Log Content-Based")
-        print("3. 👥 Lihat Log Collaborative")
-        print("4. 🤖 Lihat Log AI-Enhanced")
-        print("5. ⏱️  Analisis Performance")
-        print("6. 🎯 Analisis Scoring Patterns")
-        print("7. 📈 Statistik Log")
-        print("0. 🚪 Keluar")
+        print("1. Lihat Semua Log Hybrid")
+        print("2. Lihat Log Content-Based")
+        print("3. Lihat Log Collaborative")
+        print("4. Lihat Log AI-Enhanced")
+        print("5. Analisis Performance")
+        print("6. Analisis Scoring Patterns")
+        print("7. Statistik Log")
+        print("0. Keluar")
         print("="*60)
     
     def show_all_logs(self, logs: List[Dict[str, Any]]):
         """Tampilkan semua log hybrid"""
         if not logs:
-            print("❌ Tidak ada log hybrid yang ditemukan")
+            print("Tidak ada log hybrid yang ditemukan")
             return
         
-        print(f"\n📋 SEMUA LOG HYBRID ({len(logs)} requests)")
+        print(f"\nSEMUA LOG HYBRID ({len(logs)} requests)")
         print("="*80)
         
         for i, log in enumerate(logs, 1):
-            print(f"\n🔍 REQUEST {i}")
+            print(f"\nREQUEST {i}")
             print("-" * 40)
             print(f"Timestamp: {log['timestamp']}")
             print(f"User ID: {log['request'].get('user_id', 'None')}")
@@ -219,36 +219,36 @@ class HybridScoringLogViewer:
     
     def _show_top_scores(self, log: Dict[str, Any]):
         """Tampilkan top scores dari setiap metode"""
-        print("\n🏆 TOP SCORES:")
+        print("\nTOP SCORES:")
         
         # Content-based top scores
         content_scores = [item for item in log['content_based'] if item['type'] == 'book_score']
         if content_scores:
-            print("   📊 Content-Based:")
+            print("   Content-Based:")
             for score in sorted(content_scores, key=lambda x: x['score'], reverse=True)[:3]:
                 print(f"      {score['rank']}. {score['title']} - Score: {score['score']:.4f}")
         
         # Collaborative top ratings
         collab_ratings = [item for item in log['collaborative'] if item['type'] == 'book_rating']
         if collab_ratings:
-            print("   👥 Collaborative:")
+            print("   Collaborative:")
             for rating in sorted(collab_ratings, key=lambda x: x['rating'], reverse=True)[:3]:
                 print(f"      {rating['rank']}. {rating['title']} - Rating: {rating['rating']:.2f}")
         
         # AI-enhanced top relevance
         ai_relevance = [item for item in log['ai_enhanced'] if item['type'] == 'book_relevance']
         if ai_relevance:
-            print("   🤖 AI-Enhanced:")
+            print("   AI-Enhanced:")
             for rel in sorted(ai_relevance, key=lambda x: x['relevance'], reverse=True)[:3]:
                 print(f"      {rel['rank']}. {rel['title']} - Relevance: {rel['relevance']:.4f}")
     
     def analyze_performance(self, logs: List[Dict[str, Any]]):
         """Analisis performance dari logs"""
         if not logs:
-            print("❌ Tidak ada log untuk dianalisis")
+            print("Tidak ada log untuk dianalisis")
             return
         
-        print(f"\n⏱️  PERFORMANCE ANALYSIS ({len(logs)} requests)")
+        print(f"\nPERFORMANCE ANALYSIS ({len(logs)} requests)")
         print("="*60)
         
         # Calculate performance metrics
@@ -268,25 +268,25 @@ class HybridScoringLogViewer:
                 if item['type'] == 'performance':
                     ai_times.append(item['time'])
         
-        print(f"📊 Total Requests: {len(logs)}")
-        print(f"⏱️  Average Total Time: {sum(total_times)/len(total_times):.3f}s")
-        print(f"📈 Min Total Time: {min(total_times):.3f}s")
-        print(f"📉 Max Total Time: {max(total_times):.3f}s")
+        print(f"Total Requests: {len(logs)}")
+        print(f"Average Total Time: {sum(total_times)/len(total_times):.3f}s")
+        print(f"Min Total Time: {min(total_times):.3f}s")
+        print(f"Max Total Time: {max(total_times):.3f}s")
         
         if content_times:
-            print(f"\n📊 Content-Based Performance:")
+            print(f"\nContent-Based Performance:")
             print(f"   Average: {sum(content_times)/len(content_times):.3f}s")
             print(f"   Min: {min(content_times):.3f}s")
             print(f"   Max: {max(content_times):.3f}s")
         
         if collab_times:
-            print(f"\n👥 Collaborative Performance:")
+            print(f"\nCollaborative Performance:")
             print(f"   Average: {sum(collab_times)/len(collab_times):.3f}s")
             print(f"   Min: {min(collab_times):.3f}s")
             print(f"   Max: {max(collab_times):.3f}s")
         
         if ai_times:
-            print(f"\n🤖 AI-Enhanced Performance:")
+            print(f"\nAI-Enhanced Performance:")
             print(f"   Average: {sum(ai_times)/len(ai_times):.3f}s")
             print(f"   Min: {min(ai_times):.3f}s")
             print(f"   Max: {max(ai_times):.3f}s")
@@ -294,10 +294,10 @@ class HybridScoringLogViewer:
     def analyze_scoring_patterns(self, logs: List[Dict[str, Any]]):
         """Analisis pola scoring"""
         if not logs:
-            print("❌ Tidak ada log untuk dianalisis")
+            print("Tidak ada log untuk dianalisis")
             return
         
-        print(f"\n🎯 SCORING PATTERNS ANALYSIS ({len(logs)} requests)")
+        print(f"\nSCORING PATTERNS ANALYSIS ({len(logs)} requests)")
         print("="*60)
         
         # Collect all scores
@@ -317,21 +317,21 @@ class HybridScoringLogViewer:
                     ai_relevance.append(item['relevance'])
         
         if content_scores:
-            print(f"📊 Content-Based Scores ({len(content_scores)} scores):")
+            print(f"Content-Based Scores ({len(content_scores)} scores):")
             print(f"   Average: {sum(content_scores)/len(content_scores):.4f}")
             print(f"   Min: {min(content_scores):.4f}")
             print(f"   Max: {max(content_scores):.4f}")
             print(f"   Range: {max(content_scores) - min(content_scores):.4f}")
         
         if collab_ratings:
-            print(f"\n👥 Collaborative Ratings ({len(collab_ratings)} ratings):")
+            print(f"\nCollaborative Ratings ({len(collab_ratings)} ratings):")
             print(f"   Average: {sum(collab_ratings)/len(collab_ratings):.2f}")
             print(f"   Min: {min(collab_ratings):.2f}")
             print(f"   Max: {max(collab_ratings):.2f}")
             print(f"   Range: {max(collab_ratings) - min(collab_ratings):.2f}")
         
         if ai_relevance:
-            print(f"\n🤖 AI-Enhanced Relevance ({len(ai_relevance)} scores):")
+            print(f"\nAI-Enhanced Relevance ({len(ai_relevance)} scores):")
             print(f"   Average: {sum(ai_relevance)/len(ai_relevance):.4f}")
             print(f"   Min: {min(ai_relevance):.4f}")
             print(f"   Max: {max(ai_relevance):.4f}")
@@ -340,10 +340,10 @@ class HybridScoringLogViewer:
     def show_log_statistics(self, logs: List[Dict[str, Any]]):
         """Tampilkan statistik log"""
         if not logs:
-            print("❌ Tidak ada log untuk dianalisis")
+            print("Tidak ada log untuk dianalisis")
             return
         
-        print(f"\n📈 LOG STATISTICS ({len(logs)} requests)")
+        print(f"\nLOG STATISTICS ({len(logs)} requests)")
         print("="*60)
         
         # Count methods used
@@ -351,30 +351,30 @@ class HybridScoringLogViewer:
         collab_count = sum(1 for log in logs if log['collaborative'])
         ai_count = sum(1 for log in logs if log['ai_enhanced'])
         
-        print(f"📊 Content-Based Used: {content_count} times ({content_count/len(logs)*100:.1f}%)")
-        print(f"👥 Collaborative Used: {collab_count} times ({collab_count/len(logs)*100:.1f}%)")
-        print(f"🤖 AI-Enhanced Used: {ai_count} times ({ai_count/len(logs)*100:.1f}%)")
+        print(f"Content-Based Used: {content_count} times ({content_count/len(logs)*100:.1f}%)")
+        print(f"Collaborative Used: {collab_count} times ({collab_count/len(logs)*100:.1f}%)")
+        print(f"AI-Enhanced Used: {ai_count} times ({ai_count/len(logs)*100:.1f}%)")
         
         # Time distribution
         total_times = [log['total_time'] for log in logs if log['total_time'] > 0]
         if total_times:
-            print(f"\n⏱️  Time Distribution:")
+            print(f"\nTime Distribution:")
             print(f"   Fast (< 1s): {sum(1 for t in total_times if t < 1)} requests")
             print(f"   Medium (1-5s): {sum(1 for t in total_times if 1 <= t < 5)} requests")
             print(f"   Slow (> 5s): {sum(1 for t in total_times if t >= 5)} requests")
     
     def run(self):
         """Jalankan viewer"""
-        print("📊 HYBRID SCORING LOG VIEWER")
+        print("HYBRID SCORING LOG VIEWER")
         print("Memulai aplikasi...")
         
         # Get log files
         log_files = self.get_log_files()
         if not log_files:
-            print("❌ Tidak ada file log yang ditemukan")
+            print("Tidak ada file log yang ditemukan")
             return
         
-        print(f"📁 Ditemukan {len(log_files)} file log")
+        print(f"Ditemukan {len(log_files)} file log")
         
         # Parse all logs
         all_logs = []
@@ -382,14 +382,14 @@ class HybridScoringLogViewer:
             logs = self.parse_hybrid_logs(log_file)
             all_logs.extend(logs)
         
-        print(f"📊 Total {len(all_logs)} hybrid requests ditemukan")
+        print(f"Total {len(all_logs)} hybrid requests ditemukan")
         
         while True:
             self.show_main_menu()
             choice = input("\nPilih menu (0-7): ")
             
             if choice == "0":
-                print("👋 Terima kasih telah menggunakan Hybrid Scoring Log Viewer!")
+                print("Terima kasih telah menggunakan Hybrid Scoring Log Viewer!")
                 break
             elif choice == "1":
                 self.show_all_logs(all_logs)
@@ -409,7 +409,7 @@ class HybridScoringLogViewer:
             elif choice == "7":
                 self.show_log_statistics(all_logs)
             else:
-                print("❌ Pilihan tidak valid!")
+                print("Pilihan tidak valid!")
             
             input("\nTekan Enter untuk melanjutkan...")
 

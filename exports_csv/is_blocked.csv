@@ -1,0 +1,2 @@
+_id,blocked_user_id,blocked_by_role_id,block_reason,blocked_at,is_blocked
+6857a298fdb7f7924c390bda,68554c0ec4e15be62deeabfe,r1,Melanggar etika sistem,2025-06-22 06:00:00,True

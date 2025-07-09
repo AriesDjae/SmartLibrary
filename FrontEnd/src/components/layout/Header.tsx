@@ -16,8 +16,6 @@ import {
   BookCheck,
   Sparkles,
   Library,
-  Moon,
-  Sun,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../contexts/AuthContext";
@@ -31,7 +29,7 @@ const navItems = [
   },
   {
     label: "Dashboard",
-    to : "/dashboard",
+    to: "/dashboard",
     icon: BarChart3,
   },
   {
@@ -64,9 +62,6 @@ const Header: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(() =>
-    typeof window !== 'undefined' ? document.documentElement.classList.contains('dark') : false
-  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -123,30 +118,6 @@ const Header: React.FC = () => {
   const isReaderPage = location.pathname.startsWith("/reader/");
   const isAiPage = location.pathname.startsWith("/ai");
 
-  const toggleDarkMode = () => {
-    const html = document.documentElement;
-    if (html.classList.contains('dark')) {
-      html.classList.remove('dark');
-      setIsDark(false);
-      localStorage.setItem('theme', 'light');
-    } else {
-      html.classList.add('dark');
-      setIsDark(true);
-      localStorage.setItem('theme', 'dark');
-    }
-  };
-
-  useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-      setIsDark(true);
-    } else if (theme === 'light') {
-      document.documentElement.classList.remove('dark');
-      setIsDark(false);
-    }
-  }, []);
-
   if (isReaderPage) {
     return (
       <header className="bg-white shadow-sm">
@@ -196,14 +167,6 @@ const Header: React.FC = () => {
             })}
           </nav>
 
-          {/* Dark Mode Toggle */}
-          <button
-            onClick={toggleDarkMode}
-            className="p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800 transition-colors mr-4"
-            title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          >
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </button>
           {/* User Menu */}
           <div className="hidden md:flex items-center space-x-4">
             {currentUser ? (
@@ -213,18 +176,18 @@ const Header: React.FC = () => {
                   className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
                 >
                   <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center overflow-hidden">
-                      {currentUser?.profile_picture ? (
-                        <img
-                          src={currentUser.profile_picture}
-                          alt={currentUser.full_name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-sm font-medium text-primary-700">
-                          {currentUser?.full_name?.[0] || "U"}
-                        </span>
-                      )}
-                    </div>
+                    {currentUser?.profile_picture ? (
+                      <img
+                        src={currentUser.profile_picture}
+                        alt={currentUser.full_name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-sm font-medium text-primary-700">
+                        {currentUser?.full_name?.[0] || "U"}
+                      </span>
+                    )}
+                  </div>
                   <span className="text-sm font-medium hidden lg:inline">
                     {currentUser?.full_name}
                   </span>
@@ -287,7 +250,7 @@ const Header: React.FC = () => {
 
             {/* Mobile User Menu */}
             <div className="py-3 border-t border-gray-100">
-              {isAuthenticated ? (
+              {currentUser ? (
                 <>
                   <Link
                     to="/profile"

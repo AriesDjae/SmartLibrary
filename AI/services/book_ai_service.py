@@ -37,6 +37,7 @@ class BookAIService:
     
     def _setup_services(self):
         """Setup service dependencies"""
+        # Pastikan dependency sudah sesuai hasil refactor
         self.recommendation_service = RecommendationService()
         self.user_preference_service = UserPreferenceService()
     

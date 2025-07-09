@@ -1,0 +1,21 @@
+_id,user_id,book_id,interaction_type,timestamp,duration,interaction_details
+6857bb23fdb7f7924c390c7d,68554d25c4e15be62deeac01,book-1,view,2025-06-22 08:30:00.000,120,Viewed book detail page
+6857bb23fdb7f7924c390c7e,68554d25c4e15be62deeac01,book-2,click,2025-06-22 08:32:10.000,30,Clicked from homepage carousel
+6857bb23fdb7f7924c390c7f,68554d25c4e15be62deeac01,book-3,bookmark,2025-06-22 08:33:45.000,0,Bookmarked for later reading
+6857bb23fdb7f7924c390c80,68554d25c4e15be62deeac01,book-4,search,2025-06-22 08:35:10.000,15,Searched by title: The Alchemist
+6857bb23fdb7f7924c390c81,68554d25c4e15be62deeac01,book-5,view,2025-06-22 08:37:50.000,90,Viewed from recommended list
+6857bb23fdb7f7924c390c82,68554d25c4e15be62deeac01,book-6,click,2025-06-22 08:39:21.000,25,Clicked on related books section
+6857bb23fdb7f7924c390c83,68554d25c4e15be62deeac01,book-7,bookmark,2025-06-22 08:41:00.000,0,Saved to favorites
+6857bb23fdb7f7924c390c84,68554d25c4e15be62deeac01,book-8,view,2025-06-22 08:42:40.000,85,Viewed author profile and book detail
+6857bb23fdb7f7924c390c85,68554d25c4e15be62deeac01,book-9,search,2025-06-22 08:45:10.000,10,Searched keyword: The Four Winds
+6857bb23fdb7f7924c390c86,68554d25c4e15be62deeac01,book-10,click,2025-06-22 08:46:20.000,40,Clicked from homepage banner
+6857bb23fdb7f7924c390c87,68554d25c4e15be62deeac01,book-11,view,2025-06-22 08:13:23.054,100,Buka halaman deskripsi buku
+6857bb23fdb7f7924c390c88,68554d25c4e15be62deeac01,book-12,bookmark,2025-06-22 08:13:23.054,0,Tambahkan ke koleksi pribadi
+6857bb23fdb7f7924c390c89,68554d25c4e15be62deeac01,book-13,click,2025-06-22 08:13:23.054,33,Klik dari sidebar rekomendasi
+6857bb23fdb7f7924c390c8a,68554d25c4e15be62deeac01,book-14,view,2025-06-22 08:13:23.054,90,Lihat detail buku
+6857bb23fdb7f7924c390c8b,68554d25c4e15be62deeac01,book-15,view,2025-06-22 08:13:23.054,120,Dibuka dari halaman trending
+6857bb23fdb7f7924c390c8c,68554d25c4e15be62deeac01,book-16,bookmark,2025-06-22 08:13:23.054,0,Disimpan untuk dibaca nanti
+6857bb23fdb7f7924c390c8d,68554d25c4e15be62deeac01,book-17,search,2025-06-22 08:13:23.054,12,Cari berdasarkan kata kunci 'meaning'
+6857bb23fdb7f7924c390c8e,68554d25c4e15be62deeac01,book-18,click,2025-06-22 08:13:23.054,45,Klik dari koleksi Tere Liye
+6857bb23fdb7f7924c390c8f,68554d25c4e15be62deeac01,book-19,view,2025-06-22 08:13:23.054,110,Lihat halaman review
+6857bb23fdb7f7924c390c90,68554d25c4e15be62deeac01,book-20,bookmark,2025-06-22 08:13:23.054,0,Ditandai untuk riset pribadi

@@ -1,0 +1,2 @@
+_id,user_id,book_id,reading_start,reading_end,total_duration_seconds,pages_read,completion_percentage
+6857b3a0fdb7f7924c390c0b,68554d25c4e15be62deeac01,book-5,2025-06-17 09:00:00,2025-06-17 09:45:30,2730,25,10

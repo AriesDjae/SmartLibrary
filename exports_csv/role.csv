@@ -1,0 +1,4 @@
+_id,role_name,description
+r1,admin,System administrator
+r2,Pustakawan,Pustakawan system administrator
+r3,user,register access to application
