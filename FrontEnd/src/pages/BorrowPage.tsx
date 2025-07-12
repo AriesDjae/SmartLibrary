@@ -15,18 +15,82 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useBorrow } from "../contexts/BorrowContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const BorrowPage: React.FC = () => {
+  const { currentUser } = useAuth();
   const { borrowedBooks, removeBorrowedBook, fetchBorrowedBooks } = useBorrow();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("semua");
+  const [extendLoading, setExtendLoading] = useState<string | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("Current user ID:", currentUser?._id);
     fetchBorrowedBooks();
-  }, []);
+  }, [currentUser]);
 
-  const handleReturn = (id: number) => {
-    removeBorrowedBook(id);
+  // Notifikasi overdue
+  useEffect(() => {
+    const overdue = borrowedBooks.filter(
+      (book) => new Date(book.dueDate) < new Date() && book.status === "Dipinjam"
+    );
+    if (overdue.length > 0) {
+      setNotification(`Anda memiliki ${overdue.length} buku yang sudah jatuh tempo!`);
+    } else {
+      setNotification(null);
+    }
+  }, [borrowedBooks]);
+
+  const handleReturn = async (id: string) => {
+    try {
+      const response = await fetch(`/api/borrowings/${id}/return`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Gagal mengembalikan buku");
+      }
+
+      // Fetch ulang data pinjaman
+      await fetchBorrowedBooks();
+      alert("Buku berhasil dikembalikan!");
+    } catch (err) {
+      console.error("Error returning book:", err);
+      const errorMessage = err instanceof Error ? err.message : "Gagal mengembalikan buku";
+      alert(errorMessage);
+    }
+  };
+
+  const handleExtend = async (id: string) => {
+    setExtendLoading(id);
+    try {
+      const response = await fetch(`/api/borrowings/${id}/extend`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify({ extendDays: 7 })
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Gagal memperpanjang peminjaman");
+      }
+      await fetchBorrowedBooks();
+      alert("Peminjaman berhasil diperpanjang!");
+    } catch (err) {
+      console.error("Error extending borrowing:", err);
+      const errorMessage = err instanceof Error ? err.message : "Gagal memperpanjang peminjaman";
+      alert(errorMessage);
+    } finally {
+      setExtendLoading(null);
+    }
   };
 
   const filteredBooks = borrowedBooks.filter((book) => {
@@ -47,9 +111,43 @@ const BorrowPage: React.FC = () => {
     return diffDays;
   };
 
+  //denda
+  const [payingFine, setPayingFine] = useState<string | null>(null);
+
+const handlePayFine = async (id: string) => {
+  setPayingFine(id);
+  try {
+    const response = await fetch(`/api/borrowings/${id}/pay-fine`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+      }
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Gagal membayar denda");
+    }
+    await fetchBorrowedBooks();
+    alert("Denda berhasil dibayar!");
+  } catch (err) {
+    console.error("Error paying fine:", err);
+    const errorMessage = err instanceof Error ? err.message : "Gagal membayar denda";
+    alert(errorMessage);
+  } finally {
+    setPayingFine(null);
+  }
+};
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-8 px-4">
       <div className="max-w-4xl mx-auto">
+        {/* Notifikasi Overdue */}
+        {notification && (
+          <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 rounded">
+            <strong>Notifikasi:</strong> {notification}
+          </div>
+        )}
         {/* Header Section with Icons */}
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
           <div className="flex flex-col items-center mb-8">
@@ -134,7 +232,7 @@ const BorrowPage: React.FC = () => {
             {filteredBooks.map((book) => {
               const daysRemaining = getDaysRemaining(book.dueDate);
               const isOverdue = daysRemaining < 0;
-
+              const isReturned = book.status !== 'Dipinjam';
               return (
                 <div
                   key={book.id}
@@ -198,22 +296,56 @@ const BorrowPage: React.FC = () => {
                                   isOverdue ? "text-red-500" : "text-green-500"
                                 }`}
                               >
-                                {isOverdue
+                                {isReturned
+                                  ? "Sudah dikembalikan"
+                                  : isOverdue
                                   ? "Terlambat"
                                   : `${daysRemaining} hari tersisa`}
                               </p>
                             </div>
                           </div>
+                          {/* Denda dan tombol bayar denda */}
+                          {(book.fine_amount ?? 0) > 0 && (
+                            <div className="flex items-center gap-2">
+                              <span className="text-red-500 font-bold">Denda</span>
+                              <span className="text-sm font-medium text-red-600">
+                                Rp{book.fine_amount}
+                              </span>
+                              <span className="text-xs text-gray-500">
+                                {book.fine_paid ? "(Lunas)" : "(Belum Lunas)"}
+                              </span>
+                              {!book.fine_paid && (
+                                <button
+                                  onClick={() => handlePayFine(book.id)}
+                                  disabled={payingFine === book.id}
+                                  className="ml-2 px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full text-xs font-semibold"
+                                >
+                                  {payingFine === book.id ? "Memproses..." : "Bayar Denda"}
+                                </button>
+                              )}
+                            </div>
+                          )}
                         </div>
 
-                        <div className="flex justify-end">
-                          <button
-                            onClick={() => handleReturn(book.id)}
-                            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full font-semibold transition shadow"
-                          >
-                            <ArrowRightCircle size={18} />
-                            Kembalikan Buku
-                          </button>
+                        <div className="flex justify-end gap-2">
+                          {!isReturned && (
+                            <>
+                              <button
+                                onClick={() => handleReturn(book.id)}
+                                className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full font-semibold transition shadow"
+                              >
+                                <ArrowRightCircle size={18} />
+                                Kembalikan Buku
+                              </button>
+                              <button
+                                onClick={() => handleExtend(book.id)}
+                                disabled={extendLoading === book.id}
+                                className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full font-semibold transition shadow"
+                              >
+                                {extendLoading === book.id ? "Memperpanjang..." : "Perpanjang"}
+                              </button>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
