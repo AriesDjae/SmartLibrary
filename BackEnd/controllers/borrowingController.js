@@ -254,8 +254,11 @@ class BorrowingController {
   // Get user dashboard statistics
   static async getUserDashboardStats(req, res) {
     try {
+      console.log('📊 Dashboard Stats: Starting calculation for user:', req.user?._id);
+      
       const userId = req.user?._id;
       if (!userId) {
+        console.error('❌ Dashboard Stats: User not authenticated');
         return res.status(401).json({
           success: false,
           error: 'User not authenticated'
@@ -263,9 +266,30 @@ class BorrowingController {
       }
 
       const db = require('../config/db').getDb();
+      const { ObjectId } = require('mongodb');
+      
+      console.log('🔍 Dashboard Stats: Fetching borrowings for user:', userId);
       
       // Get all user borrowings
-      const borrowings = await db.collection('borrowings').find({ user_id: new require('mongodb').ObjectId(userId) }).toArray();
+      const borrowings = await db.collection('borrowings').find({ 
+        user_id: new ObjectId(userId) 
+      }).toArray();
+      
+      // Log first few borrowings for debugging
+      if (borrowings.length > 0) {
+        console.log('🔍 Dashboard Stats: Sample borrowing data:', {
+          firstBorrowing: {
+            _id: borrowings[0]._id,
+            user_id: borrowings[0].user_id,
+            books_id: borrowings[0].books_id,
+            is_borrow: borrowings[0].is_borrow,
+            borrow_date: borrowings[0].borrow_date,
+            due_date: borrowings[0].due_date
+          }
+        });
+      }
+      
+      console.log('📚 Dashboard Stats: Found', borrowings.length, 'borrowings');
       
       // Calculate statistics
       const totalBorrowed = borrowings.length;
@@ -284,10 +308,15 @@ class BorrowingController {
       let totalPagesRead = 0;
       for (const borrowing of borrowings) {
         if (!borrowing.is_borrow) {
-          const book = await db.collection('books').findOne({ _id: borrowing.books_id });
-          if (book && book.pageCount) {
-            totalPagesRead += book.pageCount;
-          } else {
+          try {
+            const book = await db.collection('books').findOne({ _id: borrowing.books_id });
+            if (book && book.pageCount) {
+              totalPagesRead += book.pageCount;
+            } else {
+              totalPagesRead += 300; // Default estimate
+            }
+          } catch (bookError) {
+            console.warn('⚠️ Dashboard Stats: Error fetching book details for', borrowing.books_id, bookError.message);
             totalPagesRead += 300; // Default estimate
           }
         }
@@ -305,12 +334,21 @@ class BorrowingController {
         averageReadingTime
       };
 
+      // Ensure all values are numbers
+      Object.keys(stats).forEach(key => {
+        if (typeof stats[key] !== 'number') {
+          stats[key] = 0;
+        }
+      });
+
+      console.log('✅ Dashboard Stats: Calculated stats:', stats);
+
       res.status(200).json({
         success: true,
         data: stats
       });
     } catch (error) {
-      console.error('Error fetching user dashboard stats:', error);
+      console.error('❌ Dashboard Stats: Error fetching user dashboard stats:', error);
       res.status(500).json({
         success: false,
         error: error.message
