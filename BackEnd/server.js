@@ -10,6 +10,8 @@ const { connectToDb, getDb } = require('./config/db');
 const bookRoutes = require('./routes/bookRoutes');
 const authRoutes = require('./routes/authRoutes');
 const genreRoutes = require('./routes/genreRoutes');
+const userInteractionRoutes = require('./routes/userInteractionRoutes');
+const borrowingRoutes = require('./routes/borrowingRoutes');
 
 
 const app = express();
@@ -125,6 +127,10 @@ app.get('/api', (req, res) => {
 app.use('/api/books', bookRoutes);
 app.use('/api/users', authRoutes);
 app.use('/api/genres', genreRoutes);
+app.use('/api/user-interactions', userInteractionRoutes);
+app.use('/api/borrowings', borrowingRoutes);
+console.log('Route /api/user-interactions siap digunakan');
+console.log('Route /api/borrowings siap digunakan');
 // router.put('/books/:id/genres', bookController.updateBookGenres);
 
 
