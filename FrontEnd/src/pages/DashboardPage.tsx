@@ -8,6 +8,7 @@ import ReadingChart from "../components/dashboard/ReadingChart";
 import GenresPieChart from "../components/dashboard/GenresPieChart";
 import { Link } from "react-router-dom";
 import { borrowingAPI } from "../services/api";
+import axios from '../services/axios';
 
 interface BorrowingData {
   _id: string;
@@ -47,6 +48,13 @@ interface DashboardStatsResponse {
   message?: string;
 }
 
+// Tambahkan kembali tipe interaksi user
+interface UserInteraction {
+  type: string; // bisa 'borrow' | 'read' | 'save' | 'search', dsb
+  bookId: string;
+  // Bisa tambahkan timestamp, dsb
+}
+
 const DashboardPage: React.FC = () => {
   const { currentUser } = useAuth();
   const { getBookById } = useBooks();
@@ -61,6 +69,8 @@ const DashboardPage: React.FC = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [allGenres, setAllGenres] = useState<string[]>([]);
+  const [userInteractions, setUserInteractions] = useState<UserInteraction[]>([]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -84,6 +94,21 @@ const DashboardPage: React.FC = () => {
           const borrowingsData = borrowingsResponse.data || [];
           setBorrowings(borrowingsData);
         }
+
+        // Fetch all genres
+        const genresRes = await axios.get('/genres');
+        setAllGenres((genresRes.data.data || []).map((g: any) => g.genres_name));
+
+        // Fetch user interactions dari backend dan mapping ke tipe frontend
+        const interactionsRes = await axios.get(`/user-interactions?user_id=${currentUser._id}`);
+        setUserInteractions(
+          (interactionsRes.data || []).map((item: any) => ({
+            type: item.interaction_type,
+            bookId: item.book_id,
+            // tambahkan field lain jika perlu
+          }))
+        );
+
       } catch (err: any) {
         console.error('Error fetching dashboard data:', err);
         setError(err.message || 'Failed to load dashboard data');
@@ -186,7 +211,7 @@ const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Reading Progress */}
         <div className="lg:col-span-1">
-          <ReadingProgress />
+          <ReadingProgress userInteractions={userInteractions} getBookById={getBookById} />
         </div>
 
         {/* Charts */}
@@ -199,7 +224,7 @@ const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Genre Distribution */}
         <div>
-          <GenresPieChart />
+          <GenresPieChart borrowings={borrowings} userInteractions={userInteractions} getBookById={getBookById} />
         </div>
 
         {/* Borrowing History */}
