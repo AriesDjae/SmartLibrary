@@ -48,11 +48,21 @@ interface DashboardStatsResponse {
   message?: string;
 }
 
-// Tambahkan kembali tipe interaksi user
+// Ubah tipe UserInteraction agar sesuai response API
 interface UserInteraction {
-  type: string; // bisa 'borrow' | 'read' | 'save' | 'search', dsb
-  bookId: string;
-  // Bisa tambahkan timestamp, dsb
+  _id: string;
+  type: string;
+  book_id: string;
+  progress: number;
+  book_detail: {
+    _id: string;
+    title: string;
+    author: string;
+    coverImage: string;
+    pageCount: number;
+    // ...field lain jika perlu
+  };
+  // ...field lain jika perlu
 }
 
 const DashboardPage: React.FC = () => {
@@ -71,54 +81,76 @@ const DashboardPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [allGenres, setAllGenres] = useState<string[]>([]);
   const [userInteractions, setUserInteractions] = useState<UserInteraction[]>([]);
+  const [weeklyStats, setWeeklyStats] = useState([]);
+  const [loadingWeeklyStats, setLoadingWeeklyStats] = useState(false);
+  const [loadingStats, setLoadingStats] = useState(true);
+  const [loadingBorrowings, setLoadingBorrowings] = useState(true);
+  const [loadingGenres, setLoadingGenres] = useState(true);
+  const [loadingInteractions, setLoadingInteractions] = useState(true);
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      if (!currentUser) return;
-
-      try {
-        setLoading(true);
-        setError(null);
-
-        // Fetch user's dashboard statistics
-        const statsResponse = await borrowingAPI.getMyDashboardStats() as unknown as DashboardStatsResponse;
-        
-        if (statsResponse.success) {
-          setStats(statsResponse.data);
-        }
-
-        // Fetch user's borrowing history with book details
-        const borrowingsResponse = await borrowingAPI.getMyBorrowings() as unknown as BorrowingResponse;
-        
-        if (borrowingsResponse.success) {
-          const borrowingsData = borrowingsResponse.data || [];
-          setBorrowings(borrowingsData);
-        }
-
-        // Fetch all genres
-        const genresRes = await axios.get('/genres');
+    if (!currentUser) {
+      setLoading(false); // Pastikan loading false jika user belum login
+      return;
+    }
+    setLoading(true);
+    const minLoading = new Promise(resolve => setTimeout(resolve, 1000)); //loading minimal 1 detik
+    // setLoadingStats(true);
+    // setLoadingBorrowings(true);
+    // setLoadingGenres(true);
+    // setLoadingInteractions(true);
+    // setLoadingWeeklyStats(true);
+    // Only fetch current week/month data, no weekOffset
+    Promise.all([
+      borrowingAPI.getMyDashboardStats(),
+      borrowingAPI.getMyBorrowings(),
+      axios.get('/genres'),
+      axios.get(`/user-interactions?user_id=${currentUser._id}`),
+      axios.get(`/user-interactions/weekly-stats?user_id=${currentUser._id}`)
+    ])
+      .then(([statsRes, borrowingsRes, genresRes, interactionsRes, weeklyRes]) => {
+        setStats(statsRes.data);
+        setLoadingStats(false);
+        setBorrowings(borrowingsRes.data || []);
+        // setLoadingBorrowings(false);
         setAllGenres((genresRes.data.data || []).map((g: any) => g.genres_name));
-
-        // Fetch user interactions dari backend dan mapping ke tipe frontend
-        const interactionsRes = await axios.get(`/user-interactions?user_id=${currentUser._id}`);
-        setUserInteractions(
-          (interactionsRes.data || []).map((item: any) => ({
-            type: item.interaction_type,
-            bookId: item.book_id,
-            // tambahkan field lain jika perlu
-          }))
-        );
-
-      } catch (err: any) {
-        console.error('Error fetching dashboard data:', err);
+        // setLoadingGenres(false);
+        setUserInteractions(interactionsRes.data || []);
+        // setLoadingInteractions(false);
+        setWeeklyStats(weeklyRes.data || []);
+        // setLoadingWeeklyStats(false);
+        // setLoading(false); // Pastikan loading false setelah data diambil
+        return minLoading;
+      })
+      .then(() => setLoading(false))
+      .catch(err => {
         setError(err.message || 'Failed to load dashboard data');
-      } finally {
-        setLoading(false);
-      }
-    };
+        // setLoadingStats(false);
+        // setLoadingBorrowings(false);
+        // setLoadingGenres(false);
+        // setLoadingInteractions(false);
+        // setLoadingWeeklyStats(false);
+        setLoading(false); // Pastikan loading false jika error
+      });
+  }, [currentUser]);
 
-    fetchDashboardData();
-  }, [currentUser, getBookById]);
+  // Remove the separate useEffect for weekly stats and getWeekStartDate function
+  // Weekly stats are now fetched in the main useEffect above
+
+  if (!currentUser) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center shadow-md">
+            <svg className="mx-auto mb-4 h-12 w-12 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" /></svg>
+            <h2 className="text-xl font-bold mb-2 text-yellow-800">Akses Dashboard Ditolak</h2>
+            <p className="text-yellow-700 mb-4">Anda harus login terlebih dahulu untuk mengakses dashboard.</p>
+            <a href="/signin" className="btn-primary inline-block">Login Sekarang</a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -167,24 +199,26 @@ const DashboardPage: React.FC = () => {
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        <StatisticsCard
-          title="Books Borrowed"
-          value={stats.totalBorrowed}
-          icon={Book}
-          color="bg-primary-600"
-          change={{ value: stats.activeBorrowings, isPositive: true }}
-        />
+        <Link to="/borrow" style={{ textDecoration: 'none' }}>
+          <StatisticsCard
+            title="Books Borrowed"
+            value={stats.totalBorrowed}
+            icon={Book}
+            color="bg-primary-600"
+            change={{ value: stats.activeBorrowings, isPositive: true }}
+          />
+        </Link>
         <StatisticsCard
           title="Active Borrowings"
           value={stats.activeBorrowings}
-          icon={Clock}
+          icon={BookOpen}
           color="bg-accent-600"
           change={{ value: stats.overdueBooks, isPositive: false }}
         />
         <StatisticsCard
-          title="Reading Time"
+          title="Average Reading Time"
           value={`${stats.averageReadingTime} hours`}
-          icon={BookOpen}
+          icon={Clock}
           color="bg-highlight-500"
           change={{ value: stats.totalPagesRead, isPositive: true }}
         />
@@ -211,12 +245,12 @@ const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Reading Progress */}
         <div className="lg:col-span-1">
-          <ReadingProgress userInteractions={userInteractions} getBookById={getBookById} />
+          <ReadingProgress userInteractions={userInteractions} />
         </div>
 
         {/* Charts */}
         <div className="lg:col-span-2">
-          <ReadingChart />
+          <ReadingChart weeklyStats={weeklyStats} loadingWeeklyStats={loadingWeeklyStats} />
         </div>
       </div>
 
@@ -224,7 +258,11 @@ const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Genre Distribution */}
         <div>
-          <GenresPieChart borrowings={borrowings} userInteractions={userInteractions} getBookById={getBookById} />
+          <GenresPieChart 
+            borrowings={borrowings} 
+            userInteractions={userInteractions.map(item => ({ type: item.type, bookId: item.book_id }))} 
+            getBookById={getBookById} 
+          />
         </div>
 
         {/* Borrowing History */}

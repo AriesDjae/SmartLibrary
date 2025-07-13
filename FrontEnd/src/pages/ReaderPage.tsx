@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useBooks } from '../contexts/BookContext';
+import { useAuth } from '../contexts/AuthContext';
+import axiosInstance from '../services/axios';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -19,6 +21,7 @@ import toast from 'react-hot-toast';
 const ReaderPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { getBookById } = useBooks();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
   const book = getBookById(id || '');
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,12 +32,97 @@ const ReaderPage: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'sepia' | 'dark'>('light');
   const [showControls, setShowControls] = useState(true);
   
+  // Debouncing dan throttling untuk mencegah terlalu banyak request
+  const progressTimeoutRef = useRef<number | null>(null);
+  const lastSentProgress = useRef<number>(0);
+  const lastRequestTime = useRef<number>(0);
+  
   // Simulate book content loading
   useEffect(() => {
     if (book) {
       setTotalPages(book.pageCount);
     }
   }, [book]);
+
+  // Fungsi untuk update progress ke backend dengan debouncing dan throttling
+  const sendProgress = useCallback(async (page: number) => {
+    if (!currentUser?._id || !id) return;
+    
+    // Jangan kirim jika progress sama dengan yang terakhir dikirim
+    if (page === lastSentProgress.current) return;
+    
+    // Throttling: minimal 1 detik antara request
+    const now = Date.now();
+    if (now - lastRequestTime.current < 1000) {
+      return;
+    }
+    
+    // Clear timeout sebelumnya jika ada
+    if (progressTimeoutRef.current) {
+      clearTimeout(progressTimeoutRef.current);
+    }
+    
+    // Set timeout baru - kirim progress setelah 2 detik tidak ada perubahan
+    progressTimeoutRef.current = setTimeout(async () => {
+      try {
+        const progress = page / totalPages; // misal: 0.55 untuk 55%
+        await axiosInstance.post("/user-interactions", {
+          user_id: currentUser._id,
+          book_id: id,
+          interaction_type: "read",
+          progress, // <-- progress dikirim ke backend
+          timestamp: new Date().toISOString(),
+          interaction_details: `Read page ${page} of ${totalPages}`
+        });
+        
+        // Update last sent progress dan waktu request
+        lastSentProgress.current = page;
+        lastRequestTime.current = Date.now();
+        console.log(`Progress sent: ${Math.round(progress * 100)}% (page ${page}/${totalPages})`);
+      } catch (error) {
+        console.error('Error sending progress:', error);
+        // Tidak perlu show toast error karena ini background process
+      }
+    }, 2000); // Delay 2 detik
+  }, [currentUser?._id, id, totalPages]);
+
+  // Kirim progress saat pertama kali masuk ke reader (halaman 1)
+  useEffect(() => {
+    if (
+      book &&
+      currentUser?._id &&
+      id &&
+      totalPages > 1 // pastikan totalPages sudah benar
+    ) {
+      const sendInitialProgress = async () => {
+        try {
+          const progress = 1 / totalPages;
+          await axiosInstance.post("/user-interactions", {
+            user_id: currentUser._id,
+            book_id: id,
+            interaction_type: "read",
+            progress,
+            timestamp: new Date().toISOString(),
+            interaction_details: `Started reading - page 1 of ${totalPages}`,
+          });
+          lastSentProgress.current = 1;
+          console.log(`Initial progress sent: ${Math.round(progress * 100)}%`);
+        } catch (error) {
+          console.error("Error sending initial progress:", error);
+        }
+      };
+      sendInitialProgress();
+    }
+  }, [book, currentUser, id, totalPages]);
+  
+  // Cleanup timeout saat component unmount
+  useEffect(() => {
+    return () => {
+      if (progressTimeoutRef.current) {
+        clearTimeout(progressTimeoutRef.current);
+      }
+    };
+  }, []);
   
   if (!book) {
     return (
@@ -54,13 +142,17 @@ const ReaderPage: React.FC = () => {
   
   const nextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      sendProgress(newPage); // Kirim progress ke backend
     }
   };
   
   const prevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      sendProgress(newPage); // Kirim progress ke backend
     }
   };
   

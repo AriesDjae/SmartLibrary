@@ -54,6 +54,9 @@ export const booksAPI = {
   create: (bookData: any) => api.post('/books', bookData),
   update: (id: string, bookData: any) => api.put(`/books/${id}`, bookData),
   delete: (id: string) => api.delete(`/books/${id}`),
+  getStats: () => api.get('/books/stats/summary'),
+  getAdminDashboardStats: () => api.get('/books/admin/dashboard-stats'),
+  getTotalCount: () => api.get('/books/count'),
 };
 
 // User API
@@ -63,6 +66,8 @@ export const userAPI = {
   getBorrowedBooks: () => api.get('/borrowings/my/borrowings'),
   borrowBook: (bookId: string) => api.post('/borrowings', { books_id: bookId }),
   returnBook: (borrowingId: string) => api.patch(`/borrowings/${borrowingId}/return`),
+  getTotalNonAdmin: () => api.get('/users/count-nonadmin'),
+  getAvgReadingTime: () => api.get('/users/avg-reading-time'),
 };
 
 // Borrowing API
@@ -73,6 +78,10 @@ export const borrowingAPI = {
   returnBook: (borrowingId: string) => api.patch(`/borrowings/${borrowingId}/return`),
   getBorrowingStats: () => api.get('/borrowings/stats/overview'),
   getOverdueBorrowings: () => api.get('/borrowings/overdue/list'),
+  getActiveCount: () => api.get('/borrowings/active-count'),
+  getOverdueCount: () => api.get('/borrowings/overdue-count'),
+  getMonthlyCount: () => api.get('/borrowings/monthly-count'),
+  getRecentActivities: () => api.get('/borrowings/recent'),
 };
 
 //aulira

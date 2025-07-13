@@ -1,17 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, AlertTriangle, CheckCircle, RotateCcw, Search, Filter } from 'lucide-react';
-import { Loan } from '../../types';
 import { TableSkeleton } from './LoadingStates';
+import { Loan } from '../../types';
 
-interface BookLoansProps {
-  loans: Loan[];
-  loading: boolean;
-  onUpdateStatus: (loanId: string, status: Loan['status']) => void;
-}
-
-export const BookLoans: React.FC<BookLoansProps> = ({ loans, loading, onUpdateStatus }) => {
+export const BookLoans: React.FC = () => {
+  const [loans, setLoans] = useState<Loan[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
+
+  useEffect(() => {
+    const fetchLoans = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch('/api/borrowings/with-details');
+        const data = await res.json();
+        const mapped = (data.data || []).map((item: any) => ({
+          id: item._id,
+          bookTitle: item.book?.title || '',
+          userName: item.user?.username || item.user?.full_name || '',
+          userAvatar: item.user?.profile_picture || '',
+          borrowDate: item.borrow_date,
+          dueDate: item.due_date,
+          returnDate: item.return_date,
+          status: item.is_borrow === false ? 'returned' : (item.due_date && new Date(item.due_date) < new Date() && item.is_borrow) ? 'overdue' : 'active',
+        }));
+        setLoans(mapped);
+      } catch (err) {
+        setLoans([]);
+      }
+      setLoading(false);
+    };
+    fetchLoans();
+  }, []);
+
+  const onUpdateStatus = async (loanId: string, status: Loan['status']) => {
+    // Implementasi update status ke backend jika perlu
+    // Setelah update, refetch data
+  };
 
   const filteredLoans = loans.filter(loan => {
     const matchesSearch = loan.bookTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||

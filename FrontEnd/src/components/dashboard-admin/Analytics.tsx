@@ -64,7 +64,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({ stats, loading }) => {
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Reading Trends</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={stats.readingTrends}>
+            <LineChart data={stats.readingTrends || []}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
               <XAxis dataKey="month" stroke="#6B7280" />
               <YAxis stroke="#6B7280" />
@@ -102,7 +102,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({ stats, loading }) => {
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={stats.popularCategories}
+                data={stats.popularCategories || []}
                 cx="50%"
                 cy="50%"
                 outerRadius={100}
@@ -110,7 +110,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({ stats, loading }) => {
                 dataKey="count"
                 label={({ name, percentage }) => `${name} ${percentage}%`}
               >
-                {stats.popularCategories.map((entry, index) => (
+                {(stats.popularCategories || []).map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
@@ -130,7 +130,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({ stats, loading }) => {
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">User Engagement</h3>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={stats.userEngagement}>
+            <BarChart data={stats.userEngagement || []}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
               <XAxis dataKey="level" stroke="#6B7280" />
               <YAxis stroke="#6B7280" />

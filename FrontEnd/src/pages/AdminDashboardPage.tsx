@@ -8,12 +8,10 @@ import { EnhancedAuthForm } from '../components/dashboard-admin/EnhancedAuthForm
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../hooks/useTheme';
 import { useNavigate } from 'react-router-dom';
-// import { AdminProfilePage } from '../pages/AdminDashboardProfile';
 
 const getRoleFromRoleId = (role_id?: string) => {
   if (!role_id) return 'member';
-  // if (role_id === '1') return 'admin';
-  if (role_id === '2') return 'admin';
+  if (role_id === 'r2') return 'admin';
   return 'member';
 };
 
@@ -31,8 +29,10 @@ const AdminDashboardPage: React.FC = () => {
       navigate('/admin', { replace: true });
     }
   }, [currentUser, navigate]);
-  if (currentUser && getRoleFromRoleId(currentUser.role_id) === 'admin') {
-    return null; // Jangan render apapun, tunggu redirect
+  
+  // Show loading or redirect if user is not admin
+  if (currentUser && getRoleFromRoleId(currentUser.role_id) !== 'admin') {
+    return null; // Don't render anything, wait for redirect
   }
 
   if (!currentUser) {
