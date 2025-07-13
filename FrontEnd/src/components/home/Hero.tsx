@@ -36,7 +36,7 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center justify-center mb-4"
           >
-            <img src="/public/favicon.svg" alt="Smart Library" className="w-16 h-16 mb-2 drop-shadow-lg" />
+            {/* <img src="/public/favicon.svg" alt="Smart Library" className="w-16 h-16 mb-2 drop-shadow-lg" /> */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2">Discover a World of Knowledge</h1>
             <p className="text-lg md:text-xl mb-2 text-blue-100 font-medium">Perpustakaan digital dengan AI rekomendasi, koleksi lengkap, dan statistik bacaan personal.</p>
             <span className="text-base text-blue-200 mb-4">Belajar, membaca, dan berkembang—kapan saja, di mana saja.</span>
@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
             </form>
           </motion.div>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons
           <motion.div
             className="flex flex-wrap justify-center gap-4 mb-4"
             initial={{ opacity: 0, y: 20 }}
@@ -86,7 +86,7 @@ const Hero: React.FC = () => {
             >
               Jelajahi Koleksi
             </a>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
 
