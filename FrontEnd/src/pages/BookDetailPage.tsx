@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useBooks } from "../contexts/BookContext";
 import { useAuth } from "../contexts/AuthContext";
 import { useBorrow } from "../contexts/BorrowContext";
+
 import {
   Calendar,
   Star,
@@ -23,6 +24,7 @@ import axios from "axios";
 
 // Import API service
 import { booksAPI } from "../services/api";
+import axiosInstance from "../services/axios";
 
 interface Review {
   id: string;
@@ -41,10 +43,24 @@ const BookDetailPage: React.FC = () => {
   const { isAuthenticated, currentUser } = useAuth();
   const { addBorrowedBook, fetchBorrowedBooks } = useBorrow();
   
+  const [showCollectionModal, setShowCollectionModal] = useState(false);
+  
   // State untuk data dari database
   const [book, setBook] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+
+  const handleBookmark = () => {
+    // ... logic bookmark ...
+    axiosInstance.post("/user-interactions", {
+      user_id: currentUser?._id,
+      book_id: book.id,
+      interaction_type: "bookmark",
+      timestamp: new Date().toISOString(),
+      interaction_details: "Bookmarked this book"
+    });
+  };
   
   // State untuk review dan UI
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -73,6 +89,8 @@ const BookDetailPage: React.FC = () => {
   
   const navigate = useNavigate();
 
+
+
   // Fetch book data from database
   useEffect(() => {
     if (!id) return;
@@ -89,6 +107,27 @@ const BookDetailPage: React.FC = () => {
         setLoading(false);
       });
   }, [id]);
+
+  // Kirim interaksi "view" ke backend saat user membuka halaman detail buku
+  useEffect(() => {
+    if (!id || !currentUser?._id) return;
+    // Data interaksi yang akan dikirim
+    const interactionData = {
+      user_id: currentUser?._id, // pastikan sesuai field backend
+      book_id: id,
+      interaction_type: "view",
+      timestamp: new Date().toISOString(),
+      interaction_details: "Viewed book detail page"
+    };
+    // Kirim POST ke backend
+    axiosInstance.post("/user-interactions", interactionData)
+      .then(() => {
+        console.log("Interaksi view berhasil dikirim");
+      })
+      .catch((err) => {
+        console.error("Gagal mengirim interaksi view:", err);
+      });
+  }, [id, currentUser?._id]);
 
   // Loading state
   if (loading) {
@@ -144,12 +183,12 @@ const BookDetailPage: React.FC = () => {
   const handleAddReview = (review: { rating: number; comment: string }) => {
     const newReview: Review = {
       id: Date.now().toString(),
-      userId: currentUser?.id || "",
-      userName: currentUser?.name || "Anonymous",
+      userId: currentUser?._id || "",
+      userName: currentUser?.full_name || "Anonymous",
       userInitials:
-        currentUser?.name
+        currentUser?.full_name
           ?.split(" ")
-          .map((n) => n[0])
+          .map((n: string) => n[0])
           .join("") || "AN",
       rating: review.rating,
       comment: review.comment,
@@ -160,36 +199,107 @@ const BookDetailPage: React.FC = () => {
   };
 
   const handleBorrow = async () => {
-    // Buat tanggal pinjam dan jatuh tempo (misal 14 hari)
+    if (!currentUser?._id) {
+      alert("Silakan login terlebih dahulu");
+      return;
+    }
+
+    // Buat tanggal pinjam dan jatuh tempo (7 hari)
     const today = new Date();
     const due = new Date();
     due.setDate(today.getDate() + 14);
 
     // Data yang akan dikirim ke backend
     const borrowData = {
-      userId: currentUser?.id || "guest",
-      bookId: book.id,
-      title: book.title,
-      author: book.author,
-      borrowedDate: today.toISOString().slice(0, 10),
-      dueDate: due.toISOString().slice(0, 10),
-      status: "Dipinjam",
-      cover: book.coverImage,
-      category: book.genres?.[0] || "Lainnya",
-      description: book.description,
+      user_id: currentUser._id,
+      books_id: book.id,
+      borrow_date: today.toISOString(),
+      due_date: due.toISOString(),
+      is_borrow: true
     };
 
     try {
       // Kirim ke backend
-      await axios.post("/api/peminjaman", borrowData);
+      const response = await fetch("/api/borrowings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(borrowData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Gagal meminjam buku");
+      }
+
       // Fetch ulang data pinjaman dari backend agar list selalu update
       await fetchBorrowedBooks();
       // Redirect ke halaman peminjaman
       navigate("/borrow");
     } catch (err) {
-      alert("Gagal meminjam buku. Silakan coba lagi.");
+      console.error("Error borrowing book:", err);
+      const errorMessage = err instanceof Error ? err.message : "Gagal meminjam buku. Silakan coba lagi.";
+      alert(errorMessage);
     }
   };
+
+  // Handler untuk klik tombol "Read Now"
+  const handleClickRead = () => {
+    if (!currentUser?._id || !book?.id) return;
+    axiosInstance.post("/user-interactions", {
+      user_id: currentUser?._id,
+      book_id: book.id,
+      interaction_type: "click",
+      timestamp: new Date().toISOString(),
+      interaction_details: "Clicked 'Read Now' button"
+    }).then(() => {
+      console.log("Interaksi click (Read Now) berhasil dikirim");
+    }).catch((err) => {
+      console.error("Gagal mengirim interaksi click (Read Now):", err);
+    });
+  };
+
+  // Handler untuk klik tombol "Borrow"
+  const handleBorrowWithInteraction = async () => {
+    await handleBorrow(); // logic pinjam buku lama
+    if (!currentUser?._id || !book?.id) return;
+    axiosInstance.post("/user-interactions", {
+      user_id: currentUser?._id,
+      book_id: book.id,
+      interaction_type: "borrow",
+      timestamp: new Date().toISOString(),
+      interaction_details: "Clicked 'Borrow' button"
+    }).then(() => {
+      console.log("Interaksi borrow berhasil dikirim");
+    }).catch((err) => {
+      console.error("Gagal mengirim interaksi borrow:", err);
+    });
+  };
+
+  // Handler untuk klik tombol "Bookmark"
+  const handleBookmarkWithInteraction = () => {
+    console.log("Tombol bookmark diklik");
+    handleBookmark(); // logic bookmark lama
+    if (!currentUser?._id || !book?.id) {
+      console.log("User atau book tidak ada", { user: currentUser?._id, book: book?.id });
+      return;
+    }
+    console.log("Mengirim request axios...");
+    axiosInstance.post("/user-interactions", {
+      user_id: currentUser?._id,
+      book_id: book.id,
+      interaction_type: "bookmark",
+      timestamp: new Date().toISOString(),
+      interaction_details: "Clicked 'Bookmark' button"
+    }).then(() => {
+      console.log("Interaksi bookmark berhasil dikirim");
+    }).catch((err) => {
+      console.error("Gagal mengirim interaksi bookmark:", err);
+    });
+  };
+
 
   // Get related books based on primary genre
   const primaryGenre = book.genres?.[0];
@@ -290,11 +400,12 @@ const BookDetailPage: React.FC = () => {
                             <Link
                               to={`/reader/${book.id}`}
                               className="btn-primary"
+                              onClick={handleClickRead}
                             >
                               Read Now
                             </Link>
                             <button
-                              onClick={handleBorrow}
+                              onClick={handleBorrowWithInteraction}
                               className="btn bg-blue-500 hover:bg-blue-600 text-white"
                             >
                               <BookCheck className="h-5 w-5 mr-2" />
@@ -316,10 +427,13 @@ const BookDetailPage: React.FC = () => {
                       )}
 
                       {isAuthenticated && (
-                        <button className="btn bg-white/10 hover:bg-white/20 text-white">
-                          <Bookmark className="h-5 w-5 mr-2" />
-                          Read Later
-                        </button>
+                        <>
+                          <button onClick={handleBookmarkWithInteraction}
+                                  className="btn bg-white/10 hover:bg-white/20 text-white" >
+                            <Bookmark className="h-5 w-5 mr-2" />
+                            Read Later
+                          </button>
+                        </>
                       )}
 
                       <button className="btn bg-white/10 hover:bg-white/20 text-white">

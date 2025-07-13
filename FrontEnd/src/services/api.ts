@@ -60,9 +60,19 @@ export const booksAPI = {
 export const userAPI = {
   getProfile: () => api.get('/users/profile'),
   updateProfile: (userData: UserUpdateData) => api.put('/users/profile', userData),
-  getBorrowedBooks: () => api.get('/users/borrowed-books'),
-  borrowBook: (bookId: string) => api.post(`/users/borrow/${bookId}`),
-  returnBook: (bookId: string) => api.post(`/users/return/${bookId}`),
+  getBorrowedBooks: () => api.get('/borrowings/my/borrowings'),
+  borrowBook: (bookId: string) => api.post('/borrowings', { books_id: bookId }),
+  returnBook: (borrowingId: string) => api.patch(`/borrowings/${borrowingId}/return`),
+};
+
+// Borrowing API
+export const borrowingAPI = {
+  getMyBorrowings: () => api.get('/borrowings/my/borrowings'),
+  getMyDashboardStats: () => api.get('/borrowings/my/dashboard-stats'),
+  createBorrowing: (borrowingData: any) => api.post('/borrowings', borrowingData),
+  returnBook: (borrowingId: string) => api.patch(`/borrowings/${borrowingId}/return`),
+  getBorrowingStats: () => api.get('/borrowings/stats/overview'),
+  getOverdueBorrowings: () => api.get('/borrowings/overdue/list'),
 };
 
 //aulira
