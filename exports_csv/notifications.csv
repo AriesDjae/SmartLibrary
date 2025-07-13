@@ -1,0 +1,9 @@
+_id,user_id,message,type,timestamp,is_read,related_entity_id
+6857bbc2fdb7f7924c390c91,68554d25c4e15be62deeac01,Buku 'Sapiens: A Brief History of Humankind' berhasil dipinjam. Selamat membaca!,peminjaman,2025-06-22 08:16:02.404,False,book-15
+6857bbc2fdb7f7924c390c92,68554d25c4e15be62deeac01,Jangan lupa! Pengembalian buku 'Atomic Habits' tinggal 2 hari lagi.,pengembalian,2025-06-22 08:16:02.404,False,book-2
+6857bbc2fdb7f7924c390c93,68554d25c4e15be62deeac01,Kamu mendapatkan denda Rp5.000 karena terlambat mengembalikan buku 'Dilan 1990'.,denda,2025-06-22 08:16:02.404,False,book-16
+6857bbc2fdb7f7924c390c94,68554d25c4e15be62deeac01,Rekomendasi hari ini: 'Filosofi Teras' cocok buat kamu yang suka berpikir mendalam.,rekomendasi,2025-06-22 08:16:02.404,False,book-13
+6857bcabfdb7f7924c390c95,68554c0ec4e15be62deeabfe,"Permintaan peminjaman buku 'Thinking, Fast and Slow' telah diproses.",peminjaman,2025-06-22 08:19:55.326,False,book-20
+6857bcabfdb7f7924c390c96,68554c0ec4e15be62deeabfe,Pengembalian buku 'Rich Dad Poor Dad' telah berhasil dilakukan.,pengembalian,2025-06-22 08:19:55.326,False,book-19
+6857bcabfdb7f7924c390c97,68554c0ec4e15be62deeabfe,Denda sebesar Rp5.000 telah dikenakan untuk keterlambatan pengembalian buku 'Filosofi Teras'.,denda,2025-06-22 08:19:55.326,False,book-13
+6857bcabfdb7f7924c390c98,68554c0ec4e15be62deeabfe,Ada 2 buku yang terlambat dikembalikan oleh mahasiswa. Harap ditindaklanjuti.,pengingat,2025-06-22 08:19:55.326,False,

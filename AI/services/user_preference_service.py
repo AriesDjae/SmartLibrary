@@ -28,8 +28,9 @@ class UserPreferenceService:
         self.client = MongoClient(mongodb_uri)
         self.db = self.client['smartlibrary']
         self.books_collection = self.db['books']
-        self.user_preferences_collection = self.db['user_preferences']
-        self.reviews_collection = self.db['reviews']
+        self.ratings_collection = self.db['ratings']
+        self.reading_history_collection = self.db['reading_history']
+        self.user_interactions_collection = self.db['user_interactions']
     
     def _setup_ml_components(self):
         """Setup komponen machine learning"""
@@ -46,13 +47,17 @@ class UserPreferenceService:
             books_data = list(self.books_collection.find())
             self.books_df = pd.DataFrame(books_data)
             
-            # Load preferensi user
-            preferences_data = list(self.user_preferences_collection.find())
-            self.preferences_df = pd.DataFrame(preferences_data)
+            # Load ratings
+            ratings_data = list(self.ratings_collection.find())
+            self.ratings_df = pd.DataFrame(ratings_data)
             
-            # Load ulasan
-            reviews_data = list(self.reviews_collection.find())
-            self.reviews_df = pd.DataFrame(reviews_data)
+            # Load reading history
+            reading_history_data = list(self.reading_history_collection.find())
+            self.reading_history_df = pd.DataFrame(reading_history_data)
+            
+            # Load user interactions
+            user_interactions_data = list(self.user_interactions_collection.find())
+            self.user_interactions_df = pd.DataFrame(user_interactions_data)
             
             if not self.books_df.empty:
                 self._prepare_content_data()
@@ -62,8 +67,9 @@ class UserPreferenceService:
         except Exception as e:
             print(f"Error loading data: {str(e)}")
             self.books_df = pd.DataFrame()
-            self.preferences_df = pd.DataFrame()
-            self.reviews_df = pd.DataFrame()
+            self.ratings_df = pd.DataFrame()
+            self.reading_history_df = pd.DataFrame()
+            self.user_interactions_df = pd.DataFrame()
     
     def _prepare_content_data(self):
         """Mempersiapkan data untuk content-based filtering"""
@@ -81,24 +87,27 @@ class UserPreferenceService:
     def _get_user_history(self, user_id: str) -> pd.DataFrame:
         """Mendapatkan riwayat membaca user"""
         try:
-            # Cari dari user_preferences collection
-            user_preferences = self.preferences_df[self.preferences_df['user_id'] == user_id]
-            
-            # Jika tidak ada di preferences, cari dari reviews
-            if user_preferences.empty:
-                user_reviews = self.reviews_df[self.reviews_df['user_id'] == user_id]
-                if not user_reviews.empty:
-                    # Gabungkan dengan data buku
-                    user_history = user_reviews.merge(
-                        self.books_df[['_id', 'title', 'author', 'genre', 'description']],
-                        left_on='book_id',
-                        right_on='_id',
-                        how='left'
-                    )
-                    return user_history
-            
-            return user_preferences
-            
+            # Cari dari ratings (sebagai riwayat utama)
+            user_ratings = self.ratings_df[self.ratings_df['user_id'] == user_id]
+            if not user_ratings.empty:
+                user_history = user_ratings.merge(
+                    self.books_df[['_id', 'title', 'author', 'genre', 'description']],
+                    left_on='book_id',
+                    right_on='_id',
+                    how='left'
+                )
+                return user_history
+            # Jika tidak ada di ratings, cari dari reading_history
+            user_reading = self.reading_history_df[self.reading_history_df['user_id'] == user_id]
+            if not user_reading.empty:
+                user_history = user_reading.merge(
+                    self.books_df[['_id', 'title', 'author', 'genre', 'description']],
+                    left_on='book_id',
+                    right_on='_id',
+                    how='left'
+                )
+                return user_history
+            return pd.DataFrame()
         except Exception as e:
             print(f"Error mendapatkan riwayat user: {str(e)}")
             return pd.DataFrame()
@@ -279,7 +288,7 @@ class UserPreferenceService:
                 'timestamp': pd.Timestamp.now()
             }
             
-            self.user_preferences_collection.insert_one(preference_data)
+            self.ratings_collection.insert_one(preference_data)
             
             # Refresh data
             self._load_data()

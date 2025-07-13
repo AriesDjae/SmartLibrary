@@ -1,0 +1,24 @@
+2025-07-07 08:23:42,597 - AI_Services - ERROR - Error in DatabaseReader: Main function error: MONGODB_URI tidak ditemukan di environment variables
+2025-07-07 08:25:17,917 - AI_Services - ERROR - Error in DatabaseReader: Main function error: MONGODB_URI tidak ditemukan di environment variables
+2025-07-07 08:25:29,390 - AI_Services - ERROR - Error in DatabaseReader: Main function error: MONGODB_URI tidak ditemukan di environment variables
+2025-07-07 08:26:02,689 - AI_Services - INFO - Database connected successfully to smartlibrary
+2025-07-07 08:26:02,689 - AI_Services - INFO - DatabaseReader initialized
+2025-07-07 08:26:02,990 - AI_Services - INFO - Retrieved database info for smartlibrary
+2025-07-07 08:26:03,010 - AI_Services - INFO - Counted 0 documents in books
+2025-07-07 08:26:03,025 - AI_Services - INFO - Aggregated 0 documents from books
+2025-07-07 08:26:03,040 - AI_Services - INFO - Aggregated 0 documents from books
+2025-07-07 08:26:03,056 - AI_Services - INFO - Aggregated 0 documents from reviews
+2025-07-07 08:26:03,056 - AI_Services - INFO - Retrieved book statistics
+2025-07-07 08:26:03,070 - AI_Services - INFO - Found 0 documents from reviews
+2025-07-07 08:26:03,086 - AI_Services - INFO - Found 0 documents from user_preferences
+2025-07-07 08:26:03,097 - AI_Services - INFO - Aggregated 0 documents from reviews
+2025-07-07 08:26:03,097 - AI_Services - INFO - Retrieved user statistics
+2025-07-07 08:26:03,116 - AI_Services - INFO - Found 0 documents from books
+2025-07-07 08:26:03,118 - AI_Services - INFO - Read 0 books from database
+2025-07-07 08:26:03,130 - AI_Services - INFO - Found 0 documents from books
+2025-07-07 08:26:03,140 - AI_Services - INFO - Found 0 documents from books
+2025-07-07 08:26:03,157 - AI_Services - INFO - Found 0 documents from reviews
+2025-07-07 08:26:03,177 - AI_Services - INFO - Found 0 documents from books
+2025-07-07 08:26:03,189 - AI_Services - INFO - Found 0 documents from reviews
+2025-07-07 08:26:03,206 - AI_Services - INFO - Counted 0 documents in reviews
+2025-07-07 08:26:03,206 - AI_Services - INFO - Data integrity validation completed. Issues found: 0

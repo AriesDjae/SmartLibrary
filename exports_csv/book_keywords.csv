@@ -1,0 +1,916 @@
+_id,book_id,keyword,weight
+6857b812fdb7f7924c390c20,book-1,seni hidup,0.95
+6857b812fdb7f7924c390c21,book-1,stoikisme,0.92
+6857b812fdb7f7924c390c22,book-1,tidak peduli omongan orang,0.88
+6857b812fdb7f7924c390c23,book-1,self-help,0.9
+6857b812fdb7f7924c390c24,book-1,mental health,0.87
+6857b812fdb7f7924c390c25,book-2,habit,0.96
+6857b812fdb7f7924c390c26,book-2,atomic,0.91
+6857b812fdb7f7924c390c27,book-2,perubahan kecil,0.92
+6857b812fdb7f7924c390c28,book-2,produktivitas,0.89
+6857b812fdb7f7924c390c29,book-2,mindset sukses,0.88
+6857b812fdb7f7924c390c2a,book-3,aktivisme mahasiswa,0.94
+6857b812fdb7f7924c390c2b,book-3,orde baru,0.9
+6857b812fdb7f7924c390c2c,book-3,sejarah indonesia,0.95
+6857b812fdb7f7924c390c2d,book-3,laut,0.85
+6857b812fdb7f7924c390c2e,book-3,hilangnya orang,0.86
+6857b812fdb7f7924c390c2f,book-4,alchemist,0.95
+6857b812fdb7f7924c390c30,book-4,takdir,0.91
+6857b812fdb7f7924c390c31,book-4,spiritualitas,0.89
+6857b812fdb7f7924c390c32,book-4,paulo coelho,0.87
+6857b812fdb7f7924c390c33,book-4,petualangan diri,0.92
+6857b812fdb7f7924c390c34,book-5,pengingat,0.91
+6857b812fdb7f7924c390c35,book-5,kata-kata indah,0.87
+6857b812fdb7f7924c390c36,book-5,gentle reminder,0.94
+6857b812fdb7f7924c390c37,book-5,motivasi hidup,0.89
+6857b812fdb7f7924c390c38,book-6,pendidikan,0.95
+6857b812fdb7f7924c390c39,book-6,self-made,0.91
+6857b812fdb7f7924c390c3a,book-6,biografi,0.88
+6857b812fdb7f7924c390c3b,book-6,belajar mandiri,0.89
+6857b812fdb7f7924c390c3c,book-7,cantik,0.93
+6857b812fdb7f7924c390c3d,book-7,kolonialisme,0.91
+6857b812fdb7f7924c390c3e,book-7,perempuan,0.94
+6857b812fdb7f7924c390c3f,book-7,budaya indonesia,0.89
+6857b812fdb7f7924c390c40,book-8,mata,0.86
+6857b812fdb7f7924c390c41,book-8,humanisme,0.92
+6857b812fdb7f7924c390c42,book-8,pendidikan jepang,0.9
+6857b812fdb7f7924c390c43,book-9,amerika,0.89
+6857b812fdb7f7924c390c44,book-9,depresi besar,0.91
+6857b812fdb7f7924c390c45,book-9,kisah epik,0.93
+6857b812fdb7f7924c390c46,book-10,hidup realistis,0.94
+6857b812fdb7f7924c390c47,book-10,dari nol,0.9
+6857b812fdb7f7924c390c48,book-10,bertahan hidup,0.91
+6857b812fdb7f7924c390c49,book-11,public speaking,0.96
+6857b812fdb7f7924c390c4a,book-11,hubungan sosial,0.89
+6857b812fdb7f7924c390c4b,book-11,pengaruh,0.92
+6857b812fdb7f7924c390c4c,book-12,fiksi indonesia,0.9
+6857b812fdb7f7924c390c4d,book-12,humor,0.88
+6857b812fdb7f7924c390c4e,book-12,tere liye,0.87
+6857b812fdb7f7924c390c4f,book-13,stoikisme,0.98
+6857b812fdb7f7924c390c50,book-13,filosofi teras,0.95
+6857b812fdb7f7924c390c51,book-13,emosi,0.9
+6857b812fdb7f7924c390c52,book-14,perpustakaan misterius,0.94
+6857b812fdb7f7924c390c53,book-14,eksistensialisme,0.91
+6857b812fdb7f7924c390c54,book-14,pilihan hidup,0.93
+6857b812fdb7f7924c390c55,book-15,sejarah manusia,0.97
+6857b812fdb7f7924c390c56,book-15,evolusi,0.91
+6857b812fdb7f7924c390c57,book-15,sains sosial,0.89
+6857b812fdb7f7924c390c58,book-16,dilan,0.94
+6857b812fdb7f7924c390c59,book-16,bandung,0.9
+6857b812fdb7f7924c390c5a,book-16,cinta remaja,0.95
+6857b812fdb7f7924c390c5b,book-17,meaning of life,0.96
+6857b812fdb7f7924c390c5c,book-17,logoterapi,0.93
+6857b812fdb7f7924c390c5d,book-17,holocaust,0.92
+6857b812fdb7f7924c390c5e,book-18,fantasi,0.94
+6857b812fdb7f7924c390c5f,book-18,dunia paralel,0.9
+6857b812fdb7f7924c390c60,book-18,petualangan,0.91
+6857b812fdb7f7924c390c61,book-19,keuangan,0.97
+6857b812fdb7f7924c390c62,book-19,mindset kaya,0.92
+6857b812fdb7f7924c390c63,book-19,pengelolaan uang,0.94
+6857b812fdb7f7924c390c64,book-20,psikologi,0.95
+6857b812fdb7f7924c390c65,book-20,berpikir cepat lambat,0.94
+6857b812fdb7f7924c390c66,book-20,bias kognitif,0.93
+685bd9cba23fd5d108b969b4,book-21,Sherina,0.95
+685bd9cba23fd5d108b969b5,book-21,Sadam,0.95
+685bd9cba23fd5d108b969b6,book-21,petualangan,0.95
+685bd9cba23fd5d108b969b7,book-21,penculikan,0.95
+685bd9cba23fd5d108b969b8,book-21,detektif anak,0.95
+685bd9cba23fd5d108b969b9,book-22,pondok pesantren,0.95
+685bd9cba23fd5d108b969ba,book-22,Alif,0.95
+685bd9cba23fd5d108b969bb,book-22,man jadda wajada,0.95
+685bd9cba23fd5d108b969bc,book-22,motivasi pelajar,0.95
+685bd9cba23fd5d108b969bd,book-22,merantau,0.95
+685bd9cba23fd5d108b969be,book-23,Mount Everest,0.95
+685bd9cba23fd5d108b969bf,book-23,pendakian,0.95
+685bd9cba23fd5d108b969c0,book-23,badai salju,0.95
+685bd9cba23fd5d108b969c1,book-23,survival,0.95
+685bd9cba23fd5d108b969c2,book-23,tragedi alam,0.95
+685bd9cba23fd5d108b969c3,book-24,karibia,0.95
+685bd9cba23fd5d108b969c4,book-24,bajak laut,0.95
+685bd9cba23fd5d108b969c5,book-24,Jack Sparrow,0.95
+685bd9cba23fd5d108b969c6,book-24,petualangan laut,0.95
+685bd9cba23fd5d108b969c7,book-24,komedi aksi,0.95
+685bd9cba23fd5d108b969c8,book-25,Hobbit,0.95
+685bd9cba23fd5d108b969c9,book-25,Frodo,0.95
+685bd9cba23fd5d108b969ca,book-25,Middle Earth,0.95
+685bd9cba23fd5d108b969cb,book-25,cincin kekuasaan,0.95
+685bd9cba23fd5d108b969cc,book-25,perjalanan epik,0.95
+685bd9cba23fd5d108b969cd,book-26,labirin,0.95
+685bd9cba23fd5d108b969ce,book-26,maze runner,0.95
+685bd9cba23fd5d108b969cf,book-26,eksperimen,0.95
+685bd9cba23fd5d108b969d0,book-26,Thomas,0.95
+685bd9cba23fd5d108b969d1,book-26,Glade,0.95
+685bd9cba23fd5d108b969d2,book-27,Narnia,0.95
+685bd9cba23fd5d108b969d3,book-27,Aslan,0.95
+685bd9cba23fd5d108b969d4,book-27,dunia sihir,0.95
+685bd9cba23fd5d108b969d5,book-27,Pevensie bersaudara,0.95
+685bd9cba23fd5d108b969d6,book-27,lemari ajaib,0.95
+685bd9cba23fd5d108b969d7,book-28,perang luar angkasa,0.95
+685bd9cba23fd5d108b969d8,book-28,Luke Skywalker,0.95
+685bd9cba23fd5d108b969d9,book-28,galaksi,0.95
+685bd9cba23fd5d108b969da,book-28,Darth Vader,0.95
+685bd9cba23fd5d108b969db,book-28,Jedi,0.95
+685bd9cba23fd5d108b969dc,book-29,Indiana Jones,0.95
+685bd9cba23fd5d108b969dd,book-29,arkeologi,0.95
+685bd9cba23fd5d108b969de,book-29,rahasia kuno,0.95
+685bd9cba23fd5d108b969df,book-29,bahaya,0.95
+685bd9cba23fd5d108b969e0,book-29,eksplorasi,0.95
+685bd9cba23fd5d108b969e1,book-30,pirates,0.95
+685bd9cba23fd5d108b969e2,book-30,harta karun,0.95
+685bd9cba23fd5d108b969e3,book-30,kapal laut,0.95
+685bd9cba23fd5d108b969e4,book-30,kejar-kejaran,0.95
+685bd9cba23fd5d108b969e5,book-30,pengkhianatan,0.95
+685bd9eba23fd5d108b969e6,book-31,Sherlock Holmes,0.95
+685bd9eba23fd5d108b969e7,book-31,detektif,0.95
+685bd9eba23fd5d108b969e8,book-31,London,0.95
+685bd9eba23fd5d108b969e9,book-31,Watson,0.95
+685bd9eba23fd5d108b969ea,book-31,kasus misteri,0.95
+685bd9eba23fd5d108b969eb,book-32,planet asing,0.95
+685bd9eba23fd5d108b969ec,book-32,makhluk luar angkasa,0.95
+685bd9eba23fd5d108b969ed,book-32,kolonisasi,0.95
+685bd9eba23fd5d108b969ee,book-32,perjuangan hidup,0.95
+685bd9eba23fd5d108b969ef,book-32,sains dan fiksi,0.95
+685bd9eba23fd5d108b969f0,book-33,perjalanan waktu,0.95
+685bd9eba23fd5d108b969f1,book-33,eksperimen ilmiah,0.95
+685bd9eba23fd5d108b969f2,book-33,dimensi alternatif,0.95
+685bd9eba23fd5d108b969f3,book-33,penjelajah waktu,0.95
+685bd9eba23fd5d108b969f4,book-33,teknologi canggih,0.95
+685bd9eba23fd5d108b969f5,book-34,mitologi nordik,0.95
+685bd9eba23fd5d108b969f6,book-34,Thor,0.95
+685bd9eba23fd5d108b969f7,book-34,dewa petir,0.95
+685bd9eba23fd5d108b969f8,book-34,Asgard,0.95
+685bd9eba23fd5d108b969f9,book-34,Loki,0.95
+685bd9eba23fd5d108b969fa,book-35,peta harta karun,0.95
+685bd9eba23fd5d108b969fb,book-35,petualangan remaja,0.95
+685bd9eba23fd5d108b969fc,book-35,gua rahasia,0.95
+685bd9eba23fd5d108b969fd,book-35,kelompok sahabat,0.95
+685bd9eba23fd5d108b969fe,book-35,penyelamatan rumah,0.95
+685bd9eba23fd5d108b969ff,book-36,perang dunia,0.95
+685bd9eba23fd5d108b96a00,book-36,tentara muda,0.95
+685bd9eba23fd5d108b96a01,book-36,pertemanan,0.95
+685bd9eba23fd5d108b96a02,book-36,kamp militer,0.95
+685bd9eba23fd5d108b96a03,book-36,pengkhianatan,0.95
+685bd9eba23fd5d108b96a04,book-37,serigala,0.95
+685bd9eba23fd5d108b96a05,book-37,hutan belantara,0.95
+685bd9eba23fd5d108b96a06,book-37,anak liar,0.95
+685bd9eba23fd5d108b96a07,book-37,tarzan vibes,0.95
+685bd9eba23fd5d108b96a08,book-37,kehidupan liar,0.95
+685bd9eba23fd5d108b96a09,book-38,raja hutan,0.95
+685bd9eba23fd5d108b96a0a,book-38,kisah binatang,0.95
+685bd9eba23fd5d108b96a0b,book-38,petualangan singa,0.95
+685bd9eba23fd5d108b96a0c,book-38,Simba,0.95
+685bd9eba23fd5d108b96a0d,book-38,pengkhianatan keluarga,0.95
+685bd9eba23fd5d108b96a0e,book-39,petualangan anak-anak,0.95
+685bd9eba23fd5d108b96a0f,book-39,persahabatan,0.95
+685bd9eba23fd5d108b96a10,book-39,komedi,0.95
+685bd9eba23fd5d108b96a11,book-39,keluarga,0.95
+685bd9eba23fd5d108b96a12,book-39,liburan sekolah,0.95
+685bd9eba23fd5d108b96a13,book-40,revolusi dunia,0.95
+685bd9eba23fd5d108b96a14,book-40,alien,0.95
+685bd9eba23fd5d108b96a15,book-40,teknologi invasi,0.95
+685bd9eba23fd5d108b96a16,book-40,planet bumi,0.95
+685bd9eba23fd5d108b96a17,book-40,perang global,0.95
+685bdd95c00438143f2d9728,book-41,Gundul Peringis,0.95
+685bdd95c00438143f2d9729,book-41,dusun hantu,0.95
+685bdd95c00438143f2d972a,book-41,anak manusia,0.95
+685bdd95c00438143f2d972b,book-41,petualangan supernatural,0.95
+685bdd95c00438143f2d972c,book-41,komedi horor,0.95
+685bdd95c00438143f2d972d,book-42,Peri Melati,0.95
+685bdd95c00438143f2d972e,book-42,Ratu Lavender,0.95
+685bdd95c00438143f2d972f,book-42,awan hitam,0.95
+685bdd95c00438143f2d9730,book-42,dongeng anak,0.95
+685bdd95c00438143f2d9731,book-42,dunia peri,0.95
+685bdd95c00438143f2d9732,book-43,artefak hilang,0.95
+685bdd95c00438143f2d9733,book-43,petualangan misteri,0.95
+685bdd95c00438143f2d9734,book-43,sahabat Ollie,0.95
+685bdd95c00438143f2d9735,book-43,ruang rahasia,0.95
+685bdd95c00438143f2d9736,book-43,detektif anak,0.95
+685bdd95c00438143f2d9737,book-44,Sherlock Holmes,0.95
+685bdd95c00438143f2d9738,book-44,kasus detektif,0.95
+685bdd95c00438143f2d9739,book-44,London klasik,0.95
+685bdd95c00438143f2d973a,book-44,Watson,0.95
+685bdd95c00438143f2d973b,book-44,petualangan kriminal,0.95
+685bdd95c00438143f2d973c,book-45,boneka kayu,0.95
+685bdd95c00438143f2d973d,book-45,Pinocchio,0.95
+685bdd95c00438143f2d973e,book-45,petualangan anak,0.95
+685bdd95c00438143f2d973f,book-45,dongeng klasik,0.95
+685bdd95c00438143f2d9740,book-45,kejujuran dan pertumbuhan,0.95
+685bdd95c00438143f2d9741,book-46,Santa Claus,0.95
+685bdd95c00438143f2d9742,book-46,asal usul,0.95
+685bdd95c00438143f2d9743,book-46,petualangan dongeng,0.95
+685bdd95c00438143f2d9744,book-46,musim dingin,0.95
+685bdd95c00438143f2d9745,book-46,legenda natal,0.95
+685bdd95c00438143f2d9746,book-47,Cookie Run,0.95
+685bdd95c00438143f2d9747,book-47,museum,0.95
+685bdd95c00438143f2d9748,book-47,ilmu pengetahuan,0.95
+685bdd95c00438143f2d9749,book-47,petualangan edukatif,0.95
+685bdd95c00438143f2d974a,book-47,karakter manis,0.95
+685bdd95c00438143f2d974b,book-48,Puri Rajawali,0.95
+685bdd95c00438143f2d974c,book-48,puri tua,0.95
+685bdd95c00438143f2d974d,book-48,lorong rahasia,0.95
+685bdd95c00438143f2d974e,book-48,petualangan anak,0.95
+685bdd95c00438143f2d974f,book-48,misteri kastil,0.95
+685bdd95c00438143f2d9750,book-49,petualangan edukatif,0.95
+685bdd95c00438143f2d9751,book-49,cerita anak,0.95
+685bdd95c00438143f2d9752,book-49,kisah imajinatif,0.95
+685bdd95c00438143f2d9753,book-49,ilustrasi penuh warna,0.95
+685bdd95c00438143f2d9754,book-49,dongeng modern,0.95
+685bdd95c00438143f2d9755,book-50,fantasi anak,0.95
+685bdd95c00438143f2d9756,book-50,imajinasi liar,0.95
+685bdd95c00438143f2d9757,book-50,Ziggy Zezsyazeoviennazabrizkie,0.95
+685bdd95c00438143f2d9758,book-50,nilai kehidupan,0.95
+685bdd95c00438143f2d9759,book-50,petualangan hari ini,0.95
+685bde19c00438143f2d975a,book-51,Miko,0.95
+685bde19c00438143f2d975b,book-51,komedi kampus,0.95
+685bde19c00438143f2d975c,book-51,kisah cinta lucu,0.95
+685bde19c00438143f2d975d,book-51,anak kuliahan,0.95
+685bde19c00438143f2d975e,book-51,cerita remaja,0.95
+685bde19c00438143f2d975f,book-52,Kukuh,0.95
+685bde19c00438143f2d9760,book-52,pencarian identitas,0.95
+685bde19c00438143f2d9761,book-52,kampung halaman,0.95
+685bde19c00438143f2d9762,book-52,anak muda,0.95
+685bde19c00438143f2d9763,book-52,perjalanan hidup,0.95
+685bde19c00438143f2d9764,book-53,perang dunia,0.95
+685bde19c00438143f2d9765,book-53,pertemanan sulit,0.95
+685bde19c00438143f2d9766,book-53,Barat dan Timur,0.95
+685bde19c00438143f2d9767,book-53,identitas diri,0.95
+685bde19c00438143f2d9768,book-53,konflik politik,0.95
+685bde19c00438143f2d9769,book-54,dunia paralel,0.95
+685bde19c00438143f2d976a,book-54,portal misterius,0.95
+685bde19c00438143f2d976b,book-54,anak muda petualang,0.95
+685bde19c00438143f2d976c,book-54,fantasi modern,0.95
+685bde19c00438143f2d976d,book-54,petualangan lintas dunia,0.95
+685bde19c00438143f2d976e,book-55,bayangan dunia,0.95
+685bde19c00438143f2d976f,book-55,anak gelap,0.95
+685bde19c00438143f2d9770,book-55,kisah ganda,0.95
+685bde19c00438143f2d9771,book-55,fantasi remaja,0.95
+685bde19c00438143f2d9772,book-55,kehidupan misterius,0.95
+685bde19c00438143f2d9773,book-56,kebohongan media,0.95
+685bde19c00438143f2d9774,book-56,manipulasi informasi,0.95
+685bde19c00438143f2d9775,book-56,kekuatan teknologi,0.95
+685bde19c00438143f2d9776,book-56,dunia digital,0.95
+685bde19c00438143f2d9777,book-56,distopia,0.95
+685bde19c00438143f2d9778,book-57,raja iblis,0.95
+685bde19c00438143f2d9779,book-57,pemburu bayaran,0.95
+685bde19c00438143f2d977a,book-57,fantasi gelap,0.95
+685bde19c00438143f2d977b,book-57,reinkarnasi,0.95
+685bde19c00438143f2d977c,book-57,dunia bawah,0.95
+685bde19c00438143f2d977d,book-58,dunia terbalik,0.95
+685bde19c00438143f2d977e,book-58,realitas virtual,0.95
+685bde19c00438143f2d977f,book-58,eksperimen rahasia,0.95
+685bde19c00438143f2d9780,book-58,drama psikologis,0.95
+685bde19c00438143f2d9781,book-58,misteri pikiran,0.95
+685bde19c00438143f2d9782,book-59,astronot,0.95
+685bde19c00438143f2d9783,book-59,planet merah,0.95
+685bde19c00438143f2d9784,book-59,koloni mars,0.95
+685bde19c00438143f2d9785,book-59,sains luar angkasa,0.95
+685bde19c00438143f2d9786,book-59,petualangan antariksa,0.95
+685bde19c00438143f2d9787,book-60,Detektif Conan,0.95
+685bde19c00438143f2d9788,book-60,misteri pembunuhan,0.95
+685bde19c00438143f2d9789,book-60,Shinichi Kudo,0.95
+685bde19c00438143f2d978a,book-60,komik detektif,0.95
+685bde19c00438143f2d978b,book-60,cerita kriminal,0.95
+685be11ec00438143f2d97ea,book-61,Steve Jobs,1.0
+685be11ec00438143f2d97eb,book-61,Apple,0.95
+685be11ec00438143f2d97ec,book-61,inovasi,0.9
+685be11ec00438143f2d97ed,book-61,teknologi,0.85
+685be11ec00438143f2d97ee,book-61,biografi,0.95
+685be11ec00438143f2d97ef,book-61,Walter Isaacson,0.8
+685be11ec00438143f2d97f0,book-61,kreativitas,0.8
+685be11ec00438143f2d97f1,book-61,pemimpin,0.75
+685be11ec00438143f2d97f2,book-62,Soekarno,1.0
+685be11ec00438143f2d97f3,book-62,proklamator,0.95
+685be11ec00438143f2d97f4,book-62,Indonesia,0.9
+685be11ec00438143f2d97f5,book-62,biografi,0.9
+685be11ec00438143f2d97f6,book-62,nasionalisme,0.85
+685be11ec00438143f2d97f7,book-62,kemerdekaan,0.8
+685be11ec00438143f2d97f8,book-62,Cindy Adams,0.75
+685be11ec00438143f2d97f9,book-63,Nelson Mandela,1.0
+685be11ec00438143f2d97fa,book-63,Afrika Selatan,0.9
+685be11ec00438143f2d97fb,book-63,apartheid,0.95
+685be11ec00438143f2d97fc,book-63,perjuangan,0.85
+685be11ec00438143f2d97fd,book-63,kebebasan,0.9
+685be11ec00438143f2d97fe,book-63,biografi,0.9
+685be11ec00438143f2d97ff,book-64,Habibie,1.0
+685be11ec00438143f2d9800,book-64,Ainun,0.95
+685be11ec00438143f2d9801,book-64,kisah cinta,0.85
+685be11ec00438143f2d9802,book-64,Presiden Indonesia,0.9
+685be11ec00438143f2d9803,book-64,biografi,0.85
+685be11ec00438143f2d9804,book-65,Michelle Obama,1.0
+685be11ec00438143f2d9805,book-65,First Lady,0.95
+685be11ec00438143f2d9806,book-65,inspirasi,0.9
+685be11ec00438143f2d9807,book-65,memoar,0.9
+685be11ec00438143f2d9808,book-65,perempuan hebat,0.85
+685be11ec00438143f2d9809,book-66,Andrea Hirata,1.0
+685be11ec00438143f2d980a,book-66,Laskar Pelangi,0.95
+685be11ec00438143f2d980b,book-66,perjalanan hidup,0.85
+685be11ec00438143f2d980c,book-66,inspiratif,0.8
+685be11ec00438143f2d980d,book-67,Malala,1.0
+685be11ec00438143f2d980e,book-67,pendidikan perempuan,0.95
+685be11ec00438143f2d980f,book-67,Pakistan,0.85
+685be11ec00438143f2d9810,book-67,hak asasi,0.85
+685be11ec00438143f2d9811,book-67,memoar,0.9
+685be11ec00438143f2d9812,book-68,Elon Musk,1.0
+685be11ec00438143f2d9813,book-68,Tesla,0.95
+685be11ec00438143f2d9814,book-68,SpaceX,0.95
+685be11ec00438143f2d9815,book-68,inovator,0.9
+685be11ec00438143f2d9816,book-68,Ashlee Vance,0.8
+685be11ec00438143f2d9817,book-69,Anne Frank,1.0
+685be11ec00438143f2d9818,book-69,Holocaust,0.95
+685be11ec00438143f2d9819,book-69,perang dunia,0.9
+685be11ec00438143f2d981a,book-69,diary,0.9
+685be11ec00438143f2d981b,book-69,Yahudi,0.85
+685be11ec00438143f2d981c,book-70,Einstein,1.0
+685be11ec00438143f2d981d,book-70,Walter Isaacson,0.9
+685be11ec00438143f2d981e,book-70,fisika,0.95
+685be11ec00438143f2d981f,book-70,teori relativitas,0.9
+685be11ec00438143f2d9820,book-71,Gus Dur,1.0
+685be11ec00438143f2d9821,book-71,pluralisme,0.9
+685be11ec00438143f2d9822,book-71,Islam Nusantara,0.85
+685be11ec00438143f2d9823,book-71,Presiden Indonesia,0.9
+685be11ec00438143f2d9824,book-72,Ellen Johnson Sirleaf,1.0
+685be11ec00438143f2d9825,book-72,Liberia,0.95
+685be11ec00438143f2d9826,book-72,presiden perempuan,0.95
+685be11ec00438143f2d9827,book-72,memoar,0.9
+685be11ec00438143f2d9828,book-73,Habibie,1.0
+685be11ec00438143f2d9829,book-73,reformasi,0.95
+685be11ec00438143f2d982a,book-73,politik Indonesia,0.9
+685be11ec00438143f2d982b,book-73,transisi kekuasaan,0.85
+685be11ec00438143f2d982c,book-74,Tina Fey,1.0
+685be11ec00438143f2d982d,book-74,komedi,0.95
+685be11ec00438143f2d982e,book-74,Hollywood,0.9
+685be11ec00438143f2d982f,book-74,perempuan karier,0.85
+685be11ec00438143f2d9830,book-75,Barack Obama,1.0
+685be11ec00438143f2d9831,book-75,Presiden AS,0.95
+685be11ec00438143f2d9832,book-75,politik,0.9
+685be11ec00438143f2d9833,book-75,memoar,0.9
+685be11ec00438143f2d9834,book-76,Cicely Tyson,1.0
+685be11ec00438143f2d9835,book-76,aktris kulit hitam,0.95
+685be11ec00438143f2d9836,book-76,Hollywood,0.9
+685be11ec00438143f2d9837,book-76,memoar,0.9
+685be11ec00438143f2d9838,book-77,Jeannette Walls,1.0
+685be11ec00438143f2d9839,book-77,masa kecil,0.95
+685be11ec00438143f2d983a,book-77,keluarga disfungsional,0.9
+685be11ec00438143f2d983b,book-77,memoar,0.9
+685be11ec00438143f2d983c,book-78,Jane Fonda,1.0
+685be11ec00438143f2d983d,book-78,aktivisme,0.95
+685be11ec00438143f2d983e,book-78,Hollywood,0.9
+685be11ec00438143f2d983f,book-78,memoar,0.9
+685be11ec00438143f2d9840,book-79,Andre Agassi,1.0
+685be11ec00438143f2d9841,book-79,tenis,0.95
+685be11ec00438143f2d9842,book-79,olahraga,0.9
+685be11ec00438143f2d9843,book-79,memoar,0.85
+685be11ec00438143f2d9844,book-80,Tara Westover,1.0
+685be11ec00438143f2d9845,book-80,pendidikan,0.95
+685be11ec00438143f2d9846,book-80,fundamentalisme,0.9
+685be11ec00438143f2d9847,book-80,memoar,0.9
+685be289c00438143f2d9848,book-81,Helen Keller,1.0
+685be289c00438143f2d9849,book-81,tunanetra,0.95
+685be289c00438143f2d984a,book-81,tuli,0.95
+685be289c00438143f2d984b,book-81,inspirasi,0.9
+685be289c00438143f2d984c,book-81,perempuan hebat,0.85
+685be289c00438143f2d984d,book-81,autobiografi,0.9
+685be289c00438143f2d984e,book-82,Bob Dylan,1.0
+685be289c00438143f2d984f,book-82,musisi legendaris,0.95
+685be289c00438143f2d9850,book-82,folk rock,0.9
+685be289c00438143f2d9851,book-82,memoar,0.85
+685be289c00438143f2d9852,book-82,karier musik,0.8
+685be289c00438143f2d9853,book-83,Stephen King,1.0
+685be289c00438143f2d9854,book-83,menulis,0.95
+685be289c00438143f2d9855,book-83,panduan penulisan,0.9
+685be289c00438143f2d9856,book-83,memoar,0.85
+685be289c00438143f2d9857,book-83,penulis horor,0.8
+685be289c00438143f2d9858,book-84,Elton John,1.0
+685be289c00438143f2d9859,book-84,musik,0.95
+685be289c00438143f2d985a,book-84,ketenaran,0.9
+685be289c00438143f2d985b,book-84,LGBTQ+,0.85
+685be289c00438143f2d985c,book-84,memoar,0.85
+685be289c00438143f2d985d,book-84,ikon pop,0.8
+685be289c00438143f2d985e,book-85,Trevor Noah,1.0
+685be289c00438143f2d985f,book-85,Afrika Selatan,0.95
+685be289c00438143f2d9860,book-85,apartheid,0.9
+685be289c00438143f2d9861,book-85,komedi,0.9
+685be289c00438143f2d9862,book-85,memoar,0.85
+685be289c00438143f2d9863,book-86,Marilyn Manson,1.0
+685be289c00438143f2d9864,book-86,musik industrial,0.95
+685be289c00438143f2d9865,book-86,kontroversi,0.9
+685be289c00438143f2d9866,book-86,biografi,0.85
+685be289c00438143f2d9867,book-86,rock alternatif,0.8
+685be289c00438143f2d9868,book-87,Amy Poehler,1.0
+685be289c00438143f2d9869,book-87,komedian,0.95
+685be289c00438143f2d986a,book-87,Saturday Night Live,0.9
+685be289c00438143f2d986b,book-87,feminis,0.85
+685be289c00438143f2d986c,book-87,memoar,0.85
+685be289c00438143f2d986d,book-87,esai jenaka,0.8
+685be289c00438143f2d986e,book-88,Leonardo da Vinci,1.0
+685be289c00438143f2d986f,book-88,seniman Renaissance,0.95
+685be289c00438143f2d9870,book-88,ilmu pengetahuan,0.9
+685be289c00438143f2d9871,book-88,Walter Isaacson,0.85
+685be289c00438143f2d9872,book-88,biografi,0.9
+685be289c00438143f2d9873,book-88,penemu jenius,0.85
+685be289c00438143f2d9874,book-89,Paul Kalanithi,1.0
+685be289c00438143f2d9875,book-89,kanker paru,0.95
+685be289c00438143f2d9876,book-89,dokter bedah,0.9
+685be289c00438143f2d9877,book-89,hidup & kematian,0.9
+685be289c00438143f2d9878,book-89,memoar,0.85
+685be289c00438143f2d9879,book-89,filosofi kehidupan,0.8
+685be289c00438143f2d987a,book-90,Yvon Chouinard,1.0
+685be289c00438143f2d987b,book-90,Patagonia,0.95
+685be289c00438143f2d987c,book-90,aktivisme lingkungan,0.9
+685be289c00438143f2d987d,book-90,bisnis berkelanjutan,0.9
+685be289c00438143f2d987e,book-90,memoar,0.85
+685be289c00438143f2d987f,book-90,gaya hidup,0.8
+685be866c00438143f2d9880,book-91,langit,0.85
+685be866c00438143f2d9881,book-91,senja,0.84
+685be866c00438143f2d9882,book-91,Andi Gunawan,1.0
+685be866c00438143f2d9883,book-92,tangisan,0.85
+685be866c00438143f2d9884,book-92,balik,0.84
+685be866c00438143f2d9885,book-92,pintu,0.83
+685be866c00438143f2d9886,book-92,Andi Gunawan,1.0
+685be866c00438143f2d9887,book-93,pelangi,0.85
+685be866c00438143f2d9888,book-93,ujung,0.84
+685be866c00438143f2d9889,book-93,jalan,0.83
+685be866c00438143f2d988a,book-93,Rini Maharani,1.0
+685be866c00438143f2d988b,book-94,hujan,0.85
+685be866c00438143f2d988c,book-94,bulan,0.84
+685be866c00438143f2d988d,book-94,juni,0.83
+685be866c00438143f2d988e,book-94,Fitri Ramadhani,1.0
+685be866c00438143f2d988f,book-95,kisah,0.85
+685be866c00438143f2d9890,book-95,luka,0.84
+685be866c00438143f2d9891,book-95,Rini Maharani,1.0
+685be866c00438143f2d9892,book-96,ruang,0.85
+685be866c00438143f2d9893,book-96,rindu,0.84
+685be866c00438143f2d9894,book-96,Dewi Anggraini,1.0
+685be866c00438143f2d9895,book-97,hati,0.85
+685be866c00438143f2d9896,book-97,yang,0.84
+685be866c00438143f2d9897,book-97,tertinggal,0.83
+685be866c00438143f2d9898,book-97,Dewi Anggraini,1.0
+685be866c00438143f2d9899,book-98,cinta,0.85
+685be866c00438143f2d989a,book-98,balik,0.84
+685be866c00438143f2d989b,book-98,awan,0.83
+685be866c00438143f2d989c,book-98,Tegar Prasetyo,1.0
+685be866c00438143f2d989d,book-99,langkah,0.85
+685be866c00438143f2d989e,book-99,terakhir,0.84
+685be866c00438143f2d989f,book-99,Larasati Putri,1.0
+685be866c00438143f2d98a0,book-100,surat,0.85
+685be866c00438143f2d98a1,book-100,untuk,0.84
+685be866c00438143f2d98a2,book-100,bintang,0.83
+685be866c00438143f2d98a3,book-100,Rini Maharani,1.0
+685be866c00438143f2d98a4,book-101,kepingan,0.85
+685be866c00438143f2d98a5,book-101,kenangan,0.84
+685be866c00438143f2d98a6,book-101,Arief Setiawan,1.0
+685be866c00438143f2d98a7,book-102,sepasang,0.85
+685be866c00438143f2d98a8,book-102,mata,0.84
+685be866c00438143f2d98a9,book-102,Fitri Ramadhani,1.0
+685be866c00438143f2d98aa,book-103,garis,0.85
+685be866c00438143f2d98ab,book-103,waktu,0.84
+685be866c00438143f2d98ac,book-103,Dewi Anggraini,1.0
+685be866c00438143f2d98ad,book-104,sebuah,0.85
+685be866c00438143f2d98ae,book-104,nama,0.84
+685be866c00438143f2d98af,book-104,Larasati Putri,1.0
+685be866c00438143f2d98b0,book-105,senandung,0.85
+685be866c00438143f2d98b1,book-105,cinta,0.84
+685be866c00438143f2d98b2,book-105,Tegar Prasetyo,1.0
+685be866c00438143f2d98b3,book-106,luka,0.85
+685be866c00438143f2d98b4,book-106,lama,0.84
+685be866c00438143f2d98b5,book-106,Fitri Ramadhani,1.0
+685be866c00438143f2d98b6,book-107,bayangan,0.85
+685be866c00438143f2d98b7,book-107,masa,0.84
+685be866c00438143f2d98b8,book-107,lalu,0.83
+685be866c00438143f2d98b9,book-107,Tegar Prasetyo,1.0
+685be866c00438143f2d98ba,book-108,antara,0.85
+685be866c00438143f2d98bb,book-108,kita,0.84
+685be866c00438143f2d98bc,book-108,Larasati Putri,1.0
+685be866c00438143f2d98bd,book-109,langkah,0.85
+685be866c00438143f2d98be,book-109,menuju,0.84
+685be866c00438143f2d98bf,book-109,pulang,0.83
+685be866c00438143f2d98c0,book-109,Rangga Saputra,1.0
+685be866c00438143f2d98c1,book-110,kenangan,0.85
+685be866c00438143f2d98c2,book-110,pernah,0.84
+685be866c00438143f2d98c3,book-110,usai,0.83
+685be866c00438143f2d98c4,book-110,Andi Gunawan,1.0
+685bf2c5c00438143f2d98e0,book-111,belajar,0.9
+685bf2c5c00438143f2d98e1,book-111,sepanjang hayat,0.85
+685bf2c5c00438143f2d98e2,book-111,pendidikan seumur hidup,0.88
+685bf2c5c00438143f2d98e3,book-111,Aulia Rahman,1.0
+685bf2c5c00438143f2d98e4,book-112,pendidikan karakter,0.9
+685bf2c5c00438143f2d98e5,book-112,era digital,0.88
+685bf2c5c00438143f2d98e6,book-112,anak,0.84
+685bf2c5c00438143f2d98e7,book-112,Yuniarti Pramudya,1.0
+685bf2c5c00438143f2d98e8,book-113,mengajar,0.88
+685bf2c5c00438143f2d98e9,book-113,hati,0.83
+685bf2c5c00438143f2d98ea,book-113,guru inspiratif,0.9
+685bf2c5c00438143f2d98eb,book-113,Fitra Hanif,1.0
+685bf2c5c00438143f2d98ec,book-114,mindset guru,0.9
+685bf2c5c00438143f2d98ed,book-114,positif,0.84
+685bf2c5c00438143f2d98ee,book-114,Indah Permata,1.0
+685bf2c5c00438143f2d98ef,book-115,belajar efektif,0.88
+685bf2c5c00438143f2d98f0,book-115,mahasiswa,0.9
+685bf2c5c00438143f2d98f1,book-115,Darmawan Sutanto,1.0
+685bf2c5c00438143f2d98f2,book-116,mengajar anak,0.88
+685bf2c5c00438143f2d98f3,book-116,zaman now,0.86
+685bf2c5c00438143f2d98f4,book-116,Herlina Wulandari,1.0
+685bf2c5c00438143f2d98f5,book-117,psikologi pendidikan,0.9
+685bf2c5c00438143f2d98f6,book-117,guru,0.84
+685bf2c5c00438143f2d98f7,book-117,Budi Setiawan,1.0
+685bf2c5c00438143f2d98f8,book-118,kreativitas anak,0.9
+685bf2c5c00438143f2d98f9,book-118,pembelajaran,0.85
+685bf2c5c00438143f2d98fa,book-118,Rina Oktaviani,1.0
+685bf2c5c00438143f2d98fb,book-119,pendidikan inklusif,0.92
+685bf2c5c00438143f2d98fc,book-119,anak berkebutuhan khusus,0.9
+685bf2c5c00438143f2d98fd,book-119,Ahmad Faizal,1.0
+685bf2c5c00438143f2d98fe,book-120,guru hebat,0.88
+685bf2c5c00438143f2d98ff,book-120,merdeka belajar,0.9
+685bf2c5c00438143f2d9900,book-120,Retno Sari,1.0
+685bf2c5c00438143f2d9901,book-121,kurikulum inovatif,0.9
+685bf2c5c00438143f2d9902,book-121,strategi kurikulum,0.87
+685bf2c5c00438143f2d9903,book-121,Siti Aisyah,1.0
+685bf2c5c00438143f2d9904,book-122,teknologi pendidikan,0.9
+685bf2c5c00438143f2d9905,book-122,digital,0.85
+685bf2c5c00438143f2d9906,book-122,Ahmad Rizki,1.0
+685bf2c5c00438143f2d9907,book-123,pendidikan 4.0,0.92
+685bf2c5c00438143f2d9908,book-123,revolusi industri,0.88
+685bf2c5c00438143f2d9909,book-123,Dewi Amalia,1.0
+685bf2c5c00438143f2d990a,book-124,belajar matematika,0.88
+685bf2c5c00438143f2d990b,book-124,matematika menyenangkan,0.85
+685bf2c5c00438143f2d990c,book-124,Nina Kurniasih,1.0
+685bf2c5c00438143f2d990d,book-125,menulis ilmiah,0.9
+685bf2c5c00438143f2d990e,book-125,karya akademik,0.85
+685bf2c5c00438143f2d990f,book-125,Raka Aditama,1.0
+685bf2c5c00438143f2d9910,book-126,literasi digital,0.92
+685bf2c5c00438143f2d9911,book-126,pelajar,0.88
+685bf2c5c00438143f2d9912,book-126,Rizka Mardiana,1.0
+685bf2c5c00438143f2d9913,book-127,ujian nasional,0.9
+685bf2c5c00438143f2d9914,book-127,strategi belajar,0.86
+685bf2c5c00438143f2d9915,book-127,Hendro Wahyudi,1.0
+685bf2c5c00438143f2d9916,book-128,metodologi penelitian,0.9
+685bf2c5c00438143f2d9917,book-128,pendidikan,0.85
+685bf2c5c00438143f2d9918,book-128,Agus Rachmat,1.0
+685bf2c5c00438143f2d9919,book-129,belajar mandiri,0.88
+685bf2c5c00438143f2d991a,book-129,anak usia dini,0.9
+685bf2c5c00438143f2d991b,book-129,Lilis Puspita,1.0
+685bf2c5c00438143f2d991c,book-130,pendidikan ABK,0.92
+685bf2c5c00438143f2d991d,book-130,anak berkebutuhan khusus,0.9
+685bf2c5c00438143f2d991e,book-130,Eka Kurniawati,1.0
+685bf4f9c00438143f2d9933,book-131,petualangan remaja,0.95
+685bf4f9c00438143f2d9934,book-131,kerajaan sihir,0.88
+685bf4f9c00438143f2d9935,book-131,dunia atas awan,0.85
+685bf4f9c00438143f2d9936,book-131,makhluk magis,0.79
+685bf4f9c00438143f2d9937,book-131,naga,0.91
+685bf4f9c00438143f2d9938,book-132,putri salju,0.92
+685bf4f9c00438143f2d9939,book-132,dongeng fantasi,0.88
+685bf4f9c00438143f2d993a,book-132,perang salju,0.83
+685bf4f9c00438143f2d993b,book-132,penyihir jahat,0.81
+685bf4f9c00438143f2d993c,book-132,sihir es,0.86
+685bf4f9c00438143f2d993d,book-133,dimensi paralel,0.89
+685bf4f9c00438143f2d993e,book-133,pintu misterius,0.84
+685bf4f9c00438143f2d993f,book-133,perpustakaan ajaib,0.82
+685bf4f9c00438143f2d9940,book-133,dunia lain,0.87
+685bf4f9c00438143f2d9941,book-133,anak sekolah petualang,0.8
+685bf4f9c00438143f2d9942,book-134,ksatria,0.93
+685bf4f9c00438143f2d9943,book-134,iblis api,0.89
+685bf4f9c00438143f2d9944,book-134,kerajaan fantasi,0.91
+685bf4f9c00438143f2d9945,book-134,pahlawan muda,0.88
+685bf4f9c00438143f2d9946,book-134,perang besar,0.86
+685bf4f9c00438143f2d9947,book-135,dunia cermin,0.85
+685bf4f9c00438143f2d9948,book-135,realitas bayangan,0.82
+685bf4f9c00438143f2d9949,book-135,remaja perempuan,0.8
+685bf4f9c00438143f2d994a,book-135,fantasi gelap,0.79
+685bf4f9c00438143f2d994b,book-135,terjebak dunia lain,0.84
+685bf4f9c00438143f2d994c,book-136,hutan terlarang,0.91
+685bf4f9c00438143f2d994d,book-136,makhluk legendaris,0.89
+685bf4f9c00438143f2d994e,book-136,anak petualang,0.87
+685bf4f9c00438143f2d994f,book-136,teka-teki hutan,0.85
+685bf4f9c00438143f2d9950,book-136,mitologi lokal,0.83
+685bf4f9c00438143f2d9951,book-137,kunci rahasia,0.9
+685bf4f9c00438143f2d9952,book-137,kerajaan naga,0.86
+685bf4f9c00438143f2d9953,book-137,fantasi epik,0.84
+685bf4f9c00438143f2d9954,book-137,anak biasa,0.8
+685bf4f9c00438143f2d9955,book-137,loteng misterius,0.79
+685bf4f9c00438143f2d9956,book-138,sihir bulan,0.88
+685bf4f9c00438143f2d9957,book-138,putri penyihir,0.85
+685bf4f9c00438143f2d9958,book-138,pertarungan sihir,0.83
+685bf4f9c00438143f2d9959,book-138,dunia sihir,0.87
+685bf4f9c00438143f2d995a,book-138,bulan merah,0.81
+685bf4f9c00438143f2d995b,book-139,anak kembar,0.89
+685bf4f9c00438143f2d995c,book-139,cahaya vs kegelapan,0.92
+685bf4f9c00438143f2d995d,book-139,takdir bertarung,0.88
+685bf4f9c00438143f2d995e,book-139,epik keluarga,0.85
+685bf4f9c00438143f2d995f,book-139,fantasi konflik,0.83
+685bf4f9c00438143f2d9960,book-140,penyihir laut,0.86
+685bf4f9c00438143f2d9961,book-140,artefak kuno,0.89
+685bf4f9c00438143f2d9962,book-140,kekuatan air,0.84
+685bf4f9c00438143f2d9963,book-140,anak terpilih,0.82
+685bf4f9c00438143f2d9964,book-140,petualangan laut,0.87
+685bf58ec00438143f2d9979,book-141,pulau terkutuk,0.91
+685bf58ec00438143f2d997a,book-141,makhluk arwah,0.89
+685bf58ec00438143f2d997b,book-141,sihir gelap,0.87
+685bf58ec00438143f2d997c,book-141,petualangan misteri,0.9
+685bf58ec00438143f2d997d,book-141,rahasia magis,0.85
+685bf58ec00438143f2d997e,book-142,penyihir selatan,0.92
+685bf58ec00438143f2d997f,book-142,pertarungan magis,0.89
+685bf58ec00438143f2d9980,book-142,keseimbangan dunia,0.84
+685bf58ec00438143f2d9981,book-142,konflik sihir,0.81
+685bf58ec00438143f2d9982,book-142,magis klasik,0.83
+685bf58ec00438143f2d9983,book-143,kastil terbang,0.93
+685bf58ec00438143f2d9984,book-143,makhluk langit,0.88
+685bf58ec00438143f2d9985,book-143,anak yatim,0.85
+685bf58ec00438143f2d9986,book-143,petualangan fantasi,0.87
+685bf58ec00438143f2d9987,book-143,langit malam,0.81
+685bf58ec00438143f2d9988,book-144,menara langit,0.9
+685bf58ec00438143f2d9989,book-144,peramal kuno,0.87
+685bf58ec00438143f2d998a,book-144,hujan bintang,0.86
+685bf58ec00438143f2d998b,book-144,mitos magis,0.83
+685bf58ec00438143f2d998c,book-144,tempat rahasia,0.84
+685bf58ec00438143f2d998d,book-145,monster hutan,0.91
+685bf58ec00438143f2d998e,book-145,cinta dan kutukan,0.89
+685bf58ec00438143f2d998f,book-145,romansa fantasi,0.85
+685bf58ec00438143f2d9990,book-145,makhluk gaib,0.83
+685bf58ec00438143f2d9991,book-145,pengorbanan cinta,0.82
+685bf58ec00438143f2d9992,book-146,ratu sihir,0.94
+685bf58ec00438143f2d9993,book-146,es dan api,0.92
+685bf58ec00438143f2d9994,book-146,pertarungan saudara,0.89
+685bf58ec00438143f2d9995,book-146,sihir bertolak belakang,0.87
+685bf58ec00438143f2d9996,book-146,epik magis,0.9
+685bf58ec00438143f2d9997,book-147,serigala hitam,0.89
+685bf58ec00438143f2d9998,book-147,shapeshifter,0.86
+685bf58ec00438143f2d9999,book-147,kerajaan gelap,0.84
+685bf58ec00438143f2d999a,book-147,anak harapan,0.83
+685bf58ec00438143f2d999b,book-147,transformasi sihir,0.82
+685bf58ec00438143f2d999c,book-148,kota langit,0.91
+685bf58ec00438143f2d999d,book-148,darah bangsawan,0.87
+685bf58ec00438143f2d999e,book-148,tempat rahasia,0.85
+685bf58ec00438143f2d999f,book-148,bangsawan langit,0.83
+685bf58ec00438143f2d99a0,book-148,fantasi tinggi,0.81
+685bf58ec00438143f2d99a1,book-149,kutukan air mata,0.92
+685bf58ec00438143f2d99a2,book-149,permata sihir,0.88
+685bf58ec00438143f2d99a3,book-149,legenda misterius,0.86
+685bf58ec00438143f2d99a4,book-149,emosi magis,0.84
+685bf58ec00438143f2d99a5,book-149,kisah sedih magis,0.82
+685bf58ec00438143f2d99a6,book-150,zirah kuno,0.93
+685bf58ec00438143f2d99a7,book-150,kekuatan sihir,0.9
+685bf58ec00438143f2d99a8,book-150,pengorbanan besar,0.88
+685bf58ec00438143f2d99a9,book-150,senjata magis,0.86
+685bf58ec00438143f2d99aa,book-150,armor sihir,0.85
+685bf7997dfb90404a1470fe,book-151,hari misterius,0.83
+685bf7997dfb90404a1470ff,book-151,identitas hilang,0.87
+685bf7997dfb90404a147100,book-151,amnesia massal,0.92
+685bf7997dfb90404a147101,book-152,kisah cinta,0.9
+685bf7997dfb90404a147102,book-152,remaja,0.94
+685bf7997dfb90404a147103,book-152,pertukaran pelajar,0.93
+685bf7997dfb90404a147104,book-153,penyidikan,0.86
+685bf7997dfb90404a147105,book-153,trauma masa lalu,0.91
+685bf7997dfb90404a147106,book-153,kebenaran tersembunyi,0.86
+685bf7997dfb90404a147107,book-154,gadis misterius,0.95
+685bf7997dfb90404a147108,book-154,desa terpencil,0.87
+685bf7997dfb90404a147109,book-154,hujan turun,0.93
+685bf7997dfb90404a14710a,book-155,konspirasi,0.91
+685bf7997dfb90404a14710b,book-155,malam terakhir,0.89
+685bf7997dfb90404a14710c,book-155,pengungkapan rahasia,0.85
+685bf7af7dfb90404a14710d,book-156,trauma,0.92
+685bf7af7dfb90404a14710e,book-156,pemulihan diri,0.89
+685bf7af7dfb90404a14710f,book-156,makna hidup,0.87
+685bf7af7dfb90404a147110,book-157,matahari utara,0.94
+685bf7af7dfb90404a147111,book-157,dunia alternatif,0.89
+685bf7af7dfb90404a147112,book-157,kebenaran tersembunyi,0.91
+685bf7af7dfb90404a147113,book-158,perjalanan waktu,0.95
+685bf7af7dfb90404a147114,book-158,penyesalan,0.88
+685bf7af7dfb90404a147115,book-158,masa lalu,0.9
+685bf7af7dfb90404a147116,book-159,dunia paralel,0.93
+685bf7af7dfb90404a147117,book-159,identitas ganda,0.89
+685bf7af7dfb90404a147118,book-159,realita ganda,0.87
+685bf7af7dfb90404a147119,book-160,suara misterius,0.94
+685bf7af7dfb90404a14711a,book-160,pembunuhan,0.91
+685bf7af7dfb90404a14711b,book-160,kasus tak terpecahkan,0.92
+685bf7af7dfb90404a14711c,book-161,kisah cinta,0.88
+685bf7af7dfb90404a14711d,book-161,luka lama,0.9
+685bf7af7dfb90404a14711e,book-161,masa lalu,0.87
+685bf7af7dfb90404a14711f,book-162,kematian,0.94
+685bf7af7dfb90404a147120,book-162,hidup sementara,0.91
+685bf7af7dfb90404a147121,book-162,dunia akhirat,0.88
+685bf7af7dfb90404a147122,book-163,cinta lama,0.89
+685bf7af7dfb90404a147123,book-163,pertemuan tak sengaja,0.87
+685bf7af7dfb90404a147124,book-163,jiwa yang hilang,0.85
+685bf7af7dfb90404a147125,book-164,pengkhianatan,0.9
+685bf7af7dfb90404a147126,book-164,rahasia keluarga,0.92
+685bf7af7dfb90404a147127,book-164,tebing karang,0.88
+685bf7af7dfb90404a147128,book-165,masa lalu,0.91
+685bf7af7dfb90404a147129,book-165,rumah tangga,0.86
+685bf7af7dfb90404a14712a,book-165,hubungan terguncang,0.89
+685bf7af7dfb90404a14712b,book-166,misteri jendela,0.93
+685bf7af7dfb90404a14712c,book-166,rumah kosong,0.89
+685bf7af7dfb90404a14712d,book-166,perempuan misterius,0.92
+685bf7af7dfb90404a14712e,book-167,reuni sekolah,0.9
+685bf7af7dfb90404a14712f,book-167,rahasia masa lalu,0.91
+685bf7af7dfb90404a147130,book-167,tragedi masa remaja,0.87
+685bf7af7dfb90404a147131,book-168,melihat masa depan,0.94
+685bf7af7dfb90404a147132,book-168,konspirasi ilmiah,0.92
+685bf7af7dfb90404a147133,book-168,gadis visioner,0.88
+685bf7af7dfb90404a147134,book-169,malam misterius,0.93
+685bf7af7dfb90404a147135,book-169,bintang menghilang,0.91
+685bf7af7dfb90404a147136,book-169,anak terpilih,0.89
+685bf7af7dfb90404a147137,book-170,gadis bisu,0.92
+685bf7af7dfb90404a147138,book-170,musik dari rasa sakit,0.93
+685bf7af7dfb90404a147139,book-170,trauma masa lalu,0.88
+685bfadc7dfb90404a147236,book-201,feminis,0.95
+685bfadc7dfb90404a147237,book-201,kritik sosial,0.93
+685bfadc7dfb90404a147238,book-201,perempuan,0.92
+685bfadc7dfb90404a147239,book-201,patriarki,0.91
+685bfadc7dfb90404a14723a,book-201,identitas,0.9
+685bfadc7dfb90404a14723b,book-202,cinta pertama,0.94
+685bfadc7dfb90404a14723c,book-202,melankolia,0.92
+685bfadc7dfb90404a14723d,book-202,eksistensialisme,0.91
+685bfadc7dfb90404a14723e,book-202,psikologi,0.89
+685bfadc7dfb90404a14723f,book-202,remaja jepang,0.88
+685bfadc7dfb90404a147240,book-203,mitologi,0.93
+685bfadc7dfb90404a147241,book-203,pembunuhan,0.92
+685bfadc7dfb90404a147242,book-203,desir hasrat,0.91
+685bfadc7dfb90404a147243,book-203,realisme magis,0.9
+685bfadc7dfb90404a147244,book-203,masyarakat pesisir,0.88
+685bfadc7dfb90404a147245,book-204,refleksi masa lalu,0.94
+685bfadc7dfb90404a147246,book-204,kenangan,0.91
+685bfadc7dfb90404a147247,book-204,penyesalan,0.9
+685bfadc7dfb90404a147248,book-204,memori,0.89
+685bfadc7dfb90404a147249,book-204,narasi pribadi,0.87
+685bfadc7dfb90404a14724a,book-205,orde baru,0.95
+685bfadc7dfb90404a14724b,book-205,seksualitas,0.94
+685bfadc7dfb90404a14724c,book-205,politik,0.93
+685bfadc7dfb90404a14724d,book-205,identitas perempuan,0.91
+685bfadc7dfb90404a14724e,book-205,revolusi sastra indonesia,0.9
+685bfadc7dfb90404a14724f,book-206,imigrasi,0.94
+685bfadc7dfb90404a147250,book-206,identitas budaya,0.92
+685bfadc7dfb90404a147251,book-206,multikulturalisme,0.91
+685bfadc7dfb90404a147252,book-206,keluarga,0.89
+685bfadc7dfb90404a147253,book-206,jenaka satir,0.88
+685bfadc7dfb90404a147254,book-207,petualangan,0.94
+685bfadc7dfb90404a147255,book-207,konspirasi,0.92
+685bfadc7dfb90404a147256,book-207,manusia dan pilihan,0.91
+685bfadc7dfb90404a147257,book-207,aksi thriller,0.9
+685bfadc7dfb90404a147258,book-207,internasional,0.89
+685bfadc7dfb90404a147259,book-208,pengabdian,0.94
+685bfadc7dfb90404a14725a,book-208,penyesalan,0.93
+685bfadc7dfb90404a14725b,book-208,refleksi hidup,0.91
+685bfadc7dfb90404a14725c,book-208,kelas sosial,0.9
+685bfadc7dfb90404a14725d,book-208,narasi lambat,0.88
+685bfadc7dfb90404a14725e,book-209,tragedi 1965,0.95
+685bfadc7dfb90404a14725f,book-209,sejarah indonesia,0.94
+685bfadc7dfb90404a147260,book-209,cinta dan politik,0.92
+685bfadc7dfb90404a147261,book-209,fiksi sejarah,0.91
+685bfadc7dfb90404a147262,book-209,g30s,0.89
+685bfadc7dfb90404a147263,book-210,trauma,0.96
+685bfadc7dfb90404a147264,book-210,persahabatan,0.94
+685bfadc7dfb90404a147265,book-210,luka batin,0.92
+685bfadc7dfb90404a147266,book-210,emotional rollercoaster,0.91
+685bfadc7dfb90404a147267,book-210,hidup urban,0.89
+685bfb017dfb90404a147268,book-191,feminis,0.97
+685bfb017dfb90404a147269,book-191,patriarki,0.95
+685bfb017dfb90404a14726a,book-191,perempuan,0.94
+685bfb017dfb90404a14726b,book-191,mesir,0.91
+685bfb017dfb90404a14726c,book-191,perjuangan,0.89
+685bfb017dfb90404a14726d,book-192,holokaus,0.96
+685bfb017dfb90404a14726e,book-192,nazi,0.94
+685bfb017dfb90404a14726f,book-192,literasi,0.92
+685bfb017dfb90404a147270,book-192,remaja,0.9
+685bfb017dfb90404a147271,book-192,perang dunia,0.89
+685bfb017dfb90404a147272,book-193,magical realism,0.94
+685bfb017dfb90404a147273,book-193,sejarah indonesia,0.95
+685bfb017dfb90404a147274,book-193,kolonialisme,0.92
+685bfb017dfb90404a147275,book-193,feminis,0.89
+685bfb017dfb90404a147276,book-194,perang dunia ii,0.96
+685bfb017dfb90404a147277,book-194,kisah saudari,0.93
+685bfb017dfb90404a147278,book-194,prancis,0.91
+685bfb017dfb90404a147279,book-194,perlawanan,0.89
+685bfb017dfb90404a14727a,book-195,papua,0.95
+685bfb017dfb90404a14727b,book-195,perempuan,0.91
+685bfb017dfb90404a14727c,book-195,konflik,0.9
+685bfb017dfb90404a14727d,book-195,penindasan,0.88
+685bfb017dfb90404a14727e,book-196,perang dunia ii,0.96
+685bfb017dfb90404a14727f,book-196,gadis buta,0.94
+685bfb017dfb90404a147280,book-196,humanisme,0.91
+685bfb017dfb90404a147281,book-196,nasib,0.89
+685bfb017dfb90404a147282,book-197,eksil politik,0.95
+685bfb017dfb90404a147283,book-197,sejarah indonesia,0.94
+685bfb017dfb90404a147284,book-197,paris,0.92
+685bfb017dfb90404a147285,book-197,trauma kolektif,0.9
+685bfb017dfb90404a147286,book-198,perang sipil,0.96
+685bfb017dfb90404a147287,book-198,nigeria,0.95
+685bfb017dfb90404a147288,book-198,kolonialisme,0.93
+685bfb017dfb90404a147289,book-198,perubahan sosial,0.9
+685bfb017dfb90404a14728a,book-199,kemerdekaan indonesia,0.94
+685bfb017dfb90404a14728b,book-199,perjalanan hidup,0.92
+685bfb017dfb90404a14728c,book-199,konflik batin,0.9
+685bfb017dfb90404a14728d,book-199,identitas,0.88
+685bfb017dfb90404a14728e,book-200,kamp konsentrasi,0.96
+685bfb017dfb90404a14728f,book-200,auschwitz,0.95
+685bfb017dfb90404a147290,book-200,kisah nyata,0.92
+685bfb017dfb90404a147291,book-200,cinta di masa perang,0.9
+685bfb1c7dfb90404a147292,book-171,keuangan pribadi,0.95
+685bfb1c7dfb90404a147293,book-171,literasi finansial,0.92
+685bfb1c7dfb90404a147294,book-171,pendidikan uang,0.9
+685bfb1c7dfb90404a147295,book-172,psikologi keuangan,0.96
+685bfb1c7dfb90404a147296,book-172,perilaku finansial,0.93
+685bfb1c7dfb90404a147297,book-172,kebiasaan uang,0.91
+685bfb1c7dfb90404a147298,book-173,investasi,0.98
+685bfb1c7dfb90404a147299,book-173,nilai jangka panjang,0.94
+685bfb1c7dfb90404a14729a,book-173,strategi pasar,0.91
+685bfb1c7dfb90404a14729b,book-174,motivasi,0.89
+685bfb1c7dfb90404a14729c,book-174,kekayaan,0.94
+685bfb1c7dfb90404a14729d,book-174,kesuksesan,0.92
+685bfb1c7dfb90404a14729e,book-175,pengelolaan uang,0.91
+685bfb1c7dfb90404a14729f,book-175,kesadaran finansial,0.88
+685bfb1c7dfb90404a1472a0,book-175,gaya hidup minimalis,0.86
+685bfb1c7dfb90404a1472a1,book-176,kebebasan finansial,0.93
+685bfb1c7dfb90404a1472a2,book-176,investasi aman,0.9
+685bfb1c7dfb90404a1472a3,book-176,strategi jangka panjang,0.87
+685bfb1c7dfb90404a1472a4,book-177,kebebasan finansial,0.95
+685bfb1c7dfb90404a1472a5,book-177,investor terkenal,0.91
+685bfb1c7dfb90404a1472a6,book-177,rencana keuangan,0.89
+685bfb1c7dfb90404a1472a7,book-178,milenial,0.92
+685bfb1c7dfb90404a1472a8,book-178,keuangan praktis,0.89
+685bfb1c7dfb90404a1472a9,book-178,bebas hutang,0.88
+685bfb1c7dfb90404a1472aa,book-179,kebiasaan jutawan,0.93
+685bfb1c7dfb90404a1472ab,book-179,pola pikir kaya,0.9
+685bfb1c7dfb90404a1472ac,book-179,hidup hemat,0.88
+685bfb1c7dfb90404a1472ad,book-180,pendapatan pasif,0.92
+685bfb1c7dfb90404a1472ae,book-180,kerja keras,0.89
+685bfb1c7dfb90404a1472af,book-180,financial independence,0.94
+685bfb1c7dfb90404a1472b0,book-181,filosofi hidup,0.91
+685bfb1c7dfb90404a1472b1,book-181,prinsip kerja,0.89
+685bfb1c7dfb90404a1472b2,book-181,pengembangan bisnis,0.87
+685bfb1c7dfb90404a1472b3,book-182,keuangan keluarga,0.9
+685bfb1c7dfb90404a1472b4,book-182,kesederhanaan,0.87
+685bfb1c7dfb90404a1472b5,book-182,anggaran pribadi,0.86
+685bfb1c7dfb90404a1472b6,book-183,psikologi uang,0.92
+685bfb1c7dfb90404a1472b7,book-183,kesalahan finansial,0.88
+685bfb1c7dfb90404a1472b8,book-183,keputusan irasional,0.9
+685bfb1c7dfb90404a1472b9,book-184,manajemen utang,0.94
+685bfb1c7dfb90404a1472ba,book-184,pembangunan kekayaan,0.91
+685bfb1c7dfb90404a1472bb,book-184,disiplin finansial,0.89
+685bfb1c7dfb90404a1472bc,book-185,investasi pemula,0.93
+685bfb1c7dfb90404a1472bd,book-185,filosofi Buffett,0.9
+685bfb1c7dfb90404a1472be,book-185,pendidikan finansial,0.88
+685bfb1c7dfb90404a1472bf,book-186,saham,0.94
+685bfb1c7dfb90404a1472c0,book-186,analisis fundamental,0.91
+685bfb1c7dfb90404a1472c1,book-186,evaluasi perusahaan,0.89
+685bfb1c7dfb90404a1472c2,book-187,investasi indeks,0.95
+685bfb1c7dfb90404a1472c3,book-187,jalur kaya sederhana,0.91
+685bfb1c7dfb90404a1472c4,book-187,penghasilan pasif,0.88
+685bfb1c7dfb90404a1472c5,book-188,pasar saham,0.93
+685bfb1c7dfb90404a1472c6,book-188,portofolio,0.89
+685bfb1c7dfb90404a1472c7,book-188,analisis pasar,0.87
+685bfb1c7dfb90404a1472c8,book-189,investasi pemula,0.91
+685bfb1c7dfb90404a1472c9,book-189,boglehead,0.93
+685bfb1c7dfb90404a1472ca,book-189,strategi jangka panjang,0.9
+685bfb1c7dfb90404a1472cb,book-190,pemilihan saham,0.94
+685bfb1c7dfb90404a1472cc,book-190,investor sukses,0.92
+685bfb1c7dfb90404a1472cd,book-190,Wall Street,0.91
+685bfc957dfb90404a1472ce,book-211,cinta,0.95
+685bfc957dfb90404a1472cf,book-211,kehilangan,0.94
+685bfc957dfb90404a1472d0,book-211,proses penyembuhan,0.93
+685bfc957dfb90404a1472d1,book-211,memoar,0.91
+685bfc957dfb90404a1472d2,book-211,perasaan,0.9
+685bfc957dfb90404a1472d3,book-212,jati diri,0.94
+685bfc957dfb90404a1472d4,book-212,makna hidup,0.93
+685bfc957dfb90404a1472d5,book-212,motivasi,0.91
+685bfc957dfb90404a1472d6,book-212,perjalanan hidup,0.9
+685bfc957dfb90404a1472d7,book-212,refleksi,0.89
+685bfc957dfb90404a1472d8,book-213,pendidikan,0.93
+685bfc957dfb90404a1472d9,book-213,perempuan inspiratif,0.91
+685bfc957dfb90404a1472da,book-213,kampung ke dunia,0.9
+685bfc957dfb90404a1472db,book-213,memoar perjuangan,0.89
+685bfc957dfb90404a1472dc,book-213,akademisi,0.88
+685bfc957dfb90404a1472dd,book-214,perempuan kulit hitam,0.96
+685bfc957dfb90404a1472de,book-214,rasisme,0.94
+685bfc957dfb90404a1472df,book-214,kekuatan perempuan,0.92
+685bfc957dfb90404a1472e0,book-214,Amerika,0.9
+685bfc957dfb90404a1472e1,book-214,memoar perjuangan,0.89
+685bfc957dfb90404a1472e2,book-215,trauma keluarga,0.95
+685bfc957dfb90404a1472e3,book-215,seni penyembuhan,0.93
+685bfc957dfb90404a1472e4,book-215,perjalanan pribadi,0.91
+685bfc957dfb90404a1472e5,book-215,kebangkitan,0.9
+685bfc957dfb90404a1472e6,book-215,realita emosional,0.89
+685bfc957dfb90404a1472e7,book-216,perjalanan diri,0.95
+685bfc957dfb90404a1472e8,book-216,spiritual,0.94
+685bfc957dfb90404a1472e9,book-216,cinta,0.93
+685bfc957dfb90404a1472ea,book-216,self discovery,0.91
+685bfc957dfb90404a1472eb,book-216,Italia India Bali,0.9
+685bfc957dfb90404a1472ec,book-217,medis,0.95
+685bfc957dfb90404a1472ed,book-217,dokter junior,0.93
+685bfc957dfb90404a1472ee,book-217,NHS Inggris,0.91
+685bfc957dfb90404a1472ef,book-217,sindiran lucu,0.9
+685bfc957dfb90404a1472f0,book-217,memoar humoris,0.89
+685bfc957dfb90404a1472f1,book-218,Inggris,0.94
+685bfc957dfb90404a1472f2,book-218,memoar satir,0.93
+685bfc957dfb90404a1472f3,book-218,budaya,0.91
+685bfc957dfb90404a1472f4,book-218,humor sarkastik,0.9
+685bfc957dfb90404a1472f5,book-218,observasi sosial,0.89
+685bfc957dfb90404a1472f6,book-219,dokter,0.96
+685bfc957dfb90404a1472f7,book-219,kanker paru-paru,0.94
+685bfc957dfb90404a1472f8,book-219,refleksi hidup,0.93
+685bfc957dfb90404a1472f9,book-219,kehidupan dan kematian,0.91
+685bfc957dfb90404a1472fa,book-219,memoar medis,0.9
+685bfc957dfb90404a1472fb,book-220,Najwa Shihab,0.95
+685bfc957dfb90404a1472fc,book-220,perempuan,0.93
+685bfc957dfb90404a1472fd,book-220,media,0.92
+685bfc957dfb90404a1472fe,book-220,masa lalu,0.91
+685bfc957dfb90404a1472ff,book-220,refleksi jurnalis,0.9

@@ -4,6 +4,8 @@ from services.book_ai_service import BookAIService
 from services.recommendation_service import RecommendationService
 from services.user_preference_service import UserPreferenceService
 import os
+import time
+from collections import defaultdict
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -16,6 +18,27 @@ CORS(app)
 book_ai_service = BookAIService()
 recommendation_service = RecommendationService()
 user_preference_service = UserPreferenceService()
+
+# Rate limiting
+request_counts = defaultdict(list)
+RATE_LIMIT = 100  # requests per hour
+RATE_LIMIT_WINDOW = 3600  # 1 hour in seconds
+
+def check_rate_limit(user_id):
+    """Check rate limit untuk user"""
+    current_time = time.time()
+    user_requests = request_counts[user_id]
+    
+    # Hapus request yang sudah expired
+    user_requests[:] = [req_time for req_time in user_requests if current_time - req_time < RATE_LIMIT_WINDOW]
+    
+    # Cek apakah melebihi limit
+    if len(user_requests) >= RATE_LIMIT:
+        return False
+    
+    # Tambahkan request baru
+    user_requests.append(current_time)
+    return True
 
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -32,8 +55,12 @@ def chat():
     try:
         data = request.get_json()
         message = data.get('message')
-        user_id = data.get('user_id')
+        user_id = data.get('user_id', 'anonymous')
         book_id = data.get('book_id')
+        
+        # Rate limiting
+        if not check_rate_limit(user_id):
+            return jsonify({'error': 'Rate limit exceeded. Please try again later.'}), 429
         
         if not message:
             return jsonify({'error': 'Message is required'}), 400
@@ -119,18 +146,38 @@ def ai_enhanced_recommendations():
 def hybrid_recommendations():
     """Endpoint untuk rekomendasi hybrid"""
     try:
+        from utils.logger import ai_logger
+        
         data = request.get_json()
         user_id = data.get('user_id')
         book_id = data.get('book_id')
         user_preferences = data.get('user_preferences')
         n_recommendations = data.get('n_recommendations', 5)
         
+        # Log request
+        ai_logger.logger.info(f"🚀 HYBRID ENDPOINT CALLED")
+        ai_logger.logger.info(f"   User ID: {user_id or 'None'}")
+        ai_logger.logger.info(f"   Book ID: {book_id or 'None'}")
+        ai_logger.logger.info(f"   User Preferences: {user_preferences[:100] + '...' if user_preferences and len(user_preferences) > 100 else user_preferences or 'None'}")
+        ai_logger.logger.info(f"   N Recommendations: {n_recommendations}")
+        
         recommendations = recommendation_service.get_hybrid_recommendations(
             user_id, book_id, user_preferences, n_recommendations
         )
+        
+        # Log response summary
+        total_recs = sum(len(recs) for recs in recommendations.values())
+        ai_logger.logger.info(f"📤 HYBRID RESPONSE SENT")
+        ai_logger.logger.info(f"   Total Recommendations: {total_recs}")
+        ai_logger.logger.info(f"   Content-Based: {len(recommendations['content_based'])}")
+        ai_logger.logger.info(f"   Collaborative: {len(recommendations['collaborative'])}")
+        ai_logger.logger.info(f"   AI-Enhanced: {len(recommendations['ai_enhanced'])}")
+        
         return jsonify({'recommendations': recommendations})
     
     except Exception as e:
+        from utils.logger import ai_logger
+        ai_logger.log_error("HybridEndpoint", str(e))
         return jsonify({'error': str(e)}), 500
 
 # User Preference Endpoints

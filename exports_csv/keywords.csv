@@ -1,0 +1,153 @@
+_id,book_id,keyword,weight
+685bf8cf7dfb90404a14713a,book-171,keuangan pribadi,0.95
+685bf8cf7dfb90404a14713b,book-171,literasi finansial,0.92
+685bf8cf7dfb90404a14713c,book-171,pendidikan uang,0.9
+685bf8cf7dfb90404a14713d,book-172,psikologi keuangan,0.96
+685bf8cf7dfb90404a14713e,book-172,perilaku finansial,0.93
+685bf8cf7dfb90404a14713f,book-172,kebiasaan uang,0.91
+685bf8cf7dfb90404a147140,book-173,investasi,0.98
+685bf8cf7dfb90404a147141,book-173,nilai jangka panjang,0.94
+685bf8cf7dfb90404a147142,book-173,strategi pasar,0.91
+685bf8cf7dfb90404a147143,book-174,motivasi,0.89
+685bf8cf7dfb90404a147144,book-174,kekayaan,0.94
+685bf8cf7dfb90404a147145,book-174,kesuksesan,0.92
+685bf8cf7dfb90404a147146,book-175,pengelolaan uang,0.91
+685bf8cf7dfb90404a147147,book-175,kesadaran finansial,0.88
+685bf8cf7dfb90404a147148,book-175,gaya hidup minimalis,0.86
+685bf8cf7dfb90404a147149,book-176,kebebasan finansial,0.93
+685bf8cf7dfb90404a14714a,book-176,investasi aman,0.9
+685bf8cf7dfb90404a14714b,book-176,strategi jangka panjang,0.87
+685bf8cf7dfb90404a14714c,book-177,kebebasan finansial,0.95
+685bf8cf7dfb90404a14714d,book-177,investor terkenal,0.91
+685bf8cf7dfb90404a14714e,book-177,rencana keuangan,0.89
+685bf8cf7dfb90404a14714f,book-178,milenial,0.92
+685bf8cf7dfb90404a147150,book-178,keuangan praktis,0.89
+685bf8cf7dfb90404a147151,book-178,bebas hutang,0.88
+685bf8cf7dfb90404a147152,book-179,kebiasaan jutawan,0.93
+685bf8cf7dfb90404a147153,book-179,pola pikir kaya,0.9
+685bf8cf7dfb90404a147154,book-179,hidup hemat,0.88
+685bf8cf7dfb90404a147155,book-180,pendapatan pasif,0.92
+685bf8cf7dfb90404a147156,book-180,kerja keras,0.89
+685bf8cf7dfb90404a147157,book-180,financial independence,0.94
+685bf8cf7dfb90404a147158,book-181,filosofi hidup,0.91
+685bf8cf7dfb90404a147159,book-181,prinsip kerja,0.89
+685bf8cf7dfb90404a14715a,book-181,pengembangan bisnis,0.87
+685bf8cf7dfb90404a14715b,book-182,keuangan keluarga,0.9
+685bf8cf7dfb90404a14715c,book-182,kesederhanaan,0.87
+685bf8cf7dfb90404a14715d,book-182,anggaran pribadi,0.86
+685bf8cf7dfb90404a14715e,book-183,psikologi uang,0.92
+685bf8cf7dfb90404a14715f,book-183,kesalahan finansial,0.88
+685bf8cf7dfb90404a147160,book-183,keputusan irasional,0.9
+685bf8cf7dfb90404a147161,book-184,manajemen utang,0.94
+685bf8cf7dfb90404a147162,book-184,pembangunan kekayaan,0.91
+685bf8cf7dfb90404a147163,book-184,disiplin finansial,0.89
+685bf8cf7dfb90404a147164,book-185,investasi pemula,0.93
+685bf8cf7dfb90404a147165,book-185,filosofi Buffett,0.9
+685bf8cf7dfb90404a147166,book-185,pendidikan finansial,0.88
+685bf8cf7dfb90404a147167,book-186,saham,0.94
+685bf8cf7dfb90404a147168,book-186,analisis fundamental,0.91
+685bf8cf7dfb90404a147169,book-186,evaluasi perusahaan,0.89
+685bf8cf7dfb90404a14716a,book-187,investasi indeks,0.95
+685bf8cf7dfb90404a14716b,book-187,jalur kaya sederhana,0.91
+685bf8cf7dfb90404a14716c,book-187,penghasilan pasif,0.88
+685bf8cf7dfb90404a14716d,book-188,pasar saham,0.93
+685bf8cf7dfb90404a14716e,book-188,portofolio,0.89
+685bf8cf7dfb90404a14716f,book-188,analisis pasar,0.87
+685bf8cf7dfb90404a147170,book-189,investasi pemula,0.91
+685bf8cf7dfb90404a147171,book-189,boglehead,0.93
+685bf8cf7dfb90404a147172,book-189,strategi jangka panjang,0.9
+685bf8cf7dfb90404a147173,book-190,pemilihan saham,0.94
+685bf8cf7dfb90404a147174,book-190,investor sukses,0.92
+685bf8cf7dfb90404a147175,book-190,Wall Street,0.91
+685bf9a67dfb90404a14719e,book-191,feminis,0.97
+685bf9a67dfb90404a14719f,book-191,patriarki,0.95
+685bf9a67dfb90404a1471a0,book-191,perempuan,0.94
+685bf9a67dfb90404a1471a1,book-191,mesir,0.91
+685bf9a67dfb90404a1471a2,book-191,perjuangan,0.89
+685bf9a67dfb90404a1471a3,book-192,holokaus,0.96
+685bf9a67dfb90404a1471a4,book-192,nazi,0.94
+685bf9a67dfb90404a1471a5,book-192,literasi,0.92
+685bf9a67dfb90404a1471a6,book-192,remaja,0.9
+685bf9a67dfb90404a1471a7,book-192,perang dunia,0.89
+685bf9a67dfb90404a1471a8,book-193,magical realism,0.94
+685bf9a67dfb90404a1471a9,book-193,sejarah indonesia,0.95
+685bf9a67dfb90404a1471aa,book-193,kolonialisme,0.92
+685bf9a67dfb90404a1471ab,book-193,feminis,0.89
+685bf9a67dfb90404a1471ac,book-194,perang dunia ii,0.96
+685bf9a67dfb90404a1471ad,book-194,kisah saudari,0.93
+685bf9a67dfb90404a1471ae,book-194,prancis,0.91
+685bf9a67dfb90404a1471af,book-194,perlawanan,0.89
+685bf9a67dfb90404a1471b0,book-195,papua,0.95
+685bf9a67dfb90404a1471b1,book-195,perempuan,0.91
+685bf9a67dfb90404a1471b2,book-195,konflik,0.9
+685bf9a67dfb90404a1471b3,book-195,penindasan,0.88
+685bf9a67dfb90404a1471b4,book-196,perang dunia ii,0.96
+685bf9a67dfb90404a1471b5,book-196,gadis buta,0.94
+685bf9a67dfb90404a1471b6,book-196,humanisme,0.91
+685bf9a67dfb90404a1471b7,book-196,nasib,0.89
+685bf9a67dfb90404a1471b8,book-197,eksil politik,0.95
+685bf9a67dfb90404a1471b9,book-197,sejarah indonesia,0.94
+685bf9a67dfb90404a1471ba,book-197,paris,0.92
+685bf9a67dfb90404a1471bb,book-197,trauma kolektif,0.9
+685bf9a67dfb90404a1471bc,book-198,perang sipil,0.96
+685bf9a67dfb90404a1471bd,book-198,nigeria,0.95
+685bf9a67dfb90404a1471be,book-198,kolonialisme,0.93
+685bf9a67dfb90404a1471bf,book-198,perubahan sosial,0.9
+685bf9a67dfb90404a1471c0,book-199,kemerdekaan indonesia,0.94
+685bf9a67dfb90404a1471c1,book-199,perjalanan hidup,0.92
+685bf9a67dfb90404a1471c2,book-199,konflik batin,0.9
+685bf9a67dfb90404a1471c3,book-199,identitas,0.88
+685bf9a67dfb90404a1471c4,book-200,kamp konsentrasi,0.96
+685bf9a67dfb90404a1471c5,book-200,auschwitz,0.95
+685bf9a67dfb90404a1471c6,book-200,kisah nyata,0.92
+685bf9a67dfb90404a1471c7,book-200,cinta di masa perang,0.9
+685bfa867dfb90404a1471e6,book-201,feminis,0.95
+685bfa867dfb90404a1471e7,book-201,kritik sosial,0.93
+685bfa867dfb90404a1471e8,book-201,perempuan,0.92
+685bfa867dfb90404a1471e9,book-201,patriarki,0.91
+685bfa867dfb90404a1471ea,book-201,identitas,0.9
+685bfa867dfb90404a1471eb,book-202,cinta pertama,0.94
+685bfa867dfb90404a1471ec,book-202,melankolia,0.92
+685bfa867dfb90404a1471ed,book-202,eksistensialisme,0.91
+685bfa867dfb90404a1471ee,book-202,psikologi,0.89
+685bfa867dfb90404a1471ef,book-202,remaja jepang,0.88
+685bfa867dfb90404a1471f0,book-203,mitologi,0.93
+685bfa867dfb90404a1471f1,book-203,pembunuhan,0.92
+685bfa867dfb90404a1471f2,book-203,desir hasrat,0.91
+685bfa867dfb90404a1471f3,book-203,realisme magis,0.9
+685bfa867dfb90404a1471f4,book-203,masyarakat pesisir,0.88
+685bfa867dfb90404a1471f5,book-204,refleksi masa lalu,0.94
+685bfa867dfb90404a1471f6,book-204,kenangan,0.91
+685bfa867dfb90404a1471f7,book-204,penyesalan,0.9
+685bfa867dfb90404a1471f8,book-204,memori,0.89
+685bfa867dfb90404a1471f9,book-204,narasi pribadi,0.87
+685bfa867dfb90404a1471fa,book-205,orde baru,0.95
+685bfa867dfb90404a1471fb,book-205,seksualitas,0.94
+685bfa867dfb90404a1471fc,book-205,politik,0.93
+685bfa867dfb90404a1471fd,book-205,identitas perempuan,0.91
+685bfa867dfb90404a1471fe,book-205,revolusi sastra indonesia,0.9
+685bfa867dfb90404a1471ff,book-206,imigrasi,0.94
+685bfa867dfb90404a147200,book-206,identitas budaya,0.92
+685bfa867dfb90404a147201,book-206,multikulturalisme,0.91
+685bfa867dfb90404a147202,book-206,keluarga,0.89
+685bfa867dfb90404a147203,book-206,jenaka satir,0.88
+685bfa867dfb90404a147204,book-207,petualangan,0.94
+685bfa867dfb90404a147205,book-207,konspirasi,0.92
+685bfa867dfb90404a147206,book-207,manusia dan pilihan,0.91
+685bfa867dfb90404a147207,book-207,aksi thriller,0.9
+685bfa867dfb90404a147208,book-207,internasional,0.89
+685bfa867dfb90404a147209,book-208,pengabdian,0.94
+685bfa867dfb90404a14720a,book-208,penyesalan,0.93
+685bfa867dfb90404a14720b,book-208,refleksi hidup,0.91
+685bfa867dfb90404a14720c,book-208,kelas sosial,0.9
+685bfa867dfb90404a14720d,book-208,narasi lambat,0.88
+685bfa867dfb90404a14720e,book-209,tragedi 1965,0.95
+685bfa867dfb90404a14720f,book-209,sejarah indonesia,0.94
+685bfa867dfb90404a147210,book-209,cinta dan politik,0.92
+685bfa867dfb90404a147211,book-209,fiksi sejarah,0.91
+685bfa867dfb90404a147212,book-209,g30s,0.89
+685bfa867dfb90404a147213,book-210,trauma,0.96
+685bfa867dfb90404a147214,book-210,persahabatan,0.94
+685bfa867dfb90404a147215,book-210,luka batin,0.92
+685bfa867dfb90404a147216,book-210,emotional rollercoaster,0.91
+685bfa867dfb90404a147217,book-210,hidup urban,0.89

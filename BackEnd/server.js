@@ -2,6 +2,7 @@
 // Sutradara Utama yang semakin profesional
 
 require('dotenv').config();
+console.log('MONGODB_URI:', process.env.MONGODB_URI); // debug
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -50,7 +51,7 @@ const RATE_WINDOW = 60 * 1000; // 1 minute
 app.use((req, res, next) => {
   const clientIp = req.ip || req.connection.remoteAddress;
   const now = Date.now();
-  
+
   if (!requestCounts[clientIp]) {
     requestCounts[clientIp] = { count: 1, resetTime: now + RATE_WINDOW };
   } else if (now > requestCounts[clientIp].resetTime) {
@@ -58,7 +59,7 @@ app.use((req, res, next) => {
   } else {
     requestCounts[clientIp].count++;
   }
-  
+
   if (requestCounts[clientIp].count > RATE_LIMIT) {
     return res.status(429).json({
       success: false,
@@ -66,7 +67,7 @@ app.use((req, res, next) => {
       message: 'Rate limit exceeded. Please try again later.'
     });
   }
-  
+
   next();
 });
 
@@ -153,7 +154,7 @@ app.use((error, req, res, next) => {
     method: req.method,
     timestamp: req.timestamp
   });
-  
+
   res.status(error.status || 500).json({
     success: false,
     error: 'Internal server error',
@@ -179,7 +180,7 @@ connectToDb((err) => {
     console.error('❌ Failed to connect to database:', err.message);
     process.exit(1);
   }
-  
+
   app.listen(port, () => {
     console.log('\n🚀 ================================');
     console.log('📚 BOOK MANAGEMENT API STARTED');
@@ -189,7 +190,7 @@ connectToDb((err) => {
     console.log(`✅ Health Check: http://localhost:${port}/health`);
     console.log(`✅ API Documentation: http://localhost:${port}/api`);
     console.log('🚀 ================================\n');
-    
+
     // Test database connection
     const db = getDb();
     if (db) {
