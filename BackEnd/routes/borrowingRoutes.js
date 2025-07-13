@@ -19,6 +19,11 @@ router.get('/', BorrowingController.getAllBorrowings);
 // Get borrowings with details (admin only)
 router.get('/with-details', BorrowingController.getBorrowingsWithDetails);
 
+router.get('/active-count', BorrowingController.countActiveLoans);
+router.get('/overdue-count', BorrowingController.countOverdueLoans);
+router.get('/monthly-count', BorrowingController.countMonthlyLoans);
+router.get('/recent', BorrowingController.recentActivities);
+
 // Get borrowing by ID
 router.get('/:id', BorrowingController.getBorrowingById);
 
@@ -47,5 +52,7 @@ router.get('/my/dashboard-stats', BorrowingController.getUserDashboardStats);
 
 // Get overdue borrowings (admin only)
 router.get('/overdue/list', BorrowingController.getOverdueBorrowings);
+
+
 
 module.exports = router; 

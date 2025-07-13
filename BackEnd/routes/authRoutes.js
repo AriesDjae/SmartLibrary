@@ -16,6 +16,8 @@ router.post('/register', authController.registerUser);
 router.get('/', authController.getAllUsers);
 
 // GET user by id
+router.get('/count-nonadmin', authController.countNonAdminUsers);
+router.get('/avg-reading-time', authController.avgReadingTimeNonAdmin);
 router.get('/:id', authController.getUserById);
 
 // PATCH update user by id
@@ -23,5 +25,7 @@ router.patch('/:id', authController.updateUser);
 
 // DELETE user by id
 router.delete('/:id', authController.deleteUser);
+
+
 
 module.exports = router;

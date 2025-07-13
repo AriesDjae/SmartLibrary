@@ -2,6 +2,7 @@
 // Ahli Strategis yang sudah bekerja sama dengan Arsitek Data
 
 const BookModel = require('../models/bookModel');
+const { getDb } = require('../config/db');
 
 // Get all books dengan fitur advanced
 const getAllBooks = async (req, res) => {
@@ -275,6 +276,218 @@ const getAllBooksWithGenres = async (req, res) => {
 };
 //^^
 
+// Get comprehensive admin dashboard statistics
+const getAdminDashboardStats = async (req, res) => {
+  try {
+    console.log('📊 Fetching admin dashboard statistics...');
+    
+    const db = getDb();
+    
+    // Get total books
+    const totalBooks = await db.collection('books').countDocuments();
+    
+    // Get total users
+    const totalUsers = await db.collection('users').countDocuments();
+    
+    // Get active loans (borrowings that are not returned)
+    const activeLoans = await db.collection('borrowings').countDocuments({
+      return_date: { $exists: false }
+    });
+    
+    // Get overdue books (borrowings past due date)
+    const overdueBooks = await db.collection('borrowings').countDocuments({
+      return_date: { $exists: false },
+      due_date: { $lt: new Date() }
+    });
+    
+    // Get monthly reads (books borrowed this month)
+    const currentMonth = new Date();
+    currentMonth.setDate(1);
+    currentMonth.setHours(0, 0, 0, 0);
+    
+    const monthlyReads = await db.collection('borrowings').countDocuments({
+      borrow_date: { $gte: currentMonth }
+    });
+    
+    // Get average reading time per user
+    const userReadingStats = await db.collection('users').aggregate([
+      {
+        $group: {
+          _id: null,
+          avgReadingTime: { $avg: '$reading_time' || 0 },
+          totalReadingTime: { $sum: '$reading_time' || 0 }
+        }
+      }
+    ]).toArray();
+    
+    const avgReadingTime = userReadingStats[0]?.avgReadingTime || 0;
+    
+    // Get popular categories
+    const popularCategories = await db.collection('books').aggregate([
+      {
+        $group: {
+          _id: '$genre',
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { count: -1 } },
+      { $limit: 5 }
+    ]).toArray();
+    
+    // Get recent activities (borrowings in last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    
+    const recentActivities = await db.collection('borrowings').aggregate([
+      {
+        $match: {
+          borrow_date: { $gte: sevenDaysAgo }
+        }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user_id',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      {
+        $lookup: {
+          from: 'books',
+          localField: 'book_id',
+          foreignField: '_id',
+          as: 'book'
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          borrow_date: 1,
+          due_date: 1,
+          return_date: 1,
+          userName: { $arrayElemAt: ['$user.full_name', 0] },
+          bookTitle: { $arrayElemAt: ['$book.title', 0] }
+        }
+      },
+      { $sort: { borrow_date: -1 } },
+      { $limit: 10 }
+    ]).toArray();
+    
+    // Get user engagement levels
+    const userEngagement = await db.collection('users').aggregate([
+      {
+        $group: {
+          _id: {
+            $cond: {
+              if: { $gte: ['$books_read', 10] },
+              then: 'High',
+              else: {
+                $cond: {
+                  if: { $gte: ['$books_read', 5] },
+                  then: 'Medium',
+                  else: 'Low'
+                }
+              }
+            }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]).toArray();
+    
+    // Calculate percentages for user engagement
+    const totalEngagementUsers = userEngagement.reduce((sum, item) => sum + item.count, 0);
+    const userEngagementWithPercentage = userEngagement.map(item => ({
+      level: item._id,
+      count: item.count,
+      percentage: Math.round((item.count / totalEngagementUsers) * 100)
+    }));
+    
+    // Get reading trends (last 6 months)
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+    
+    const readingTrends = await db.collection('borrowings').aggregate([
+      {
+        $match: {
+          borrow_date: { $gte: sixMonthsAgo }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: '$borrow_date' },
+            month: { $month: '$borrow_date' }
+          },
+          books: { $sum: 1 },
+          users: { $addToSet: '$user_id' }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          month: {
+            $concat: [
+              { $toString: '$_id.year' },
+              '-',
+              { $toString: '$_id.month' }
+            ]
+          },
+          books: 1,
+          users: { $size: '$users' }
+        }
+      },
+      { $sort: { month: 1 } }
+    ]).toArray();
+    
+    const stats = {
+      totalBooks,
+      totalUsers,
+      activeLoans,
+      overdueBooks,
+      monthlyReads,
+      avgReadingTime: Math.round(avgReadingTime),
+      popularCategories,
+      recentActivities,
+      userEngagement: userEngagementWithPercentage,
+      readingTrends
+    };
+    
+    console.log('✅ Admin dashboard stats retrieved:', {
+      totalBooks,
+      totalUsers,
+      activeLoans,
+      overdueBooks,
+      monthlyReads
+    });
+    
+    res.status(200).json({
+      success: true,
+      data: stats,
+      message: 'Admin dashboard statistics retrieved successfully'
+    });
+  } catch (error) {
+    console.error('❌ Error fetching admin dashboard stats:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Could not fetch admin dashboard statistics',
+      details: error.message
+    });
+  }
+};
+
+const countBooks = async (req, res) => {
+  try {
+    const db = getDb();
+    const count = await db.collection('books').countDocuments();
+    res.json({ success: true, count });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
 module.exports = {
   getAllBooks,
   getBookById,
@@ -288,6 +501,8 @@ module.exports = {
   getFeaturedBooks,
   getPopularBooks,
   getNewArrivals,
-  getAllBooksWithGenres
+  getAllBooksWithGenres,
+  getAdminDashboardStats,
+  countBooks
   
 };

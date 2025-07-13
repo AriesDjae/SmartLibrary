@@ -4,7 +4,7 @@
 const express = require('express');
 const router = express.Router();
 const bookController = require('../controllers/bookController');
-const { getFeaturedBooks, getPopularBooks, getNewArrivals } = require('../controllers/bookController');
+// const { getFeaturedBooks, getPopularBooks, getNewArrivals } = require('../controllers/bookController');
 
 // Middleware untuk validasi ID parameter
 const validateObjectId = (req, res, next) => {
@@ -38,13 +38,16 @@ router.get('/with-genres', bookController.getAllBooksWithGenres);
 router.get('/featured', bookController.getFeaturedBooks);
 router.get('/popular', bookController.getPopularBooks);
 router.get('/new-arrivals', bookController.getNewArrivals);
+router.get('/count', bookController.countBooks);
 router.get('/:id', validateObjectId, bookController.getBookById);
 // Additional Feature Routes
 router.get('/author/:author', bookController.getBooksByAuthor);
 router.get('/recent/list', bookController.getRecentBooks);
 router.get('/stats/summary', bookController.getBookStats);
+router.get('/admin/dashboard-stats', bookController.getAdminDashboardStats);
 
 router.get('/', bookController.getAllBooks);
+// router.get('/count', bookController.countBooks);
 // router.get('/:id', validateObjectId, bookController.getBookById);
 router.post('/', bookController.createBook);
 router.patch('/:id', validateObjectId, bookController.updateBook);
