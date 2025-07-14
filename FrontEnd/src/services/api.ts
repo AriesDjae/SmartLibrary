@@ -154,4 +154,39 @@ export const updateProfile = async (userId: string, userData: UserUpdateData): P
   }
 };
 
+// AI API
+export const aiAPI = {
+  // Health check
+  healthCheck: () => api.get('/ai/health'),
+  
+  // Chat AI
+  chat: (data: { message: string; user_id?: string; book_id?: string }) =>
+    api.post('/ai/chat', data),
+  
+  // Clear chat history
+  clearChat: (user_id: string) => api.post('/ai/chat/clear', { user_id }),
+  
+  // Recommendations
+  getContentBasedRecommendations: (book_id: string, n_recommendations: number = 5) =>
+    api.post('/ai/recommendations/content-based', { book_id, n_recommendations }),
+  
+  getCollaborativeRecommendations: (user_id: string, n_recommendations: number = 5) =>
+    api.post('/ai/recommendations/collaborative', { user_id, n_recommendations }),
+  
+  getAIEnhancedRecommendations: (user_preferences: string, n_recommendations: number = 5) =>
+    api.post('/ai/recommendations/ai-enhanced', { user_preferences, n_recommendations }),
+  
+  getHybridRecommendations: (data: {
+    user_id?: string;
+    book_id?: string;
+    user_preferences?: string;
+    n_recommendations?: number;
+  }) => api.post('/ai/recommendations/hybrid', data),
+  
+  // User analysis
+  getUserPreferences: (user_id: string) => api.get(`/ai/user/preferences?user_id=${user_id}`),
+  getSimilarUsers: (user_id: string, n_similar_users: number = 5) =>
+    api.get(`/ai/user/similar-users?user_id=${user_id}&n_similar_users=${n_similar_users}`),
+};
+
 export default api;

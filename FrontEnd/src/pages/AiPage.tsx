@@ -3,6 +3,8 @@ import { Cpu, Send, User as UserIcon, Bot, Menu, Trash2, Sparkles, BookOpen, Lig
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { geminiService } from "../services/geminiApi";
+import { aiAPI } from "../services/api";
+import AIRecommendations from "../components/ai/AIRecommendations";
 import toast from "react-hot-toast";
 
 interface ChatMessage {
@@ -173,12 +175,15 @@ const AiPage: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Get AI response using Gemini
-      const aiResponse = await geminiService.generateResponse(message);
+      // Get AI response using backend AI service
+      const response = await aiAPI.chat({
+        message,
+        user_id: localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')!)._id : undefined
+      }) as any;
       
       const aiMessage: ChatMessage = {
         role: "ai",
-        content: aiResponse,
+        content: response.response,
         timestamp: new Date()
       };
 
@@ -450,7 +455,7 @@ const AiPage: React.FC = () => {
             <AnimatePresence initial={false}>
               {activeSession && activeSession.messages.map((msg, idx) => (
                 <motion.div
-                  key={idx}
+                  key={`message-${activeSession.id}-${idx}-${msg.timestamp.getTime()}`}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 30 }}
@@ -486,6 +491,14 @@ const AiPage: React.FC = () => {
               ))}
             </AnimatePresence>
             <div ref={chatEndRef} />
+          </section>
+          
+          {/* AI Recommendations Section */}
+          <section className="mt-8 mb-32">
+            <AIRecommendations 
+              userId={localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')!)._id : undefined}
+              userPreferences="Saya suka membaca buku fiksi ilmiah dan novel"
+            />
           </section>
         </div>
 
