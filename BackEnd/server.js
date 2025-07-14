@@ -2,7 +2,7 @@
 // Sutradara Utama yang semakin profesional
 
 require('dotenv').config();
-console.log('MONGODB_URI:', process.env.MONGODB_URI); // debug
+// console.log('MONGODB_URI:', process.env.MONGO_URI); // debug
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -13,6 +13,7 @@ const authRoutes = require('./routes/authRoutes');
 const genreRoutes = require('./routes/genreRoutes');
 const userInteractionRoutes = require('./routes/userInteractionRoutes');
 const borrowingRoutes = require('./routes/borrowingRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 
 
 const app = express();
@@ -130,8 +131,10 @@ app.use('/api/users', authRoutes);
 app.use('/api/genres', genreRoutes);
 app.use('/api/user-interactions', userInteractionRoutes);
 app.use('/api/borrowings', borrowingRoutes);
+app.use('/api/ai', aiRoutes);
 console.log('Route /api/user-interactions siap digunakan');
 console.log('Route /api/borrowings siap digunakan');
+console.log('Route /api/ai siap digunakan');
 // router.put('/books/:id/genres', bookController.updateBookGenres);
 
 
