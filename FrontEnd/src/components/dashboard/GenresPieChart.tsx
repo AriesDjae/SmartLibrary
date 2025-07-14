@@ -16,12 +16,10 @@ ChartJS.register(
 // Props untuk GenresPieChart
 interface GenresPieChartProps {
   borrowings: Array<{
-    books_id: string;
-    book?: any;
+    books_id: string; book?: any;
   }>;
   userInteractions: Array<{
-    type: string;
-    bookId: string;
+    type: string; bookId: string;
   }>;
   getBookById: (id: string) => any;
 }

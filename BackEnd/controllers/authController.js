@@ -1,6 +1,7 @@
 const UserModel = require('../models/authModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { getDb } = require('../config/db');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -215,4 +216,36 @@ const deleteUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, getAllUsers, getUserById, updateUser, deleteUser, loginUser };
+const countNonAdminUsers = async (req, res) => {
+  try {
+    const db = getDb();
+    const count = await db.collection('user').countDocuments({ role_id: { $ne: 'r2' } });
+    res.json({ success: true, count });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+const avgReadingTimeNonAdmin = async (req, res) => {
+    try {
+      const db = getDb();
+      const result = await db.collection('user').aggregate([
+        { $match: { role_id: { $ne: 'r2' } } },
+        { $group: { _id: null, avg: { $avg: '$reading_time' } } }
+      ]).toArray();
+      res.json({ success: true, avg: result[0]?.avg || 0 });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  };
+
+module.exports = { 
+    registerUser, 
+    getAllUsers, 
+    getUserById, 
+    updateUser, 
+    deleteUser, 
+    loginUser, 
+    countNonAdminUsers,
+    avgReadingTimeNonAdmin
+ };

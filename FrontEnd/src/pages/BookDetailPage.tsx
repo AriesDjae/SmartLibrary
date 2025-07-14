@@ -251,7 +251,7 @@ const BookDetailPage: React.FC = () => {
     axiosInstance.post("/user-interactions", {
       user_id: currentUser?._id,
       book_id: book.id,
-      interaction_type: "click",
+      interaction_type: "read",
       timestamp: new Date().toISOString(),
       interaction_details: "Clicked 'Read Now' button"
     }).then(() => {

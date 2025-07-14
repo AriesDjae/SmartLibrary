@@ -1,10 +1,9 @@
 import React from 'react';
 import { BookOpen, Users, Calendar, AlertTriangle, TrendingUp, Clock } from 'lucide-react';
-import { Stats } from '../../types';
 import { CardSkeleton } from './LoadingStates';
 
 interface StatsCardsProps {
-  stats: Stats | null;
+  stats: any;
   loading: boolean;
 }
 
@@ -21,10 +20,17 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ stats, loading }) => {
 
   if (!stats) return null;
 
+  // Format average reading time
+  const formatReadingTime = (minutes: number) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  };
+
   const cards = [
     {
       title: 'Total Books',
-      value: stats.totalBooks.toLocaleString(),
+      value: stats.totalBooks?.toLocaleString() || '0',
       icon: BookOpen,
       color: 'from-blue-500 to-blue-600',
       bgColor: 'bg-blue-50 dark:bg-blue-900/20',
@@ -32,7 +38,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ stats, loading }) => {
     },
     {
       title: 'Total Users',
-      value: stats.totalUsers.toLocaleString(),
+      value: stats.totalUsers?.toLocaleString() || '0',
       icon: Users,
       color: 'from-green-500 to-green-600',
       bgColor: 'bg-green-50 dark:bg-green-900/20',
@@ -40,7 +46,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ stats, loading }) => {
     },
     {
       title: 'Active Loans',
-      value: stats.activeLoans.toLocaleString(),
+      value: stats.activeLoans?.toLocaleString() || '0',
       icon: Calendar,
       color: 'from-purple-500 to-purple-600',
       bgColor: 'bg-purple-50 dark:bg-purple-900/20',
@@ -48,7 +54,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ stats, loading }) => {
     },
     {
       title: 'Overdue Books',
-      value: stats.overdueBooks.toLocaleString(),
+      value: stats.overdueBooks?.toLocaleString() || '0',
       icon: AlertTriangle,
       color: 'from-red-500 to-red-600',
       bgColor: 'bg-red-50 dark:bg-red-900/20',
@@ -56,7 +62,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ stats, loading }) => {
     },
     {
       title: 'Monthly Reads',
-      value: stats.monthlyReads.toLocaleString(),
+      value: stats.monthlyReads?.toLocaleString() || '0',
       icon: TrendingUp,
       color: 'from-orange-500 to-orange-600',
       bgColor: 'bg-orange-50 dark:bg-orange-900/20',
@@ -64,7 +70,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ stats, loading }) => {
     },
     {
       title: 'Avg. Reading Time',
-      value: '4h 32m',
+      value: formatReadingTime(stats.avgReadingTime || 0),
       icon: Clock,
       color: 'from-indigo-500 to-indigo-600',
       bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',

@@ -4,7 +4,7 @@ import { FeaturedBooks } from './FeaturedBooks';
 import { ActivityFeed } from './ActivityFeed';
 import { Analytics } from './Analytics';
 import { BookLoans } from './BookLoans';
-import { useUsers, useBooks, useLoans, useActivities, useStats } from '../../hooks/useData';
+import { useUsers, useBooks, useLoans, useActivities, useAdminDashboardStats } from '../../hooks/useData';
 import { useErrorHandler } from '../../hooks/useErrorHandler';
 import { Settings, Download, Filter, Calendar } from 'lucide-react';
 
@@ -13,21 +13,20 @@ interface EnhancedDashboardProps {
 }
 
 export const EnhancedDashboard: React.FC<EnhancedDashboardProps> = ({ activeTab }) => {
-  const { users, loading: usersLoading } = useUsers();
+  const { users } = useUsers();
   const { books, loading: booksLoading } = useBooks();
   const { loans, loading: loansLoading, updateLoanStatus } = useLoans();
-  const { activities, loading: activitiesLoading } = useActivities();
-  const { stats, loading: statsLoading } = useStats();
+  const { stats, loading: statsLoading } = useAdminDashboardStats();
   const { handleAsyncOperation } = useErrorHandler();
 
   const [dateRange, setDateRange] = useState('7d');
-  const [refreshInterval, setRefreshInterval] = useState<NodeJS.Timeout | null>(null);
+  const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
 
   // Auto-refresh data every 30 seconds for real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
       // In a real app, this would trigger data refetch
-      console.log('Refreshing dashboard data...');
+      // console.log('Refreshing dashboard data...');
     }, 30000);
 
     setRefreshInterval(interval);
@@ -142,7 +141,7 @@ export const EnhancedDashboard: React.FC<EnhancedDashboardProps> = ({ activeTab 
               </div>
               
               <div>
-                <ActivityFeed activities={activities} loading={activitiesLoading} />
+                <ActivityFeed activities={stats?.recentActivities || []} loading={statsLoading} />
               </div>
             </div>
           </div>

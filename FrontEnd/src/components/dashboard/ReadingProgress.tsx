@@ -1,29 +1,33 @@
 import React from 'react';
-import { Book, BookOpen, Clock } from 'lucide-react';
-// import { useBooks } from '../../contexts/BookContext';
-// import { mockUserActivity } from '../../data/mockData';
 
 interface ReadingProgressProps {
   userInteractions: Array<{
+    _id: string;
     type: string;
-    bookId: string;
+    book_id: string;
+    progress: number;
+    book_detail: {
+      _id: string;
+      title: string;
+      author: string;
+      coverImage: string;
+      pageCount: number;
+    };
     timestamp?: string;
-    progress?: number;
-    lastRead?: string;
   }>;
-  getBookById: (id: string) => any;
 }
 
-// Komponen untuk satu buku yang sedang dibaca
 const CurrentlyReading: React.FC<{
   book: any;
   progress?: number;
   lastRead?: string;
 }> = ({ book, progress, lastRead }) => {
   if (!book) return null;
+  console.log('DEBUG progress:', progress, 'book:', book?.title);
   const progressPercent = Math.round((progress ?? 0) * 100);
   const formattedDate = lastRead
-    ? new Date(lastRead).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    ? new Date(lastRead).toLocaleDateString('en-US', 
+      { month: 'short', day: 'numeric' })
     : '';
   return (
     <div className="flex items-center space-x-4 p-4 border-b border-gray-100 last:border-0">
@@ -58,49 +62,41 @@ const CurrentlyReading: React.FC<{
   );
 };
 
-const ReadingProgress: React.FC<ReadingProgressProps> = ({ userInteractions, getBookById }) => {
-  // Filter interaksi 'read' dan urutkan terbaru
-  const readingInteractions = userInteractions
-    .filter(i => i.type === 'read')
-    .sort((a, b) => new Date(b.timestamp || '').getTime() - new Date(a.timestamp || '').getTime());
-
-  // Ambil buku unik yang sedang dibaca
-  const currentlyReadingBooks: Array<{ book: any; progress?: number; lastRead?: string }> = [];
-  const seen = new Set();
-  for (const interaction of readingInteractions) {
-    if (!seen.has(interaction.bookId)) {
-      seen.add(interaction.bookId);
-      const book = getBookById(interaction.bookId);
-      if (book) {
-        currentlyReadingBooks.push({
-          book,
-          progress: interaction.progress,
-          lastRead: interaction.lastRead || interaction.timestamp,
-        });
-      }
+const ReadingProgress: React.FC<ReadingProgressProps> = ({ userInteractions }) => {
+  //hanya buku dengan progress > 0
+  const filteredInteractions = userInteractions.filter(
+    (item) => item.progress && item.progress > 0
+  );
+  // Group by book_id, ambil progress terbesar/terakhir
+  const bookMap = new Map<string, typeof filteredInteractions[0]>();
+  filteredInteractions.forEach((item) => {
+    const existing = bookMap.get(item.book_id);
+    // Ambil progress terbesar, atau interaksi terbaru jika progress sama
+    if (!existing || (item.progress > existing.progress) ||
+        (item.progress === existing.progress && new Date(item.timestamp || 0) > new Date(existing.timestamp || 0))) {
+      bookMap.set(item.book_id, item);
     }
-  }
-
+  });
+  const uniqueBooks = Array.from(bookMap.values());
   return (
     <div className="card">
       <div className="border-b border-gray-100 p-4">
         <h3 className="font-semibold text-lg">Currently Reading</h3>
       </div>
       <div>
-        {currentlyReadingBooks.length === 0 ? (
+        {uniqueBooks.length === 0 ? (
           <div className="p-8 text-center text-gray-400">No books being read now</div>
         ) : (
-          currentlyReadingBooks.map(({ book, progress, lastRead }) => (
+          uniqueBooks.map((item) => (
             <CurrentlyReading
-              key={book.id}
-              book={book}
-              progress={progress}
-              lastRead={lastRead}
+              key={item.book_id}
+              book={item.book_detail}
+              progress={item.progress}
+              lastRead={item.timestamp}
             />
           ))
         )}
       </div>
-      {/* Bagian statistik bisa tetap pakai props/statistik lain jika perlu */}
     </div>
   );
 };

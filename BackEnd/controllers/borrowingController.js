@@ -2,6 +2,7 @@
 // Controller untuk mengelola operasi peminjaman buku
 
 const BorrowingModel = require('../models/borrowingModel');
+const { getDb } = require('../config/db');
 
 class BorrowingController {
   // Create new borrowing
@@ -254,95 +255,67 @@ class BorrowingController {
   // Get user dashboard statistics
   static async getUserDashboardStats(req, res) {
     try {
-      console.log('📊 Dashboard Stats: Starting calculation for user:', req.user?._id);
-      
       const userId = req.user?._id;
       if (!userId) {
-        console.error('❌ Dashboard Stats: User not authenticated');
         return res.status(401).json({
           success: false,
           error: 'User not authenticated'
         });
       }
-
       const db = require('../config/db').getDb();
       const { ObjectId } = require('mongodb');
-      
-      console.log('🔍 Dashboard Stats: Fetching borrowings for user:', userId);
-      
-      // Get all user borrowings
-      const borrowings = await db.collection('borrowings').find({ 
-        user_id: new ObjectId(userId) 
-      }).toArray();
-      
-      // Log first few borrowings for debugging
-      if (borrowings.length > 0) {
-        console.log('🔍 Dashboard Stats: Sample borrowing data:', {
-          firstBorrowing: {
-            _id: borrowings[0]._id,
-            user_id: borrowings[0].user_id,
-            books_id: borrowings[0].books_id,
-            is_borrow: borrowings[0].is_borrow,
-            borrow_date: borrowings[0].borrow_date,
-            due_date: borrowings[0].due_date
+      console.log('[DASHBOARD] Mulai aggregate statistik user:', userId);
+      const start = Date.now();
+      const statsAgg = await db.collection('borrowings').aggregate([
+        { $match: { user_id: new ObjectId(userId) } },
+        {
+          $lookup: {
+            from: 'books',
+            localField: 'books_id',
+            foreignField: '_id',
+            as: 'book'
           }
-        });
-      }
-      
-      console.log('📚 Dashboard Stats: Found', borrowings.length, 'borrowings');
-      
-      // Calculate statistics
-      const totalBorrowed = borrowings.length;
-      const activeBorrowings = borrowings.filter(b => b.is_borrow).length;
-      const returnedBorrowings = borrowings.filter(b => !b.is_borrow).length;
-      
-      // Calculate overdue books
-      const overdueBooks = borrowings.filter(b => {
-        if (!b.is_borrow) return false;
-        const dueDate = new Date(b.due_date);
-        const today = new Date();
-        return dueDate < today;
-      }).length;
-
-      // Calculate total pages read (estimate based on returned books)
-      let totalPagesRead = 0;
-      for (const borrowing of borrowings) {
-        if (!borrowing.is_borrow) {
-          try {
-            const book = await db.collection('books').findOne({ _id: borrowing.books_id });
-            if (book && book.pageCount) {
-              totalPagesRead += book.pageCount;
-            } else {
-              totalPagesRead += 300; // Default estimate
+        },
+        { $unwind: { path: '$book', preserveNullAndEmptyArrays: true } },
+        {
+          $group: {
+            _id: null,
+            totalBorrowed: { $sum: 1 },
+            activeBorrowings: { $sum: { $cond: ['$is_borrow', 1, 0] } },
+            returnedBorrowings: { $sum: { $cond: ['$is_borrow', 0, 1] } },
+            overdueBooks: {
+              $sum: {
+                $cond: [
+                  { $and: ['$is_borrow', { $lt: ['$due_date', new Date()] }] },
+                  1, 0
+                ]
+              }
+            },
+            totalPagesRead: {
+              $sum: {
+                $cond: [
+                  { $eq: ['$is_borrow', false] },
+                  '$book.pageCount',
+                  0
+                ]
+              }
             }
-          } catch (bookError) {
-            console.warn('⚠️ Dashboard Stats: Error fetching book details for', borrowing.books_id, bookError.message);
-            totalPagesRead += 300; // Default estimate
           }
         }
-      }
-
-      // Calculate average reading time (estimate: 1 hour per 50 pages)
-      const averageReadingTime = Math.round((totalPagesRead / 50) * 10) / 10;
-
+      ]).toArray();
+      const end = Date.now();
+      console.log('[DASHBOARD] Aggregate selesai. Durasi:', (end - start), 'ms');
+      const statsDoc = statsAgg[0] || {};
+      const averageReadingTime = statsDoc.totalPagesRead ? Math.round((statsDoc.totalPagesRead / 50) * 10) / 10 : 0;
       const stats = {
-        totalBorrowed,
-        activeBorrowings,
-        returnedBorrowings,
-        overdueBooks,
-        totalPagesRead,
+        totalBorrowed: statsDoc.totalBorrowed || 0,
+        activeBorrowings: statsDoc.activeBorrowings || 0,
+        returnedBorrowings: statsDoc.returnedBorrowings || 0,
+        overdueBooks: statsDoc.overdueBooks || 0,
+        totalPagesRead: statsDoc.totalPagesRead || 0,
         averageReadingTime
       };
-
-      // Ensure all values are numbers
-      Object.keys(stats).forEach(key => {
-        if (typeof stats[key] !== 'number') {
-          stats[key] = 0;
-        }
-      });
-
-      console.log('✅ Dashboard Stats: Calculated stats:', stats);
-
+      console.log('[DASHBOARD] Statistik hasil:', stats);
       res.status(200).json({
         success: true,
         data: stats
@@ -374,6 +347,84 @@ class BorrowingController {
       res.status(500).json({ success: false, error: error.message });
     }
   }
+
+  // Hitung pinjaman aktif
+  static async countActiveLoans(req, res) {
+    try {
+      const db = require('../config/db').getDb();
+      const count = await db.collection('borrowings').countDocuments({ return_date: { $exists: false } });
+      res.json({ success: true, count });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  }
+
+  // Hitung pinjaman overdue
+  static async countOverdueLoans(req, res) {
+    try {
+      const db = require('../config/db').getDb();
+      const now = new Date();
+      const count = await db.collection('borrowings').countDocuments({
+        return_date: { $exists: false },
+        due_date: { $lt: now }
+      });
+      res.json({ success: true, count });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  }
+
+  // Hitung pinjaman bulan ini
+  static async countMonthlyLoans(req, res) {
+    try {
+      const db = require('../config/db').getDb();
+      const now = new Date();
+      now.setDate(1); now.setHours(0,0,0,0);
+      const count = await db.collection('borrowings').countDocuments({ borrow_date: { $gte: now } });
+      res.json({ success: true, count });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  }
+
+  // Aktivitas terbaru
+  // Aktivitas terbaru
+static async recentActivities(req, res) {
+  try {
+    const db = require('../config/db').getDb();
+    const activities = await db.collection('borrowings').aggregate([
+      { $sort: { borrow_date: -1 } },
+      { $limit: 10 },
+      // Join ke user
+      { $lookup: {
+          from: 'user',
+          localField: 'user_id',
+          foreignField: '_id',
+          as: 'user'
+      }},
+      { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+      // Join ke books
+      { $lookup: {
+          from: 'books',
+          localField: 'books_id',
+          foreignField: '_id',
+          as: 'book'
+      }},
+      { $unwind: { path: '$book', preserveNullAndEmptyArrays: true } },
+      // Project hanya field yang dibutuhkan
+      { $project: {
+          _id: 1,
+          type: { $literal: 'borrow' },
+          borrow_date: 1,
+          user: { _id: '$user._id', name: '$user.full_name', avatar: '$user.profile_picture' },
+          book: { _id: '$book._id', title: '$book.title' }
+      }}
+    ]).toArray();
+    res.json({ success: true, activities });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+}
 }
 
 module.exports = BorrowingController; 

@@ -22,6 +22,7 @@ import AdminProfilePage from "./pages/AdminProfilePage";
 import ProtectedProfile from "./pages/ProtectedProfile";
 import RequireAdmin from './routes/RequireAdmin';
 import RequireUser from './routes/RequireUser';
+import { BookLoans } from './components/dashboard-admin/BookLoans';
 
 const App: React.FC = () => {
   return (
@@ -80,6 +81,13 @@ const App: React.FC = () => {
               <AdminProfilePage />
             </RequireAdmin>
           } />
+          <Route path="/admin/book-loans" element={
+            <RequireAdmin>
+              <BookLoans />
+            </RequireAdmin>
+          } />
+
+          
 
           {/* <Route path="/" element={
             <RequireUser>
@@ -100,6 +108,7 @@ const App: React.FC = () => {
             <Route path="/profile" element={<ProtectedProfile />} />
             <Route path="/reader/:id" element={<ReaderPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            
           </Route>
         </Routes>
       </BorrowProvider>

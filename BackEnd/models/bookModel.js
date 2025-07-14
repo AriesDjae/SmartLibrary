@@ -9,9 +9,9 @@ class BookModel {
   static schema = {
     title: { type: 'string', required: true, maxLength: 100 },
     author: { type: 'string', required: true, maxLength: 50 },
-    coverImage: { type: 'string', required: true }, // URL atau path gambar
+    coverImage: { type: 'string', required: true }, 
     description: { type: 'string', required: true, maxLength: 500 },
-    publishDate: { type: 'string', required: true }, // Format tanggal string
+    publishDate: { type: 'string', required: true }, 
     pageCount: { type: 'number', required: true, min: 1 },
     isbn: { type: 'string', required: true },
     isAvailable: { type: 'boolean', required: true },
@@ -337,7 +337,7 @@ class BookModel {
     }
   }
 
-  //aulira
+  
   // Ambil semua buku beserta nama genre
   static async findAllWithGenres() {
     const db = getDb();
@@ -378,7 +378,7 @@ class BookModel {
       }
     ]).toArray();
   }
-  //aulira^^
+ 
 
   // Get book with genres
   static async getBookWithGenres(bookId){
@@ -465,7 +465,6 @@ static async findFeatured(limit = 10) {
     .toArray();
   
   // 4. Gabungkan data rating ke data buku
-  // (optional, supaya frontend bisa tahu ratingnya)
   const booksWithRating = books.map(book => {
     const ratingInfo = topRated.find(r => r._id === book._id);
     return {
@@ -480,12 +479,6 @@ static async findFeatured(limit = 10) {
   });
 
   return booksWithRating;
-
-  // return await db.collection('books')
-  //   .find({ isFeatured: true })
-  //   .sort({ createdAt: -1 })
-  //   .limit(limit)
-  //   .toArray();
 }
 
 // Get popular books
@@ -507,10 +500,6 @@ static async findNewArrivals(limit = 10) {
     .limit(limit)
     .toArray();
 }
-
-
-
-
 }
 
 module.exports = BookModel;
