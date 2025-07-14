@@ -120,7 +120,6 @@ class BookModel {
   }
 
   // CRUD Operations - Business Logic Layer
-
   // Get all books dengan pagination dan filtering
   static async findAll(options = {}) {
     const db = getDb();
