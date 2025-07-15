@@ -36,7 +36,8 @@ const ReaderPage: React.FC = () => {
   const progressTimeoutRef = useRef<number | null>(null);
   const lastSentProgress = useRef<number>(0);
   const lastRequestTime = useRef<number>(0);
-  
+  const readingStartTime = useRef<number | null>(null);
+
   // Simulate book content loading
   useEffect(() => {
     if (book) {
@@ -123,6 +124,29 @@ const ReaderPage: React.FC = () => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    readingStartTime.current = Date.now();
+    return () => {
+      // Saat komponen unmount, kirim waktu membaca jika user dan book ada
+      if (currentUser?._id && id && readingStartTime.current) {
+        const readingTimeMinutes = Math.round((Date.now() - readingStartTime.current) / 60000);
+        if (readingTimeMinutes > 0) {
+          axiosInstance.post('/user-interactions/record-reading-time', {
+            user_id: currentUser._id,
+            book_id: id,
+            reading_time_minutes: readingTimeMinutes
+          })
+          .then(res => {
+            console.log('[FRONTEND] Reading time recorded:', readingTimeMinutes, 'menit');
+          })
+          .catch(err => {
+            console.error('[FRONTEND] Error recording reading time:', err);
+          });
+        }
+      }
+    };
+  }, [currentUser, id]);
   
   if (!book) {
     return (

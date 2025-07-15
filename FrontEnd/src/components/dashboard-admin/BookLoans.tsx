@@ -13,7 +13,12 @@ export const BookLoans: React.FC = () => {
     const fetchLoans = async () => {
       setLoading(true);
       try {
-        const res = await fetch('/api/borrowings/with-details');
+        const token = localStorage.getItem('token');
+        const res = await fetch('/api/borrowings/with-details', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         const data = await res.json();
         const mapped = (data.data || []).map((item: any) => ({
           id: item._id,

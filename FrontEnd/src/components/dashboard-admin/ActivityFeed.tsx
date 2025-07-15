@@ -61,7 +61,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({ activities, loading 
       
       <div className="space-y-4">
         {activities && activities.length > 0 ? (
-          activities.map((activity, index) => (
+          activities.slice(0, 5).map((activity, index) => (  //membatasi recent activity , sehingga yang ditampilkan hanya 5
             <div
               key={index}
               className={`p-4 rounded-lg border ${getActivityColor('borrow')} transition-all duration-200 hover:scale-105`}

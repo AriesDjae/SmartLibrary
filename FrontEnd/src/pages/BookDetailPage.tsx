@@ -109,25 +109,26 @@ const BookDetailPage: React.FC = () => {
   }, [id]);
 
   // Kirim interaksi "view" ke backend saat user membuka halaman detail buku
-  useEffect(() => {
-    if (!id || !currentUser?._id) return;
-    // Data interaksi yang akan dikirim
-    const interactionData = {
-      user_id: currentUser?._id, // pastikan sesuai field backend
-      book_id: id,
-      interaction_type: "view",
-      timestamp: new Date().toISOString(),
-      interaction_details: "Viewed book detail page"
-    };
-    // Kirim POST ke backend
-    axiosInstance.post("/user-interactions", interactionData)
-      .then(() => {
-        console.log("Interaksi view berhasil dikirim");
-      })
-      .catch((err) => {
-        console.error("Gagal mengirim interaksi view:", err);
-      });
-  }, [id, currentUser?._id]);
+  // useEffect(() => {
+  //   if (!id || !currentUser?._id) return;
+  //   // Data interaksi yang akan dikirim
+  //   const interactionData = {
+  //     user_id: currentUser?._id, // pastikan sesuai field backend
+  //     book_id: id,
+  //     interaction_type: "view",
+  //     timestamp: new Date().toISOString(),
+  //     interaction_details: "Viewed book detail page"
+  //   };
+  //   // Kirim POST ke backend
+  //   axiosInstance.post("/user-interactions", interactionData)
+  //     .then(() => {
+  //       console.log("Interaksi view berhasil dikirim");
+  //     })
+  //     .catch((err) => {
+  //       console.error("Gagal mengirim interaksi view:", err);
+  //     });
+  // }, [id, currentUser?._id]);
+  // */
 
   // Loading state
   if (loading) {
