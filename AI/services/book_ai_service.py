@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional
 from .recommendation_service import RecommendationService
 from .user_preference_service import UserPreferenceService
+from collections import deque
 
 # Load environment variables
 load_dotenv()
@@ -17,7 +18,7 @@ class BookAIService:
         self._setup_openai()
         self._setup_database()
         self._setup_services()
-        self._conversation_histories = {}  # Dictionary untuk menyimpan riwayat per user
+        self._conversation_histories = {}  # Dictionary untuk menyimpan riwayat per user (deque)
     
     def _setup_openai(self):
         """Setup konfigurasi OpenAI"""
@@ -45,7 +46,6 @@ class BookAIService:
         """Mendapatkan konteks buku dari database"""
         if not book_id:
             return ""
-        
         try:
             book = self.books_collection.find_one({'_id': book_id})
             if book:
@@ -55,9 +55,11 @@ class BookAIService:
                 Genre: {book.get('genre', 'N/A')}
                 Deskripsi: {book.get('description', 'N/A')}
                 """
+            else:
+                # Jika buku tidak ditemukan, kembalikan pesan khusus
+                return "Buku yang Anda sebutkan belum ada di koleksi kami. Namun, berikut rekomendasi serupa berdasarkan preferensi Anda."
         except Exception as e:
             print(f"Error mendapatkan konteks buku: {str(e)}")
-        
         return ""
     
     def _get_user_context(self, user_id: str) -> str:
@@ -79,21 +81,20 @@ class BookAIService:
     
     def _get_conversation_history(self, user_id: str) -> List[Dict[str, str]]:
         """Mendapatkan riwayat percakapan untuk user tertentu"""
-        return self._conversation_histories.get(user_id, [])
+        return list(self._conversation_histories.get(user_id, deque()))
     
     def _add_to_conversation_history(self, user_id: str, role: str, content: str):
-        """Menambahkan pesan ke riwayat percakapan"""
+        """Menambahkan pesan ke riwayat percakapan (max 10 pesan)"""
         if user_id not in self._conversation_histories:
-            self._conversation_histories[user_id] = []
-        
+            self._conversation_histories[user_id] = deque(maxlen=10)
         self._conversation_histories[user_id].append({
             "role": role,
             "content": content
         })
         
         # Batasi riwayat percakapan (maksimal 10 pesan)
-        if len(self._conversation_histories[user_id]) > 10:
-            self._conversation_histories[user_id] = self._conversation_histories[user_id][-10:]
+        # if len(self._conversation_histories[user_id]) > 10:
+        #     self._conversation_histories[user_id] = self._conversation_histories[user_id][-10:]
     
     def _create_system_prompt(self, book_context: str, user_context: str) -> str:
         """Membuat sistem prompt untuk OpenAI"""
@@ -286,8 +287,8 @@ Apakah Anda tertarik untuk mencoba genre lain yang masih dalam ranah fiksi ilmia
             
             # Sanitasi input
             message = self._sanitize_input(message)
-            user_id = self._sanitize_user_id(user_id)
-            book_id = self._sanitize_book_id(book_id)
+            user_id = self._sanitize_id(user_id)
+            book_id = self._sanitize_id(book_id)
             
             # Tambahkan pesan user ke riwayat
             self._add_to_conversation_history(user_id or "anonymous", "user", message)
@@ -295,6 +296,11 @@ Apakah Anda tertarik untuk mencoba genre lain yang masih dalam ranah fiksi ilmia
             # Siapkan konteks
             book_context = self._get_book_context(book_id)
             user_context = self._get_user_context(user_id)
+            
+            # Deteksi jika buku tidak ditemukan
+            book_not_found = False
+            if book_id and (not book_context or "belum ada di koleksi kami" in book_context):
+                book_not_found = True
             
             # Buat sistem prompt
             system_prompt = self._create_system_prompt(book_context, user_context)
@@ -312,8 +318,43 @@ Apakah Anda tertarik untuk mencoba genre lain yang masih dalam ranah fiksi ilmia
             # Tambahkan respons ke riwayat
             self._add_to_conversation_history(user_id or "anonymous", "assistant", ai_response)
             
-            # Tambahkan rekomendasi buku
-            final_response = self._add_recommendations_to_response(ai_response, user_id, book_id)
+            # Jika buku tidak ditemukan, tambahkan penjelasan di awal respons
+            final_response = ai_response
+            if book_not_found:
+                final_response = (
+                    "Maaf, buku yang Anda sebutkan belum ada di koleksi kami. Namun, berikut beberapa rekomendasi yang mungkin sesuai dengan preferensi Anda.\n\n"
+                    + ai_response
+                )
+            
+            # Tambahkan rekomendasi buku (fallback ke AI-Enhanced jika content-based kosong)
+            recs = self.recommendation_service.get_content_based_recommendations(book_id, 3) if book_id and not book_not_found else []
+            if not recs and (user_id or message):
+                from utils.logger import ai_logger
+                ai_logger.logger.info("Fallback ke AI-Enhanced/collaborative karena content-based kosong.")
+                recs = self.recommendation_service.get_ai_enhanced_recommendations(message, 3)
+                if not recs and user_id:
+                    recs = self.recommendation_service.get_collaborative_recommendations(user_id, 3)
+            
+            # Hilangkan duplikasi buku berdasarkan book_id
+            seen_ids = set()
+            unique_recs = []
+            for rec in recs:
+                rec_id = rec.get('book_id') or rec.get('_id')
+                if rec_id and rec_id not in seen_ids:
+                    unique_recs.append(rec)
+                    seen_ids.add(rec_id)
+            # Format rekomendasi
+            if unique_recs:
+                final_response += "\n\n📚 **REKOMENDASI BUKU UNTUK ANDA** 📚\n"
+                final_response += "=" * 50 + "\n"
+                for i, rec in enumerate(unique_recs, 1):
+                    title = rec.get('title', 'N/A')
+                    author = rec.get('author', 'N/A')
+                    genre = rec.get('genre', 'N/A')
+                    genre_description = self._get_genre_description(genre)
+                    final_response += f"{i}. **{title}** oleh {author}\n   📖 Genre: {genre}\n   💡 {genre_description}\n\n"
+                final_response += "=" * 50 + "\n"
+                final_response += "💡 **Tips**: Rekomendasi di atas dipilih berdasarkan preferensi dan permintaan Anda!\n\n"
             
             # Log interaksi untuk monitoring
             self._log_chat_interaction(user_id, message, final_response)
@@ -370,33 +411,21 @@ Apakah Anda tertarik untuk mencoba genre lain yang masih dalam ranah fiksi ilmia
         
         return text.strip()
     
-    def _sanitize_user_id(self, user_id: Optional[str]) -> Optional[str]:
-        """Sanitasi user ID"""
-        if not user_id:
+    def _sanitize_id(self, id_value: Optional[str]) -> Optional[str]:
+        """Sanitasi dan validasi ID (user_id/book_id)"""
+        if not id_value:
             return None
-        
-        # Hapus karakter berbahaya
         import re
-        user_id = re.sub(r'[^a-zA-Z0-9_-]', '', user_id)
-        # Batasi panjang
-        if len(user_id) > 50:
-            user_id = user_id[:50]
-        
-        return user_id
+        id_value = re.sub(r'[^a-zA-Z0-9_-]', '', id_value)
+        return id_value[:50] if id_value else None
     
+    def _sanitize_user_id(self, user_id: Optional[str]) -> Optional[str]:
+        """Sanitasi user ID (deprecated, gunakan _sanitize_id)"""
+        return self._sanitize_id(user_id)
+
     def _sanitize_book_id(self, book_id: Optional[str]) -> Optional[str]:
-        """Sanitasi book ID"""
-        if not book_id:
-            return None
-        
-        # Hapus karakter berbahaya
-        import re
-        book_id = re.sub(r'[^a-zA-Z0-9_-]', '', book_id)
-        # Batasi panjang
-        if len(book_id) > 50:
-            book_id = book_id[:50]
-        
-        return book_id
+        """Sanitasi book ID (deprecated, gunakan _sanitize_id)"""
+        return self._sanitize_id(book_id)
     
     def __del__(self):
         """Cleanup saat object dihapus"""
