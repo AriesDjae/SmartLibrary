@@ -322,14 +322,18 @@ const getAdminDashboardStats = async (req, res) => {
     
     const avgReadingTime = userReadingStats[0]?.avgReadingTime || 0;
     
-    // Get popular categories
-    const popularCategories = await db.collection('books').aggregate([
+    // Get popular genres
+    const popularCategories = await db.collection('book_genres').aggregate([
       {
-        $group: {
-          _id: '$genre',
-          count: { $sum: 1 }
+        $lookup: {
+          from: 'genres',
+          localField: 'genres_id',
+          foreignField: '_id',
+          as: 'genre'
         }
       },
+      { $unwind: '$genre' },
+      { $group: { _id: '$genre.genres_name', count: { $sum: 1 } } },
       { $sort: { count: -1 } },
       { $limit: 5 }
     ]).toArray();
@@ -371,7 +375,7 @@ const getAdminDashboardStats = async (req, res) => {
         }
       },
       { $sort: { borrow_date: -1 } },
-      { $limit: 10 }
+      { $limit: 6 } //recent activities dibatasi 6
     ]).toArray();
     
     // Get user engagement levels

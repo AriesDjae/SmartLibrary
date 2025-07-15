@@ -139,4 +139,26 @@ const getWeeklyReadingStats = async (req, res) => {
   }
 };
 
-module.exports = { getUserInteractions, postUserInteraction, getCurrentlyReading, getWeeklyReadingStats }; 
+const recordReadingTime = async (req, res) => {
+  try {
+    const db = getDb();
+    const { user_id, book_id, reading_time_minutes } = req.body;
+    if (!user_id || !book_id || !reading_time_minutes) {
+      return res.status(400).json({ success: false, error: 'user_id, book_id, dan reading_time_minutes wajib diisi' });
+    }
+    const result = await db.collection('user_interactions').insertOne({
+      user_id,
+      book_id,
+      interaction_type: 'read',
+      reading_time_minutes,
+      timestamp: new Date()
+    });
+    console.log('[READING] User', user_id, 'membaca buku', book_id, 'selama', reading_time_minutes, 'menit');
+    res.json({ success: true, message: 'Reading time recorded', id: result.insertedId });
+  } catch (err) {
+    console.error('[READING] Error record reading time:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+module.exports = { getUserInteractions, postUserInteraction, getCurrentlyReading, getWeeklyReadingStats, recordReadingTime }; 

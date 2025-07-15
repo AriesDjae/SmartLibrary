@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const { getDb } = require('../config/db'); 
 
 // Konfigurasi AI Service
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:5001';

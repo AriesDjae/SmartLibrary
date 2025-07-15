@@ -60,28 +60,68 @@ class BorrowingController {
   // Get borrowings with details (book, user, handler info)
   static async getBorrowingsWithDetails(req, res) {
     try {
-      const { page, limit, user_id, is_borrow } = req.query;
-      
-      const options = {
-        page: parseInt(page) || 0,
-        limit: parseInt(limit) || 10,
-        user_id,
-        is_borrow: is_borrow === 'true' ? true : is_borrow === 'false' ? false : undefined
-      };
-
-      const result = await BorrowingModel.findWithDetails(options);
-      
-      res.status(200).json({
-        success: true,
-        data: result.borrowings,
-        pagination: result.pagination
-      });
+      const db = getDb();
+      const borrowings = await db.collection('borrowings').aggregate([
+        {
+          $lookup: {
+            from: 'books',
+            localField: 'books_id',
+            foreignField: '_id',
+            as: 'book'
+          }
+        },
+        {
+          $unwind: {
+            path: '$book',
+            preserveNullAndEmptyArrays: true
+          }
+        },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'user_id',
+            foreignField: '_id',
+            as: 'user'
+          }
+        },
+        {
+          $unwind: {
+            path: '$user',
+            preserveNullAndEmptyArrays: true
+          }
+        },
+        {
+          $addFields: {
+            book: {
+              $ifNull: [
+                '$book',
+                {
+                  title: '[Buku tidak ditemukan]',
+                  author: '',
+                  coverImage: '',
+                  _id: '$books_id'
+                }
+              ]
+            }
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            book: { title: 1, coverImage: 1, author: 1, _id: 1 },
+            user: { full_name: 1, username: 1, profile_picture: 1 },
+            borrow_date: 1,
+            due_date: 1,
+            return_date: 1,
+            is_borrow: 1
+          }
+        },
+        { $sort: { borrow_date: -1 } }
+      ]).toArray();
+      res.status(200).json({ success: true, data: borrowings });
     } catch (error) {
       console.error('Error fetching borrowings with details:', error);
-      res.status(500).json({
-        success: false,
-        error: error.message
-      });
+      res.status(500).json({ success: false, error: error.message });
     }
   }
 
