@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { User, Book, Loan, Activity, Stats } from '../types';
 import { mockUsers, mockBooks, mockLoans, mockActivities, mockStats } from '../utils/data';
 import { booksAPI, userAPI, borrowingAPI } from '../services/api';
+import axiosInstance from '../services/axios';
 
 export const useUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -32,12 +33,20 @@ export const useBooks = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setBooks(mockBooks);
-      setLoading(false);
-    }, 600);
-
-    return () => clearTimeout(timer);
+    axiosInstance.get('/books/featured?limit=10')
+      .then(res => {
+        const books = (res.data.data || []).map((book: any) => ({
+          ...book,
+          cover: book.coverImage || book.cover || '',
+          status: book.isAvailable ? 'available' : 'borrowed',
+        }));
+        setBooks(books);
+        setLoading(false);
+      })
+      .catch(() => {
+        setBooks([]);
+        setLoading(false);
+      });
   }, []);
 
   return { books, loading };

@@ -1,13 +1,15 @@
 // Routing untuk user_interactions
 const express = require('express');
 const router = express.Router();
-const { getUserInteractions, postUserInteraction, getCurrentlyReading, getWeeklyReadingStats } = require('../controllers/userInteractionController');
+const { getUserInteractions, postUserInteraction, getCurrentlyReading, getWeeklyReadingStats, recordReadingTime } = require('../controllers/userInteractionController');
 
 // GET: Ambil interaksi user (bisa filter user_id, book_id, atau keduanya)
 router.get('/', getUserInteractions);
 // POST: Tambah interaksi user
 router.post('/', postUserInteraction);
 router.get('/weekly-stats', getWeeklyReadingStats);
+// POST: Rekam waktu membaca user
+router.post('/record-reading-time', recordReadingTime);
 
 module.exports = router; 
 

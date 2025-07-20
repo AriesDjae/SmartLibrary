@@ -33,6 +33,12 @@ export const Analytics: React.FC<AnalyticsProps> = ({ stats, loading }) => {
     { id: 'trends', label: 'Trends', icon: Calendar }
   ];
 
+  // Mapping popularCategories agar _id dari backend menjadi name
+  const popularCategories = (stats.popularCategories || []).map(cat => ({
+    name: cat._id || cat.name,
+    count: cat.count
+  }));
+
   return (
     <div className="space-y-6">
       {/* Tab Navigation */}
@@ -98,32 +104,26 @@ export const Analytics: React.FC<AnalyticsProps> = ({ stats, loading }) => {
 
         {/* Popular Categories */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Popular Categories</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={stats.popularCategories || []}
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                fill="#8884d8"
-                dataKey="count"
-                label={({ name, percentage }) => `${name} ${percentage}%`}
-              >
-                {(stats.popularCategories || []).map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: '#1F2937', 
-                  border: 'none', 
-                  borderRadius: '8px',
-                  color: '#F9FAFB'
-                }} 
-              />
-            </PieChart>
-          </ResponsiveContainer>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Popular Genres</h3>
+          {popularCategories.length > 0 ? (
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={popularCategories}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="count"
+                  nameKey="name"
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                />
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="text-center text-gray-400">No category data</div>
+          )}
         </div>
 
         {/* User Engagement */}
