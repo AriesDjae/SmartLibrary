@@ -1,18 +1,18 @@
-import axios from 'axios';
-import { User, UserUpdateData, RegisterData, ApiResponse } from '../types/auth';
+import axios from "axios";
+import { User, UserUpdateData, RegisterData, ApiResponse } from "../types/auth";
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: '/api', // Backend server URL
+  baseURL: "/api", // Backend server URL
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // Request interceptor for adding auth token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,9 +29,9 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // Handle unauthorized access
-      localStorage.removeItem('token');
-      localStorage.removeItem('currentUser');
-      window.location.href = '/sign-in';
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
+      window.location.href = "/sign-in";
     }
     return Promise.reject(error.response?.data || error.message);
   }
@@ -49,39 +49,43 @@ api.interceptors.response.use(
 // Books API
 export const booksAPI = {
   getAll: (params?: { search?: string; page?: number; limit?: number }) =>
-    api.get('/books', { params }),
+    api.get("/books", { params }),
   getById: (id: string) => api.get(`/books/${id}`),
-  create: (bookData: any) => api.post('/books', bookData),
+  create: (bookData: any) => api.post("/books", bookData),
   update: (id: string, bookData: any) => api.put(`/books/${id}`, bookData),
   delete: (id: string) => api.delete(`/books/${id}`),
-  getStats: () => api.get('/books/stats/summary'),
-  getAdminDashboardStats: () => api.get('/books/admin/dashboard-stats'),
-  getTotalCount: () => api.get('/books/count'),
+  getStats: () => api.get("/books/stats/summary"),
+  getAdminDashboardStats: () => api.get("/books/admin/dashboard-stats"),
+  getTotalCount: () => api.get("/books/count"),
 };
 
 // User API
 export const userAPI = {
-  getProfile: () => api.get('/users/profile'),
-  updateProfile: (userData: UserUpdateData) => api.put('/users/profile', userData),
-  getBorrowedBooks: () => api.get('/borrowings/my/borrowings'),
-  borrowBook: (bookId: string) => api.post('/borrowings', { books_id: bookId }),
-  returnBook: (borrowingId: string) => api.patch(`/borrowings/${borrowingId}/return`),
-  getTotalNonAdmin: () => api.get('/users/count-nonadmin'),
-  getAvgReadingTime: () => api.get('/users/avg-reading-time'),
+  getProfile: () => api.get("/users/profile"),
+  updateProfile: (userData: UserUpdateData) =>
+    api.put("/users/profile", userData),
+  getBorrowedBooks: () => api.get("/borrowings/my/borrowings"),
+  borrowBook: (bookId: string) => api.post("/borrowings", { books_id: bookId }),
+  returnBook: (borrowingId: string) =>
+    api.patch(`/borrowings/${borrowingId}/return`),
+  getTotalNonAdmin: () => api.get("/users/count-nonadmin"),
+  getAvgReadingTime: () => api.get("/users/avg-reading-time"),
 };
 
 // Borrowing API
 export const borrowingAPI = {
-  getMyBorrowings: () => api.get('/borrowings/my/borrowings'),
-  getMyDashboardStats: () => api.get('/borrowings/my/dashboard-stats'),
-  createBorrowing: (borrowingData: any) => api.post('/borrowings', borrowingData),
-  returnBook: (borrowingId: string) => api.patch(`/borrowings/${borrowingId}/return`),
-  getBorrowingStats: () => api.get('/borrowings/stats/overview'),
-  getOverdueBorrowings: () => api.get('/borrowings/overdue/list'),
-  getActiveCount: () => api.get('/borrowings/active-count'),
-  getOverdueCount: () => api.get('/borrowings/overdue-count'),
-  getMonthlyCount: () => api.get('/borrowings/monthly-count'),
-  getRecentActivities: () => api.get('/borrowings/recent'),
+  getMyBorrowings: () => api.get("/borrowings/my/borrowings"),
+  getMyDashboardStats: () => api.get("/borrowings/my/dashboard-stats"),
+  createBorrowing: (borrowingData: any) =>
+    api.post("/borrowings", borrowingData),
+  returnBook: (borrowingId: string) =>
+    api.patch(`/borrowings/${borrowingId}/return`),
+  getBorrowingStats: () => api.get("/borrowings/stats/overview"),
+  getOverdueBorrowings: () => api.get("/borrowings/overdue/list"),
+  getActiveCount: () => api.get("/borrowings/active-count"),
+  getOverdueCount: () => api.get("/borrowings/overdue-count"),
+  getMonthlyCount: () => api.get("/borrowings/monthly-count"),
+  getRecentActivities: () => api.get("/borrowings/recent"),
 };
 
 //aulira
@@ -89,36 +93,41 @@ export const borrowingAPI = {
 export async function fetchBookDetail(bookId: string) {
   const response = await fetch(`/api/books/${bookId}`);
   if (!response.ok) {
-    throw new Error('Gagal mengambil detail buku');
+    throw new Error("Gagal mengambil detail buku");
   }
   return response.json();
 }
 
-export const register = async (userData: RegisterData): Promise<ApiResponse> => {
-  const res = await api.post('/users/register', userData);
+export const register = async (
+  userData: RegisterData
+): Promise<ApiResponse> => {
+  const res = await api.post("/users/register", userData);
   return res as unknown as ApiResponse;
 };
 
-export const login = async (email: string, password: string): Promise<ApiResponse> => {
-  const res = await api.post('/users/login', {email, password});
+export const login = async (
+  email: string,
+  password: string
+): Promise<ApiResponse> => {
+  const res = await api.post("/users/login", { email, password });
   return res as unknown as ApiResponse;
 };
 
 export const getProfile = async (): Promise<User> => {
-  console.log('🔍 API: Getting user profile...');
-  
+  console.log("🔍 API: Getting user profile...");
+
   try {
-    const res = await api.get('/users/profile') as any;
-    console.log('✅ API: Profile retrieved successfully:', {
+    const res = (await api.get("/users/profile")) as any;
+    console.log("✅ API: Profile retrieved successfully:", {
       hasUser: !!res.user,
       userId: res.user?._id,
-      email: res.user?.email
+      email: res.user?.email,
     });
     return res.user;
   } catch (error: any) {
-    console.error('❌ API: Failed to get profile:', {
+    console.error("❌ API: Failed to get profile:", {
       message: error?.response?.data?.message || error.message,
-      status: error?.response?.status
+      status: error?.response?.status,
     });
     throw error;
   }
@@ -129,26 +138,32 @@ export const getProfile = async (): Promise<User> => {
 //   return response.data.data; // sesuai response backend
 // };
 
-export const updateProfile = async (userId: string, userData: UserUpdateData): Promise<ApiResponse> => {
+export const updateProfile = async (
+  userId: string,
+  userData: UserUpdateData
+): Promise<ApiResponse> => {
   console.log("🔧 API: Updating user profile...", {
     userId,
     userData,
-    endpoint: `/users/${userId}`
+    endpoint: `/users/${userId}`,
   });
 
   try {
-    const res = await api.patch(`/users/${userId}`, userData) as unknown as ApiResponse;
+    const res = (await api.patch(
+      `/users/${userId}`,
+      userData
+    )) as unknown as ApiResponse;
     console.log("✅ API: Update success:", {
       success: res.success,
       message: res.message,
-      hasData: !!res.data
+      hasData: !!res.data,
     });
     return res;
   } catch (error: any) {
     console.error("❌ API: Update failed:", {
       message: error?.response?.data?.message || error.message,
       status: error?.response?.status,
-      userId: userId
+      userId: userId,
     });
     throw error;
   }
@@ -157,36 +172,66 @@ export const updateProfile = async (userId: string, userData: UserUpdateData): P
 // AI API
 export const aiAPI = {
   // Health check
-  healthCheck: () => api.get('/ai/health'),
-  
+  healthCheck: () => api.get("/ai/health"),
+
   // Chat AI
   chat: (data: { message: string; user_id?: string; book_id?: string }) =>
-    api.post('/ai/chat', data),
-  
+    api.post("/ai/chat", data),
+
   // Clear chat history
-  clearChat: (user_id: string) => api.post('/ai/chat/clear', { user_id }),
-  
+  clearChat: (user_id: string) => api.post("/ai/chat/clear", { user_id }),
+
   // Recommendations
-  getContentBasedRecommendations: (book_id: string, n_recommendations: number = 5) =>
-    api.post('/ai/recommendations/content-based', { book_id, n_recommendations }),
-  
-  getCollaborativeRecommendations: (user_id: string, n_recommendations: number = 5) =>
-    api.post('/ai/recommendations/collaborative', { user_id, n_recommendations }),
-  
-  getAIEnhancedRecommendations: (user_preferences: string, n_recommendations: number = 5) =>
-    api.post('/ai/recommendations/ai-enhanced', { user_preferences, n_recommendations }),
-  
+  getContentBasedRecommendations: (
+    book_id: string,
+    n_recommendations: number = 5
+  ) =>
+    api.post("/ai/recommendations/content-based", {
+      book_id,
+      n_recommendations,
+    }),
+
+  getCollaborativeRecommendations: (
+    user_id: string,
+    n_recommendations: number = 5
+  ) =>
+    api.post("/ai/recommendations/collaborative", {
+      user_id,
+      n_recommendations,
+    }),
+
+  getAIEnhancedRecommendations: (
+    user_preferences: string,
+    n_recommendations: number = 5
+  ) =>
+    api.post("/ai/recommendations/ai-enhanced", {
+      user_preferences,
+      n_recommendations,
+    }),
+
   getHybridRecommendations: (data: {
     user_id?: string;
     book_id?: string;
     user_preferences?: string;
     n_recommendations?: number;
-  }) => api.post('/ai/recommendations/hybrid', data),
-  
+  }) => api.post("/ai/recommendations/hybrid", data),
+
   // User analysis
-  getUserPreferences: (user_id: string) => api.get(`/ai/user/preferences?user_id=${user_id}`),
+  getUserPreferences: (user_id: string) =>
+    api.get(`/ai/user/preferences?user_id=${user_id}`),
   getSimilarUsers: (user_id: string, n_similar_users: number = 5) =>
-    api.get(`/ai/user/similar-users?user_id=${user_id}&n_similar_users=${n_similar_users}`),
+    api.get(
+      `/ai/user/similar-users?user_id=${user_id}&n_similar_users=${n_similar_users}`
+    ),
+};
+
+export const addUserInteraction = async (data: {
+  user_id: string;
+  book_id: string;
+  type: string;
+  timestamp?: string;
+}) => {
+  return axios.post("/user-interactions", data);
 };
 
 export default api;

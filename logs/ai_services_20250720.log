@@ -1,0 +1,595 @@
+2025-07-20 16:36:25,860 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:36:25,877 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:36:25,881 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:36:25,884 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:36:25,884 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:36:26,480 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:36:26,499 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:36:26,501 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:36:26,512 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:36:26,512 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:36:26,915 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 16:36:26,916 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 16:36:26,916 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 16:36:29,083 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:36:29,101 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:36:29,106 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:36:29,108 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:36:29,109 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:36:29,857 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:36:29,873 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:36:29,875 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:36:29,876 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:36:29,877 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:36:30,438 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 16:36:30,438 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 16:36:30,439 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 16:36:56,367 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:36:56,367 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:36:56,367 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:36:56,367 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:36:56,367 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION REQUEST
+2025-07-20 16:36:56,367 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:36:56,368 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:36:56,368 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:36:56,368 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:36:56,368 - AI_Services - [32mINFO[0m - [INFO] Generating AI-Enhanced Recommendations
+2025-07-20 16:36:56,368 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 16:36:56,368 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:36:56,368 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 16:36:59,329 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:36:59,346 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:36:59,352 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:36:59,355 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:36:59,355 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:37:00,142 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:37:00,160 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:37:00,162 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:37:00,164 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:37:00,164 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:37:00,878 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 16:37:00,878 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 16:37:00,878 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 16:37:20,772 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:37:20,892 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:37:20,895 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:37:20,898 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:37:20,898 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:37:23,423 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:37:23,440 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:37:23,442 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:37:23,443 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:37:23,443 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:37:24,556 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 16:37:24,556 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 16:37:24,556 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 16:39:06,495 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:39:06,495 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION REQUEST
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO] Generating AI-Enhanced Recommendations
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:39:06,496 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 16:39:09,203 - AI_Services - [32mINFO[0m - [INFO]    Extracted keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Antariksa, 4. Teknologi Masa Depan, 5. Petualangan
+2025-07-20 16:39:09,204 - AI_Services - [32mINFO[0m - [INFO]    Search query: 1. Fiksi Ilmiah 2. Novel 3. Antariksa 4. Teknologi Masa Depan 5. Petualangan
+2025-07-20 16:39:09,204 - AI_Services - [32mINFO[0m - [INFO]    Calculated 14 relevance scores
+2025-07-20 16:39:09,205 - AI_Services - [32mINFO[0m - [INFO]    Relevance range: 0.0000 - 0.3622
+2025-07-20 16:39:09,205 - AI_Services - [32mINFO[0m - [INFO]    Selected top 5 relevant books
+2025-07-20 16:39:09,205 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance: 0.3622
+2025-07-20 16:39:09,205 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Antariksa, 4. Teknologi Masa Depan, 5. Petualangan
+2025-07-20 16:39:09,206 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance: 0.2354
+2025-07-20 16:39:09,206 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Antariksa, 4. Teknologi Masa Depan, 5. Petualangan
+2025-07-20 16:39:09,206 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance: 0.2168
+2025-07-20 16:39:09,206 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Antariksa, 4. Teknologi Masa Depan, 5. Petualangan
+2025-07-20 16:39:09,206 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance: 0.2021
+2025-07-20 16:39:09,206 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Antariksa, 4. Teknologi Masa Depan, 5. Petualangan
+2025-07-20 16:39:09,206 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance: 0.2021
+2025-07-20 16:39:09,206 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Antariksa, 4. Teknologi Masa Depan, 5. Petualangan
+2025-07-20 16:39:09,206 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: Generated 5 recommendations
+2025-07-20 16:39:09,207 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5 recommendations in 2.711s
+2025-07-20 16:39:09,207 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance Score: 0.0000
+2025-07-20 16:39:09,207 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance Score: 0.0000
+2025-07-20 16:39:09,207 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance Score: 0.0000
+2025-07-20 16:39:09,207 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance Score: 0.0000
+2025-07-20 16:39:09,208 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance Score: 0.0000
+2025-07-20 16:39:09,208 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION SUMMARY
+2025-07-20 16:39:09,208 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:39:09,208 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:39:09,208 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:39:09,208 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 16:39:09,209 - AI_Services - [32mINFO[0m - [INFO]    Total Time: 2.712s
+2025-07-20 16:39:09,209 - AI_Services - [32mINFO[0m - [INFO] Performance - HybridRecommendation:generate took 2.71s
+2025-07-20 16:39:09,211 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:39:09,211 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:39:09,211 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:39:09,211 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 16:39:19,272 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:39:19,305 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:39:19,310 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:39:19,313 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:39:19,313 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:39:22,929 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:39:22,966 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:39:22,969 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:39:22,970 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:39:22,970 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:39:23,671 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 16:39:23,671 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 16:39:23,671 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 16:41:33,983 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:41:33,984 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:41:33,984 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:41:33,984 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:41:33,984 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION REQUEST
+2025-07-20 16:41:33,984 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:41:33,984 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:41:33,984 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:41:33,985 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:41:33,985 - AI_Services - [32mINFO[0m - [INFO] Generating AI-Enhanced Recommendations
+2025-07-20 16:41:33,985 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 16:41:33,985 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:41:33,985 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 16:41:37,353 - AI_Services - [32mINFO[0m - [INFO]    Extracted keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku", 4. "Cerita Fantasi", 5. "Penulis Populer"
+2025-07-20 16:41:37,353 - AI_Services - [32mINFO[0m - [INFO]    Search query: 1. "Fiksi Ilmiah" 2. "Novel" 3. "Buku" 4. "Cerita Fantasi" 5. "Penulis Populer"
+2025-07-20 16:41:37,355 - AI_Services - [32mINFO[0m - [INFO]    Calculated 14 relevance scores
+2025-07-20 16:41:37,356 - AI_Services - [32mINFO[0m - [INFO]    Relevance range: 0.0000 - 0.3748
+2025-07-20 16:41:37,356 - AI_Services - [32mINFO[0m - [INFO]    Selected top 5 relevant books
+2025-07-20 16:41:37,356 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance: 0.3748
+2025-07-20 16:41:37,356 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku", 4. "Cerita Fantasi", 5. "Penulis Populer"
+2025-07-20 16:41:37,357 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance: 0.2435
+2025-07-20 16:41:37,357 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku", 4. "Cerita Fantasi", 5. "Penulis Populer"
+2025-07-20 16:41:37,357 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance: 0.2243
+2025-07-20 16:41:37,357 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku", 4. "Cerita Fantasi", 5. "Penulis Populer"
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance: 0.2091
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku", 4. "Cerita Fantasi", 5. "Penulis Populer"
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance: 0.2091
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku", 4. "Cerita Fantasi", 5. "Penulis Populer"
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: Generated 5 recommendations
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5 recommendations in 3.373s
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance Score: 0.0000
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance Score: 0.0000
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance Score: 0.0000
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance Score: 0.0000
+2025-07-20 16:41:37,358 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance Score: 0.0000
+2025-07-20 16:41:37,360 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION SUMMARY
+2025-07-20 16:41:37,360 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:41:37,360 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:41:37,360 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:41:37,361 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 16:41:37,361 - AI_Services - [32mINFO[0m - [INFO]    Total Time: 3.377s
+2025-07-20 16:41:37,361 - AI_Services - [32mINFO[0m - [INFO] Performance - HybridRecommendation:generate took 3.38s
+2025-07-20 16:41:37,363 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:41:37,363 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:41:37,364 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:41:37,364 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 16:43:52,924 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:43:52,996 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:43:53,000 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:43:53,003 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:43:53,003 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:43:54,796 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:43:54,828 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:43:54,830 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:43:54,832 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:43:54,832 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:43:55,493 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 16:43:55,494 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 16:43:55,494 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 16:44:24,431 - AI_Services - [32mINFO[0m - [INFO] DEBUG: user_id diterima di chat: anonymous
+2025-07-20 16:44:24,453 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:44:24,453 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:44:24,453 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:44:24,453 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:44:24,454 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION REQUEST
+2025-07-20 16:44:24,454 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:44:24,454 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:44:24,454 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:44:24,454 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:44:24,454 - AI_Services - [32mINFO[0m - [INFO] Generating AI-Enhanced Recommendations
+2025-07-20 16:44:24,454 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 16:44:24,454 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:44:24,455 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 16:44:27,837 - AI_Services - [32mINFO[0m - [INFO]    Extracted keywords: 1. Fiksi ilmiah, 2. Novel, 3. Cerita masa depan, 4. Teknologi, 5. Fantasi ilmiah
+2025-07-20 16:44:27,837 - AI_Services - [32mINFO[0m - [INFO]    Search query: 1. Fiksi ilmiah 2. Novel 3. Cerita masa depan 4. Teknologi 5. Fantasi ilmiah
+2025-07-20 16:44:27,838 - AI_Services - [32mINFO[0m - [INFO]    Calculated 14 relevance scores
+2025-07-20 16:44:27,838 - AI_Services - [32mINFO[0m - [INFO]    Relevance range: 0.0000 - 0.4015
+2025-07-20 16:44:27,838 - AI_Services - [32mINFO[0m - [INFO]    Selected top 5 relevant books
+2025-07-20 16:44:27,838 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance: 0.4015
+2025-07-20 16:44:27,838 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi ilmiah, 2. Novel, 3. Cerita masa depan, 4. Teknologi, 5. Fantasi ilmiah
+2025-07-20 16:44:27,839 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance: 0.2609
+2025-07-20 16:44:27,839 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi ilmiah, 2. Novel, 3. Cerita masa depan, 4. Teknologi, 5. Fantasi ilmiah
+2025-07-20 16:44:27,839 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance: 0.2404
+2025-07-20 16:44:27,839 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi ilmiah, 2. Novel, 3. Cerita masa depan, 4. Teknologi, 5. Fantasi ilmiah
+2025-07-20 16:44:27,839 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance: 0.2240
+2025-07-20 16:44:27,839 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi ilmiah, 2. Novel, 3. Cerita masa depan, 4. Teknologi, 5. Fantasi ilmiah
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance: 0.2240
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi ilmiah, 2. Novel, 3. Cerita masa depan, 4. Teknologi, 5. Fantasi ilmiah
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: Generated 5 recommendations
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5 recommendations in 3.386s
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance Score: 0.0000
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance Score: 0.0000
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance Score: 0.0000
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance Score: 0.0000
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance Score: 0.0000
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION SUMMARY
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:44:27,840 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:44:27,841 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 16:44:27,841 - AI_Services - [32mINFO[0m - [INFO]    Total Time: 3.386s
+2025-07-20 16:44:27,841 - AI_Services - [32mINFO[0m - [INFO] Performance - HybridRecommendation:generate took 3.39s
+2025-07-20 16:44:27,843 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:44:27,843 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:44:27,843 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:44:27,843 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 16:46:30,293 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:46:35,136 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:46:35,140 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:46:35,143 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:46:35,143 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:46:38,283 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:46:38,405 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:46:38,408 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:46:38,409 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:46:38,409 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:46:39,657 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 16:46:39,657 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 16:46:39,657 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 16:48:31,571 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:48:32,027 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:48:32,035 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:48:32,038 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:48:32,038 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:48:58,225 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:48:58,262 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:48:58,265 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:48:58,267 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:48:58,267 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:48:58,645 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 16:48:58,645 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 16:48:58,645 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 16:55:14,696 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:55:14,893 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:55:14,899 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:55:14,903 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:55:14,903 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:55:18,207 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 16:55:18,351 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 16:55:18,353 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 16:55:18,355 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 16:55:18,355 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 16:55:19,176 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 16:55:19,176 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 16:55:19,176 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 16:57:09,710 - AI_Services - [32mINFO[0m - [INFO] DEBUG: user_id diterima di chat: anonymous
+2025-07-20 16:57:09,738 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:57:09,738 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:57:09,738 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:57:09,738 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:57:09,738 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION REQUEST
+2025-07-20 16:57:09,739 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:57:09,739 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:57:09,739 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:57:09,739 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:57:09,739 - AI_Services - [32mINFO[0m - [INFO] Generating AI-Enhanced Recommendations
+2025-07-20 16:57:09,739 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 16:57:09,740 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:57:09,740 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 16:57:20,081 - AI_Services - [32mINFO[0m - [INFO]    Extracted keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku Terbaik Fiksi Ilmiah", 4. "Penulis Fiksi Ilmiah Terkenal", 5. "Buku Novel Fiksi Ilmiah Terbaru"
+2025-07-20 16:57:20,082 - AI_Services - [32mINFO[0m - [INFO]    Search query: 1. "Fiksi Ilmiah" 2. "Novel" 3. "Buku Terbaik Fiksi Ilmiah" 4. "Penulis Fiksi Ilmiah Terkenal" 5. "Buku Novel Fiksi Ilmiah Terbaru"
+2025-07-20 16:57:20,084 - AI_Services - [32mINFO[0m - [INFO]    Calculated 14 relevance scores
+2025-07-20 16:57:20,084 - AI_Services - [32mINFO[0m - [INFO]    Relevance range: 0.0000 - 0.4861
+2025-07-20 16:57:20,085 - AI_Services - [32mINFO[0m - [INFO]    Selected top 5 relevant books
+2025-07-20 16:57:20,086 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance: 0.4861
+2025-07-20 16:57:20,086 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku Terbaik Fiksi Ilmiah", 4. "Penulis Fiksi Ilmiah Terkenal", 5. "Buku Novel Fiksi Ilmiah Terbaru"
+2025-07-20 16:57:20,086 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance: 0.3159
+2025-07-20 16:57:20,086 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku Terbaik Fiksi Ilmiah", 4. "Penulis Fiksi Ilmiah Terkenal", 5. "Buku Novel Fiksi Ilmiah Terbaru"
+2025-07-20 16:57:20,087 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance: 0.2910
+2025-07-20 16:57:20,087 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku Terbaik Fiksi Ilmiah", 4. "Penulis Fiksi Ilmiah Terkenal", 5. "Buku Novel Fiksi Ilmiah Terbaru"
+2025-07-20 16:57:20,087 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance: 0.2712
+2025-07-20 16:57:20,087 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku Terbaik Fiksi Ilmiah", 4. "Penulis Fiksi Ilmiah Terkenal", 5. "Buku Novel Fiksi Ilmiah Terbaru"
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance: 0.2712
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi Ilmiah", 2. "Novel", 3. "Buku Terbaik Fiksi Ilmiah", 4. "Penulis Fiksi Ilmiah Terkenal", 5. "Buku Novel Fiksi Ilmiah Terbaru"
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: Generated 5 recommendations
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5 recommendations in 10.349s
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance Score: 0.0000
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance Score: 0.0000
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance Score: 0.0000
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance Score: 0.0000
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance Score: 0.0000
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION SUMMARY
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:57:20,088 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:57:20,089 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:57:20,089 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 16:57:20,089 - AI_Services - [32mINFO[0m - [INFO]    Total Time: 10.350s
+2025-07-20 16:57:20,089 - AI_Services - [32mINFO[0m - [INFO] Performance - HybridRecommendation:generate took 10.35s
+2025-07-20 16:57:20,090 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:57:20,090 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:57:20,091 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:57:20,091 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 16:57:51,412 - AI_Services - [32mINFO[0m - [INFO] DEBUG: user_id diterima di chat: anonymous
+2025-07-20 16:57:51,430 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:57:51,430 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:57:51,430 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:57:51,430 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:57:51,430 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION REQUEST
+2025-07-20 16:57:51,430 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 16:57:51,431 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 16:57:51,431 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:57:51,431 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 16:57:51,431 - AI_Services - [32mINFO[0m - [INFO] Generating AI-Enhanced Recommendations
+2025-07-20 16:57:51,431 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 16:57:51,431 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 16:57:51,431 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 16:57:53,772 - AI_Services - [32mINFO[0m - [INFO]    Extracted keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Dystopia, 4. Teknologi Masa Depan, 5. Antariksa.
+2025-07-20 16:57:53,773 - AI_Services - [32mINFO[0m - [INFO]    Search query: 1. Fiksi Ilmiah 2. Novel 3. Dystopia 4. Teknologi Masa Depan 5. Antariksa.
+2025-07-20 16:57:53,774 - AI_Services - [32mINFO[0m - [INFO]    Calculated 14 relevance scores
+2025-07-20 16:57:53,774 - AI_Services - [32mINFO[0m - [INFO]    Relevance range: 0.0000 - 0.4382
+2025-07-20 16:57:53,774 - AI_Services - [32mINFO[0m - [INFO]    Selected top 5 relevant books
+2025-07-20 16:57:53,774 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance: 0.4382
+2025-07-20 16:57:53,774 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Dystopia, 4. Teknologi Masa Depan, 5. Antariksa.
+2025-07-20 16:57:53,774 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance: 0.2847
+2025-07-20 16:57:53,775 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Dystopia, 4. Teknologi Masa Depan, 5. Antariksa.
+2025-07-20 16:57:53,775 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance: 0.2623
+2025-07-20 16:57:53,775 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Dystopia, 4. Teknologi Masa Depan, 5. Antariksa.
+2025-07-20 16:57:53,775 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance: 0.2444
+2025-07-20 16:57:53,776 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Dystopia, 4. Teknologi Masa Depan, 5. Antariksa.
+2025-07-20 16:57:53,776 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance: 0.2444
+2025-07-20 16:57:53,776 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Dystopia, 4. Teknologi Masa Depan, 5. Antariksa.
+2025-07-20 16:57:53,776 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: Generated 5 recommendations
+2025-07-20 16:57:53,776 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5 recommendations in 2.346s
+2025-07-20 16:57:53,776 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance Score: 0.0000
+2025-07-20 16:57:53,777 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance Score: 0.0000
+2025-07-20 16:57:53,777 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance Score: 0.0000
+2025-07-20 16:57:53,777 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance Score: 0.0000
+2025-07-20 16:57:53,777 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance Score: 0.0000
+2025-07-20 16:57:53,777 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION SUMMARY
+2025-07-20 16:57:53,777 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:57:53,777 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:57:53,777 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:57:53,777 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 16:57:53,778 - AI_Services - [32mINFO[0m - [INFO]    Total Time: 2.348s
+2025-07-20 16:57:53,778 - AI_Services - [32mINFO[0m - [INFO] Performance - HybridRecommendation:generate took 2.35s
+2025-07-20 16:57:53,780 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 16:57:53,780 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 16:57:53,780 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 16:57:53,780 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 17:01:14,865 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:01:15,991 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:01:15,994 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:01:15,997 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:01:15,998 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:01:35,145 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:01:36,389 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:01:36,392 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:01:36,393 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:01:36,393 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:01:39,510 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 17:01:39,510 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 17:01:39,511 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 17:03:18,193 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:03:18,216 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:03:18,220 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:03:18,224 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:03:18,224 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:03:19,560 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:03:19,581 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:03:19,584 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:03:19,586 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:03:19,586 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:03:20,330 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 17:03:20,331 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 17:03:20,331 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 17:03:24,698 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:03:24,720 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:03:24,726 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:03:24,731 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:03:24,732 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:03:26,061 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:03:26,083 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:03:26,086 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:03:26,088 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:03:26,088 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:03:26,792 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 17:03:26,792 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 17:03:26,792 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 17:03:32,104 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:03:32,128 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:03:32,131 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:03:32,135 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:03:32,135 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:03:33,481 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:03:33,508 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:03:33,510 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:03:33,512 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:03:33,513 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:03:34,350 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 17:03:34,352 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 17:03:34,352 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 17:03:38,494 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:03:38,522 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:03:38,527 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:03:38,530 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:03:38,530 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:03:40,113 - AI_Services - [32mINFO[0m - [INFO] Loaded 14 books from database
+2025-07-20 17:03:40,135 - AI_Services - [32mINFO[0m - [INFO] Loaded 10 ratings from database
+2025-07-20 17:03:40,137 - AI_Services - [32mINFO[0m - [INFO] Created TF-IDF matrix: (14, 203)
+2025-07-20 17:03:40,138 - AI_Services - [32mINFO[0m - [INFO] Created user-item matrix: (3, 6)
+2025-07-20 17:03:40,139 - AI_Services - [32mINFO[0m - [INFO] Data preparation completed successfully
+2025-07-20 17:03:40,784 - AI_Services - [32mINFO[0m - [INFO] Starting SmartLibrary AI Services on port 5001
+2025-07-20 17:03:40,785 - AI_Services - [32mINFO[0m - [INFO] Environment: development
+2025-07-20 17:03:40,785 - AI_Services - [32mINFO[0m - [INFO] Debug mode: True
+2025-07-20 17:04:01,537 - AI_Services - [32mINFO[0m - [INFO] DEBUG: user_id diterima di chat: anonymous
+2025-07-20 17:04:01,567 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 17:04:01,567 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION REQUEST
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO] Generating AI-Enhanced Recommendations
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 17:04:01,568 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 17:04:01,569 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 17:04:04,609 - AI_Services - [32mINFO[0m - [INFO]    Extracted keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Fantasi, 4. Teknologi, 5. Antariksa
+2025-07-20 17:04:04,609 - AI_Services - [32mINFO[0m - [INFO]    Search query: 1. Fiksi Ilmiah 2. Novel 3. Fantasi 4. Teknologi 5. Antariksa
+2025-07-20 17:04:04,610 - AI_Services - [32mINFO[0m - [INFO]    Calculated 14 relevance scores
+2025-07-20 17:04:04,610 - AI_Services - [32mINFO[0m - [INFO]    Relevance range: 0.0000 - 0.3748
+2025-07-20 17:04:04,611 - AI_Services - [32mINFO[0m - [INFO]    Selected top 5 relevant books
+2025-07-20 17:04:04,611 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance: 0.3748
+2025-07-20 17:04:04,611 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Fantasi, 4. Teknologi, 5. Antariksa
+2025-07-20 17:04:04,611 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance: 0.2435
+2025-07-20 17:04:04,612 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Fantasi, 4. Teknologi, 5. Antariksa
+2025-07-20 17:04:04,612 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance: 0.2243
+2025-07-20 17:04:04,612 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Fantasi, 4. Teknologi, 5. Antariksa
+2025-07-20 17:04:04,612 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance: 0.2091
+2025-07-20 17:04:04,613 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Fantasi, 4. Teknologi, 5. Antariksa
+2025-07-20 17:04:04,613 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance: 0.2091
+2025-07-20 17:04:04,613 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Fantasi, 4. Teknologi, 5. Antariksa
+2025-07-20 17:04:04,613 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: Generated 5 recommendations
+2025-07-20 17:04:04,614 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5 recommendations in 3.045s
+2025-07-20 17:04:04,614 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance Score: 0.0000
+2025-07-20 17:04:04,614 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance Score: 0.0000
+2025-07-20 17:04:04,614 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance Score: 0.0000
+2025-07-20 17:04:04,614 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance Score: 0.0000
+2025-07-20 17:04:04,614 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance Score: 0.0000
+2025-07-20 17:04:04,614 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION SUMMARY
+2025-07-20 17:04:04,615 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 17:04:04,615 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 17:04:04,615 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 17:04:04,615 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 17:04:04,615 - AI_Services - [32mINFO[0m - [INFO]    Total Time: 3.045s
+2025-07-20 17:04:04,615 - AI_Services - [32mINFO[0m - [INFO] Performance - HybridRecommendation:generate took 3.05s
+2025-07-20 17:04:04,617 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 17:04:04,617 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 17:04:04,618 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 17:04:04,618 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 17:04:20,478 - AI_Services - [32mINFO[0m - [INFO] DEBUG: user_id diterima di chat: anonymous
+2025-07-20 17:04:20,505 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 17:04:20,505 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 17:04:20,505 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION REQUEST
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO]    User ID: None
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO] Generating AI-Enhanced Recommendations
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 17:04:20,506 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 17:04:22,701 - AI_Services - [32mINFO[0m - [INFO]    Extracted keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Cerita Fantasi, 4. Teknologi Masa Depan, 5. Petualangan Antariksa
+2025-07-20 17:04:22,701 - AI_Services - [32mINFO[0m - [INFO]    Search query: 1. Fiksi Ilmiah 2. Novel 3. Cerita Fantasi 4. Teknologi Masa Depan 5. Petualangan Antariksa
+2025-07-20 17:04:22,702 - AI_Services - [32mINFO[0m - [INFO]    Calculated 14 relevance scores
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]    Relevance range: 0.0000 - 0.3238
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]    Selected top 5 relevant books
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance: 0.3238
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Cerita Fantasi, 4. Teknologi Masa Depan, 5. Petualangan Antariksa
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance: 0.2104
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Cerita Fantasi, 4. Teknologi Masa Depan, 5. Petualangan Antariksa
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]       3. The Hobbit - Relevance: 0.1976
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Cerita Fantasi, 4. Teknologi Masa Depan, 5. Petualangan Antariksa
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]       4. The Martian - Relevance: 0.1939
+2025-07-20 17:04:22,703 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Cerita Fantasi, 4. Teknologi Masa Depan, 5. Petualangan Antariksa
+2025-07-20 17:04:22,705 - AI_Services - [32mINFO[0m - [INFO]       5. Foundation - Relevance: 0.1807
+2025-07-20 17:04:22,705 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. Fiksi Ilmiah, 2. Novel, 3. Cerita Fantasi, 4. Teknologi Masa Depan, 5. Petualangan Antariksa
+2025-07-20 17:04:22,705 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: Generated 5 recommendations
+2025-07-20 17:04:22,705 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5 recommendations in 2.199s
+2025-07-20 17:04:22,705 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance Score: 0.0000
+2025-07-20 17:04:22,705 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance Score: 0.0000
+2025-07-20 17:04:22,705 - AI_Services - [32mINFO[0m - [INFO]       3. The Hobbit - Relevance Score: 0.0000
+2025-07-20 17:04:22,706 - AI_Services - [32mINFO[0m - [INFO]       4. The Martian - Relevance Score: 0.0000
+2025-07-20 17:04:22,706 - AI_Services - [32mINFO[0m - [INFO]       5. Foundation - Relevance Score: 0.0000
+2025-07-20 17:04:22,706 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION SUMMARY
+2025-07-20 17:04:22,706 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 17:04:22,706 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 17:04:22,706 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 17:04:22,706 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 17:04:22,706 - AI_Services - [32mINFO[0m - [INFO]    Total Time: 2.200s
+2025-07-20 17:04:22,706 - AI_Services - [32mINFO[0m - [INFO] Performance - HybridRecommendation:generate took 2.20s
+2025-07-20 17:04:22,708 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 17:04:22,708 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 17:04:22,708 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 17:04:22,708 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 17:20:01,346 - AI_Services - [32mINFO[0m - [INFO] DEBUG: user_id diterima di chat: 6873e056c268083a679e4e73
+2025-07-20 17:20:01,631 - AI_Services - [32mINFO[0m - [INFO] DEBUG: Borrowings: []
+2025-07-20 17:20:01,655 - AI_Services - [32mINFO[0m - [INFO] DEBUG: Interactions: []
+2025-07-20 17:20:01,677 - AI_Services - [32mINFO[0m - [INFO] DEBUG: Ratings: []
+2025-07-20 17:20:01,677 - AI_Services - [32mINFO[0m - [INFO] No reading history found for user 6873e056c268083a679e4e73
+2025-07-20 17:20:06,143 - AI_Services - [32mINFO[0m - [INFO] COLLABORATIVE: Processing user_id=6873e056c268083a679e4e73
+2025-07-20 17:20:06,143 - AI_Services - [33mWARNING[0m - [WARN]    User 6873e056c268083a679e4e73 not found or no user-item matrix available
+2025-07-20 17:20:06,143 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 17:20:06,143 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: haloo, berikan saya rekomendasi buku berdasarkan aktifitas terakhir saya
+2025-07-20 17:20:06,144 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 17:20:08,785 - AI_Services - [32mINFO[0m - [INFO]    Extracted keywords: Mohon maaf, informasi tentang aktivitas terakhir Anda tidak tersedia. Tolong berikan lebih banyak detail seperti genre buku favorit, penulis favorit, atau topik yang Anda minati sehingga saya bisa memberikan kata kunci yang lebih relevan.
+2025-07-20 17:20:08,786 - AI_Services - [32mINFO[0m - [INFO]    Search query: Mohon maaf, informasi tentang aktivitas terakhir Anda tidak tersedia. Tolong berikan lebih banyak detail seperti genre buku favorit, penulis favorit, atau topik yang Anda minati sehingga saya bisa memberikan kata kunci yang lebih relevan.
+2025-07-20 17:20:08,793 - AI_Services - [32mINFO[0m - [INFO]    Calculated 14 relevance scores
+2025-07-20 17:20:08,794 - AI_Services - [32mINFO[0m - [INFO]    Relevance range: 0.0000 - 0.1509
+2025-07-20 17:20:08,794 - AI_Services - [32mINFO[0m - [INFO]    Selected top 3 relevant books
+2025-07-20 17:20:08,795 - AI_Services - [32mINFO[0m - [INFO]       1. 1984 - Relevance: 0.1509
+2025-07-20 17:20:08,795 - AI_Services - [32mINFO[0m - [INFO]          Keywords: Mohon maaf, informasi tentang aktivitas terakhir Anda tidak tersedia. Tolong berikan lebih banyak detail seperti genre buku favorit, penulis favorit, atau topik yang Anda minati sehingga saya bisa memberikan kata kunci yang lebih relevan.
+2025-07-20 17:20:08,795 - AI_Services - [32mINFO[0m - [INFO]       2. Animal Farm - Relevance: 0.1480
+2025-07-20 17:20:08,796 - AI_Services - [32mINFO[0m - [INFO]          Keywords: Mohon maaf, informasi tentang aktivitas terakhir Anda tidak tersedia. Tolong berikan lebih banyak detail seperti genre buku favorit, penulis favorit, atau topik yang Anda minati sehingga saya bisa memberikan kata kunci yang lebih relevan.
+2025-07-20 17:20:08,796 - AI_Services - [32mINFO[0m - [INFO]       3. The Great Gatsby - Relevance: 0.1373
+2025-07-20 17:20:08,797 - AI_Services - [32mINFO[0m - [INFO]          Keywords: Mohon maaf, informasi tentang aktivitas terakhir Anda tidak tersedia. Tolong berikan lebih banyak detail seperti genre buku favorit, penulis favorit, atau topik yang Anda minati sehingga saya bisa memberikan kata kunci yang lebih relevan.
+2025-07-20 17:20:08,797 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: Generated 3 recommendations
+2025-07-20 17:20:08,797 - AI_Services - [32mINFO[0m - [INFO] AI-enhanced recommendations generated: 3
+2025-07-20 17:20:08,831 - AI_Services - [32mINFO[0m - [INFO]    User ID: 6873e056c268083a679e4e73
+2025-07-20 17:20:08,831 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 17:20:08,831 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 17:20:08,831 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 17:20:08,831 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION REQUEST
+2025-07-20 17:20:08,832 - AI_Services - [32mINFO[0m - [INFO]    User ID: 6873e056c268083a679e4e73
+2025-07-20 17:20:08,832 - AI_Services - [32mINFO[0m - [INFO]    Book ID: None
+2025-07-20 17:20:08,832 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 17:20:08,832 - AI_Services - [32mINFO[0m - [INFO]    N Recommendations: 5
+2025-07-20 17:20:08,832 - AI_Services - [32mINFO[0m - [INFO] Generating Collaborative Recommendations for user: 6873e056c268083a679e4e73
+2025-07-20 17:20:08,833 - AI_Services - [32mINFO[0m - [INFO] COLLABORATIVE: Processing user_id=6873e056c268083a679e4e73
+2025-07-20 17:20:08,833 - AI_Services - [33mWARNING[0m - [WARN]    User 6873e056c268083a679e4e73 not found or no user-item matrix available
+2025-07-20 17:20:08,833 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0 recommendations in 0.000s
+2025-07-20 17:20:08,833 - AI_Services - [32mINFO[0m - [INFO] Generating AI-Enhanced Recommendations
+2025-07-20 17:20:08,833 - AI_Services - [32mINFO[0m - [INFO] AI-ENHANCED: Processing user preferences
+2025-07-20 17:20:08,834 - AI_Services - [32mINFO[0m - [INFO]    User Preferences: Saya suka membaca buku fiksi ilmiah dan novel
+2025-07-20 17:20:08,834 - AI_Services - [32mINFO[0m - [INFO]    Calling OpenAI API for keyword extraction...
+2025-07-20 17:20:12,115 - AI_Services - [32mINFO[0m - [INFO]    Extracted keywords: 1. "Fiksi ilmiah", 2. "Novel", 3. "Buku bestseller", 4. "Pengarang populer", 5. "Buku baru"
+2025-07-20 17:20:12,115 - AI_Services - [32mINFO[0m - [INFO]    Search query: 1. "Fiksi ilmiah" 2. "Novel" 3. "Buku bestseller" 4. "Pengarang populer" 5. "Buku baru"
+2025-07-20 17:20:12,116 - AI_Services - [32mINFO[0m - [INFO]    Calculated 14 relevance scores
+2025-07-20 17:20:12,116 - AI_Services - [32mINFO[0m - [INFO]    Relevance range: 0.0000 - 0.4382
+2025-07-20 17:20:12,116 - AI_Services - [32mINFO[0m - [INFO]    Selected top 5 relevant books
+2025-07-20 17:20:12,117 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance: 0.4382
+2025-07-20 17:20:12,117 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi ilmiah", 2. "Novel", 3. "Buku bestseller", 4. "Pengarang populer", 5. "Buku baru"
+2025-07-20 17:20:12,117 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance: 0.2847
+2025-07-20 17:20:12,117 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi ilmiah", 2. "Novel", 3. "Buku bestseller", 4. "Pengarang populer", 5. "Buku baru"
+2025-07-20 17:20:12,117 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance: 0.2623
+2025-07-20 17:20:12,117 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi ilmiah", 2. "Novel", 3. "Buku bestseller", 4. "Pengarang populer", 5. "Buku baru"
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance: 0.2444
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi ilmiah", 2. "Novel", 3. "Buku bestseller", 4. "Pengarang populer", 5. "Buku baru"
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance: 0.2444
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]          Keywords: 1. "Fiksi ilmiah", 2. "Novel", 3. "Buku bestseller", 4. "Pengarang populer", 5. "Buku baru"
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: Generated 5 recommendations
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5 recommendations in 3.285s
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]       1. Dune - Relevance Score: 0.0000
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]       2. Neuromancer - Relevance Score: 0.0000
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]       3. The Martian - Relevance Score: 0.0000
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]       4. Foundation - Relevance Score: 0.0000
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]       5. Ready Player One - Relevance Score: 0.0000
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO] HYBRID RECOMMENDATION SUMMARY
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 17:20:12,118 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 17:20:12,119 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 17:20:12,119 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5
+2025-07-20 17:20:12,119 - AI_Services - [32mINFO[0m - [INFO]    Total Time: 3.287s
+2025-07-20 17:20:12,119 - AI_Services - [32mINFO[0m - [INFO] Performance - HybridRecommendation:generate took 3.29s
+2025-07-20 17:20:12,121 - AI_Services - [32mINFO[0m - [INFO]    Total Recommendations: 5
+2025-07-20 17:20:12,121 - AI_Services - [32mINFO[0m - [INFO]    Content-Based: 0
+2025-07-20 17:20:12,121 - AI_Services - [32mINFO[0m - [INFO]    Collaborative: 0
+2025-07-20 17:20:12,121 - AI_Services - [32mINFO[0m - [INFO]    AI-Enhanced: 5

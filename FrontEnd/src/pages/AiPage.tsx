@@ -1,5 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Cpu, Send, User as UserIcon, Bot, Menu, Trash2, Sparkles, BookOpen, Lightbulb } from "lucide-react";
+import {
+  Cpu,
+  Send,
+  User as UserIcon,
+  Bot,
+  Menu,
+  Trash2,
+  Sparkles,
+  BookOpen,
+  Lightbulb,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { geminiService } from "../services/geminiApi";
@@ -47,8 +57,17 @@ const AiPage: React.FC = () => {
   const [showHistory, setShowHistory] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [sessionToDelete, setSessionToDelete] = useState<string | null>(null);
+  const [showRecommendations, setShowRecommendations] = useState(false);
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // Ambil userId dari localStorage
+  const currentUser = localStorage.getItem("currentUser")
+    ? JSON.parse(localStorage.getItem("currentUser")!)
+    : null;
+  const userId = currentUser?._id || currentUser?.id;
+  // Debug
+  console.log("DEBUG userId yang dikirim ke AI:", userId);
 
   const quickActions: QuickAction[] = [
     {
@@ -56,22 +75,30 @@ const AiPage: React.FC = () => {
       title: "Rekomendasi Buku",
       description: "Dapatkan rekomendasi buku sesuai minat Anda",
       icon: <BookOpen className="h-5 w-5" />,
-      prompt: "Saya ingin rekomendasi buku yang bagus untuk dibaca. Saya suka genre"
+      prompt:
+        "Berikan saya rekomendasi buku yang bagus untuk dibaca. Saya suka genre",
     },
     {
       id: "book-summary",
       title: "Ringkasan Buku",
       description: "Minta ringkasan dari buku tertentu",
       icon: <Sparkles className="h-5 w-5" />,
-      prompt: "Bisakah Anda memberikan ringkasan dari buku"
+      prompt: "Bisakah Anda memberikan ringkasan dari buku",
     },
     {
       id: "reading-tips",
       title: "Tips Membaca",
       description: "Dapatkan tips untuk meningkatkan kebiasaan membaca",
       icon: <Lightbulb className="h-5 w-5" />,
-      prompt: "Berikan tips untuk meningkatkan kebiasaan membaca dan pemahaman"
-    }
+      prompt: "Berikan tips untuk meningkatkan kebiasaan membaca dan pemahaman",
+    },
+    {
+      id: "reading-history",
+      title: "Histori Pembacaan",
+      description: "Tanyakan tentang buku yang Anda baca akhir-akhir ini",
+      icon: <BookOpen className="h-5 w-5" />,
+      prompt: "Saya suka membaca buku apa akhir-akhir ini?",
+    },
   ];
 
   // Load sessions from localStorage
@@ -88,13 +115,13 @@ const AiPage: React.FC = () => {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
           // Convert string dates back to Date objects
-          const sessionsWithDates = parsed.map(session => ({
+          const sessionsWithDates = parsed.map((session) => ({
             ...session,
             createdAt: new Date(session.createdAt),
             messages: session.messages.map((msg: any) => ({
               ...msg,
-              timestamp: new Date(msg.timestamp)
-            }))
+              timestamp: new Date(msg.timestamp),
+            })),
           }));
           setSessions(sessionsWithDates);
           setActiveSessionId(sessionsWithDates[0].id);
@@ -124,14 +151,16 @@ const AiPage: React.FC = () => {
   const handleInitialPrompt = async (promptParam: string) => {
     const newSession: ChatSession = {
       id: Date.now().toString(),
-      title: generateTitle([{ role: "user", content: promptParam, timestamp: new Date() }]),
+      title: generateTitle([
+        { role: "user", content: promptParam, timestamp: new Date() },
+      ]),
       messages: [],
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     setSessions([newSession]);
     setActiveSessionId(newSession.id);
-    
+
     // Clear the URL parameter
     setTimeout(() => {
       searchParams.delete("prompt");
@@ -149,24 +178,27 @@ const AiPage: React.FC = () => {
     const userMessage: ChatMessage = {
       role: "user",
       content: message,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     const loadingMessage: ChatMessage = {
       role: "ai",
       content: "Sedang mengetik...",
       timestamp: new Date(),
-      isLoading: true
+      isLoading: true,
     };
 
     // Add user message and loading indicator
-    setSessions(prev =>
-      prev.map(session =>
+    setSessions((prev) =>
+      prev.map((session) =>
         session.id === targetSessionId
           ? {
               ...session,
               messages: [...session.messages, userMessage, loadingMessage],
-              title: session.messages.length === 0 ? generateTitle([userMessage]) : session.title
+              title:
+                session.messages.length === 0
+                  ? generateTitle([userMessage])
+                  : session.title,
             }
           : session
       )
@@ -176,44 +208,68 @@ const AiPage: React.FC = () => {
 
     try {
       // Get AI response using backend AI service
-      const response = await aiAPI.chat({
+      const response = (await aiAPI.chat({
         message,
-        user_id: localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')!)._id : undefined
-      }) as any;
-      
+        user_id: userId,
+      })) as any;
+
       const aiMessage: ChatMessage = {
         role: "ai",
         content: response.response,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       // Replace loading message with actual response
-      setSessions(prev =>
-        prev.map(session =>
+      setSessions((prev) =>
+        prev.map((session) =>
           session.id === targetSessionId
             ? {
                 ...session,
-                messages: session.messages.slice(0, -1).concat(aiMessage)
+                messages: session.messages.slice(0, -1).concat(aiMessage),
               }
             : session
         )
       );
 
+      // Deteksi apakah user meminta rekomendasi
+      const recommendationKeywords = [
+        "berikan saya rekomendasi",
+        "rekomendasi",
+        "sarankan",
+        "saran",
+        "rekomendasikan",
+        "bagaimana dengan",
+        "apa yang bagus",
+        "buku apa yang bagus",
+        "tolong berikan",
+        "bisa berikan",
+        "mohon rekomendasi",
+      ];
+
+      const userWantsRecommendations = recommendationKeywords.some((keyword) =>
+        message.toLowerCase().includes(keyword)
+      );
+
+      // Tampilkan rekomendasi jika user meminta
+      if (userWantsRecommendations) {
+        setShowRecommendations(true);
+      }
     } catch (error) {
-      console.error('Error getting AI response:', error);
-      
+      console.error("Error getting AI response:", error);
+
       const errorMessage: ChatMessage = {
         role: "ai",
-        content: "Maaf, terjadi kesalahan saat memproses permintaan Anda. Silakan coba lagi.",
-        timestamp: new Date()
+        content:
+          "Maaf, terjadi kesalahan saat memproses permintaan Anda. Silakan coba lagi.",
+        timestamp: new Date(),
       };
 
-      setSessions(prev =>
-        prev.map(session =>
+      setSessions((prev) =>
+        prev.map((session) =>
           session.id === targetSessionId
             ? {
                 ...session,
-                messages: session.messages.slice(0, -1).concat(errorMessage)
+                messages: session.messages.slice(0, -1).concat(errorMessage),
               }
             : session
         )
@@ -239,6 +295,11 @@ const AiPage: React.FC = () => {
     // Auto-send the quick action
     if (activeSessionId) {
       await sendMessage(action.prompt);
+
+      // Jika action adalah rekomendasi, tampilkan komponen rekomendasi
+      if (action.id === "book-recommendation") {
+        setShowRecommendations(true);
+      }
     }
   };
 
@@ -247,9 +308,9 @@ const AiPage: React.FC = () => {
       id: Date.now().toString(),
       title: "Chat Baru",
       messages: [],
-      createdAt: new Date()
+      createdAt: new Date(),
     };
-    setSessions(prev => [newSession, ...prev]);
+    setSessions((prev) => [newSession, ...prev]);
     setActiveSessionId(newSession.id);
     setInput("");
     setShowHistory(false);
@@ -262,14 +323,14 @@ const AiPage: React.FC = () => {
 
   const confirmDelete = () => {
     if (sessionToDelete) {
-      setSessions(prev => {
-        const filtered = prev.filter(s => s.id !== sessionToDelete);
+      setSessions((prev) => {
+        const filtered = prev.filter((s) => s.id !== sessionToDelete);
         if (filtered.length === 0) {
           const newSession: ChatSession = {
             id: Date.now().toString(),
             title: "Chat Baru",
             messages: [],
-            createdAt: new Date()
+            createdAt: new Date(),
           };
           setActiveSessionId(newSession.id);
           return [newSession];
@@ -290,7 +351,7 @@ const AiPage: React.FC = () => {
     setSessionToDelete(null);
   };
 
-  const activeSession = sessions.find(s => s.id === activeSessionId);
+  const activeSession = sessions.find((s) => s.id === activeSessionId);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-row text-gray-900 relative">
@@ -300,8 +361,13 @@ const AiPage: React.FC = () => {
         ${showHistory ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200">
-          <span className="font-bold text-xl tracking-tight">Riwayat Chat AI</span>
-          <button onClick={() => setShowHistory(false)} className="text-gray-500 hover:text-gray-800 text-2xl font-bold">
+          <span className="font-bold text-xl tracking-tight">
+            Riwayat Chat AI
+          </span>
+          <button
+            onClick={() => setShowHistory(false)}
+            className="text-gray-500 hover:text-gray-800 text-2xl font-bold"
+          >
             &times;
           </button>
         </div>
@@ -314,38 +380,44 @@ const AiPage: React.FC = () => {
           </button>
         </div>
         <div className="flex-1 overflow-y-auto px-6 py-4">
-          {sessions.filter(s => s.messages.length > 0).length === 0 ? (
-            <div className="text-gray-400 text-center mt-8">Belum ada riwayat chat</div>
+          {sessions.filter((s) => s.messages.length > 0).length === 0 ? (
+            <div className="text-gray-400 text-center mt-8">
+              Belum ada riwayat chat
+            </div>
           ) : (
             <ul className="space-y-2">
-              {sessions.filter(s => s.messages.length > 0).map((session) => (
-                <li
-                  key={session.id}
-                  className={`bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 cursor-pointer transition-colors flex items-center justify-between gap-2 shadow-sm hover:bg-blue-50 ${
-                    activeSessionId === session.id ? "ring-2 ring-blue-400 bg-blue-50" : ""
-                  }`}
-                >
-                  <span
-                    className="flex-1 truncate pr-2"
-                    onClick={() => {
-                      setActiveSessionId(session.id);
-                      setShowHistory(false);
-                    }}
-                    title={session.title}
+              {sessions
+                .filter((s) => s.messages.length > 0)
+                .map((session) => (
+                  <li
+                    key={session.id}
+                    className={`bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 cursor-pointer transition-colors flex items-center justify-between gap-2 shadow-sm hover:bg-blue-50 ${
+                      activeSessionId === session.id
+                        ? "ring-2 ring-blue-400 bg-blue-50"
+                        : ""
+                    }`}
                   >
-                    {session.title}
-                  </span>
-                  <button
-                    className="p-1 rounded hover:bg-red-100 text-red-500 hover:text-red-700 transition-colors"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteSession(session.id);
-                    }}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </li>
-              ))}
+                    <span
+                      className="flex-1 truncate pr-2"
+                      onClick={() => {
+                        setActiveSessionId(session.id);
+                        setShowHistory(false);
+                      }}
+                      title={session.title}
+                    >
+                      {session.title}
+                    </span>
+                    <button
+                      className="p-1 rounded hover:bg-red-100 text-red-500 hover:text-red-700 transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteSession(session.id);
+                      }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </li>
+                ))}
             </ul>
           )}
         </div>
@@ -412,7 +484,8 @@ const AiPage: React.FC = () => {
               Smart Library AI Assistant
             </h1>
             <p className="text-center text-gray-600">
-              Powered by Google Gemini - Tanyakan tentang buku, dapatkan rekomendasi, dan tips membaca
+              Powered by OpenAI - Tanyakan tentang buku, dapatkan rekomendasi,
+              dan tips membaca
             </p>
           </header>
 
@@ -424,7 +497,7 @@ const AiPage: React.FC = () => {
                 <div className="text-2xl font-semibold text-gray-400 mb-6">
                   Mulai chat dengan AI Assistant
                 </div>
-                
+
                 {/* Quick Actions */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl mb-8">
                   {quickActions.map((action) => (
@@ -439,13 +512,17 @@ const AiPage: React.FC = () => {
                         <div className="p-2 bg-blue-100 rounded-lg text-blue-600 group-hover:bg-blue-200 transition-colors">
                           {action.icon}
                         </div>
-                        <h3 className="font-semibold text-gray-900">{action.title}</h3>
+                        <h3 className="font-semibold text-gray-900">
+                          {action.title}
+                        </h3>
                       </div>
-                      <p className="text-sm text-gray-600">{action.description}</p>
+                      <p className="text-sm text-gray-600">
+                        {action.description}
+                      </p>
                     </motion.button>
                   ))}
                 </div>
-                
+
                 <div className="text-gray-400 text-base text-center">
                   Atau ketik pertanyaan Anda di bawah ini
                 </div>
@@ -453,51 +530,64 @@ const AiPage: React.FC = () => {
             )}
 
             <AnimatePresence initial={false}>
-              {activeSession && activeSession.messages.map((msg, idx) => (
-                <motion.div
-                  key={`message-${activeSession.id}-${idx}-${msg.timestamp.getTime()}`}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 30 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} w-full`}
-                >
-                  <div className="flex items-end gap-3 max-w-[90vw] sm:max-w-[70%]">
-                    {msg.role === "ai" && (
-                      <span className="flex-shrink-0">
-                        <Bot className={`h-10 w-10 rounded-full p-2 ${
-                          msg.isLoading ? "text-blue-400 bg-blue-50 animate-pulse" : "text-blue-600 bg-gray-100"
-                        }`} />
-                      </span>
-                    )}
-                    <div
-                      className={`px-5 py-3 rounded-2xl text-base whitespace-pre-line break-words shadow-sm ${
-                        msg.role === "user"
-                          ? "bg-blue-600 text-white rounded-br-2xl"
-                          : msg.isLoading
-                          ? "bg-gray-100 text-gray-500 rounded-bl-2xl border border-gray-200 animate-pulse"
-                          : "bg-gray-100 text-gray-900 rounded-bl-2xl border border-gray-200"
-                      }`}
-                    >
-                      {msg.content}
+              {activeSession &&
+                activeSession.messages.map((msg, idx) => (
+                  <motion.div
+                    key={`message-${
+                      activeSession.id
+                    }-${idx}-${msg.timestamp.getTime()}`}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 30 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                    className={`flex ${
+                      msg.role === "user" ? "justify-end" : "justify-start"
+                    } w-full`}
+                  >
+                    <div className="flex items-end gap-3 max-w-[90vw] sm:max-w-[70%]">
+                      {msg.role === "ai" && (
+                        <span className="flex-shrink-0">
+                          <Bot
+                            className={`h-10 w-10 rounded-full p-2 ${
+                              msg.isLoading
+                                ? "text-blue-400 bg-blue-50 animate-pulse"
+                                : "text-blue-600 bg-gray-100"
+                            }`}
+                          />
+                        </span>
+                      )}
+                      <div
+                        className={`px-5 py-3 rounded-2xl text-base whitespace-pre-line break-words shadow-sm ${
+                          msg.role === "user"
+                            ? "bg-blue-600 text-white rounded-br-2xl"
+                            : msg.isLoading
+                            ? "bg-gray-100 text-gray-500 rounded-bl-2xl border border-gray-200 animate-pulse"
+                            : "bg-gray-100 text-gray-900 rounded-bl-2xl border border-gray-200"
+                        }`}
+                      >
+                        {msg.content}
+                      </div>
+                      {msg.role === "user" && (
+                        <span className="flex-shrink-0">
+                          <UserIcon className="h-10 w-10 text-blue-600 bg-gray-100 rounded-full p-2" />
+                        </span>
+                      )}
                     </div>
-                    {msg.role === "user" && (
-                      <span className="flex-shrink-0">
-                        <UserIcon className="h-10 w-10 text-blue-600 bg-gray-100 rounded-full p-2" />
-                      </span>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
             </AnimatePresence>
             <div ref={chatEndRef} />
           </section>
-          
+
           {/* AI Recommendations Section */}
           <section className="mt-8 mb-32">
-            <AIRecommendations 
-              userId={localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')!)._id : undefined}
+            <AIRecommendations
+              userId={userId}
               userPreferences="Saya suka membaca buku fiksi ilmiah dan novel"
+              showRecommendations={showRecommendations}
+              onToggleRecommendations={() =>
+                setShowRecommendations(!showRecommendations)
+              }
             />
           </section>
         </div>

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { BookOpen, Sparkles, Users, Brain, Loader2 } from "lucide-react";
+import {
+  BookOpen,
+  Sparkles,
+  Users,
+  Brain,
+  Loader2,
+  MessageCircle,
+} from "lucide-react";
 import { aiAPI } from "../../services/api";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
@@ -23,12 +30,16 @@ interface AIRecommendationsProps {
   userId?: string;
   bookId?: string;
   userPreferences?: string;
+  showRecommendations?: boolean;
+  onToggleRecommendations?: () => void;
 }
 
 const AIRecommendations: React.FC<AIRecommendationsProps> = ({
   userId,
   bookId,
   userPreferences,
+  showRecommendations = false,
+  onToggleRecommendations,
 }) => {
   const [recommendations, setRecommendations] =
     useState<Recommendations | null>(null);
@@ -58,10 +69,28 @@ const AIRecommendations: React.FC<AIRecommendationsProps> = ({
   };
 
   useEffect(() => {
-    if (userId || bookId || userPreferences) {
+    if (showRecommendations && (userId || bookId || userPreferences)) {
       fetchRecommendations();
     }
-  }, [userId, bookId, userPreferences]);
+  }, [showRecommendations, userId, bookId, userPreferences]);
+
+  const handleReadLater = async (bookId: string) => {
+    if (!userId) {
+      toast.error("Anda harus login untuk menggunakan fitur ini.");
+      return;
+    }
+    try {
+      await aiAPI.addUserInteraction({
+        user_id: userId,
+        book_id: bookId,
+        type: "read_later",
+        timestamp: new Date().toISOString(),
+      });
+      toast.success("Buku berhasil ditambahkan ke Read Later!");
+    } catch (err) {
+      toast.error("Gagal menambahkan ke Read Later.");
+    }
+  };
 
   const renderBookCard = (book: Book, index: number) => (
     <Link
@@ -101,6 +130,16 @@ const AIRecommendations: React.FC<AIRecommendationsProps> = ({
         )}
         <button className="mt-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium group-hover:bg-blue-100 transition">
           Lihat Detail
+        </button>
+        <button
+          className="mt-2 px-3 py-1 bg-yellow-50 text-yellow-700 rounded-full text-xs font-medium hover:bg-yellow-100 transition"
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            handleReadLater(book._id);
+          }}
+        >
+          Simpan ke Read Later
         </button>
       </div>
     </Link>
@@ -153,16 +192,28 @@ const AIRecommendations: React.FC<AIRecommendationsProps> = ({
     }
   };
 
-  if (!userId && !bookId && !userPreferences) {
+  // Jika tidak ada user, book, atau preferences, tampilkan tombol untuk meminta rekomendasi
+  if (!userId) {
+    return null;
+  }
+
+  if (!showRecommendations) {
     return (
       <div className="text-center py-8">
-        <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+        <Sparkles className="w-12 h-12 text-gray-400 mx-auto mb-4" />
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          Rekomendasi AI
+          Rekomendasi AI Tersedia
         </h3>
-        <p className="text-gray-600">
-          Pilih buku atau masukkan preferensi untuk mendapatkan rekomendasi AI
+        <p className="text-gray-600 mb-4">
+          Klik tombol di bawah untuk melihat rekomendasi buku yang
+          dipersonalisasi
         </p>
+        <button
+          onClick={onToggleRecommendations}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          Tampilkan Rekomendasi
+        </button>
       </div>
     );
   }
@@ -176,18 +227,26 @@ const AIRecommendations: React.FC<AIRecommendationsProps> = ({
             Rekomendasi buku yang dipersonalisasi untuk Anda
           </p>
         </div>
-        <button
-          onClick={fetchRecommendations}
-          disabled={isLoading}
-          className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-        >
-          {isLoading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <Sparkles className="w-4 h-4" />
-          )}
-          <span>Refresh</span>
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={onToggleRecommendations}
+            className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
+          >
+            Sembunyikan
+          </button>
+          <button
+            onClick={fetchRecommendations}
+            disabled={isLoading}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          >
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Sparkles className="w-4 h-4" />
+            )}
+            <span>Refresh</span>
+          </button>
+        </div>
       </div>
 
       {/* Tabs */}

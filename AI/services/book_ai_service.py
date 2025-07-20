@@ -6,6 +6,8 @@ from typing import List, Dict, Any, Optional
 from .recommendation_service import RecommendationService
 from .user_preference_service import UserPreferenceService
 from collections import deque
+from datetime import datetime, timedelta
+from bson import ObjectId
 
 # Load environment variables
 load_dotenv()
@@ -63,21 +65,141 @@ class BookAIService:
         return ""
     
     def _get_user_context(self, user_id: str) -> str:
-        """Mendapatkan konteks preferensi pengguna"""
+        """Mendapatkan konteks preferensi pengguna dan histori pembacaan"""
         if not user_id:
             return ""
         
         try:
+            # Dapatkan preferensi user
             preferences = self.user_preference_service.analyze_user_preferences(user_id)
-            return f"""
+            
+            # Dapatkan histori pembacaan terbaru
+            reading_history = self._get_user_reading_history(user_id)
+            
+            context = f"""
             Genre Favorit: {', '.join(preferences.get('preferred_genres', []))}
             Penulis Favorit: {', '.join(preferences.get('preferred_authors', []))}
             Topik Favorit: {', '.join(preferences.get('preferred_topics', []))}
             """
+            
+            if reading_history:
+                context += f"\nHistori Pembacaan Terbaru:\n{reading_history}"
+            
+            return context
         except Exception as e:
             print(f"Error mendapatkan konteks user: {str(e)}")
         
         return ""
+    
+    def _get_user_reading_history(self, user_id: str) -> str:
+        """Mendapatkan histori pembacaan user terbaru"""
+        if not user_id or user_id == "anonymous":
+            return "Belum ada aktivitas membaca yang tercatat."
+        try:
+            from utils.logger import ai_logger
+            
+            # Ambil data dari collection borrowings dan user_interactions
+            db = self.db
+            
+            # Ambil buku yang dipinjam dalam 90 hari terakhir (bukan 30)
+            ninety_days_ago = datetime.now() - timedelta(days=90)
+            recent_borrowings = list(db.borrowings.find({
+                "$or": [
+                    {"user_id": user_id},
+                    {"user_id": ObjectId(user_id)}
+                ],
+                "borrow_date": {"$gte": ninety_days_ago}
+            }).sort("borrow_date", -1).limit(20))
+            from utils.logger import ai_logger
+            ai_logger.logger.info(f"DEBUG: Borrowings: {recent_borrowings}")
+            # Ambil interaksi user terbaru (bookmark, read, review, rating)
+            recent_interactions = list(db.user_interactions.find({
+                "$or": [
+                    {"user_id": user_id},
+                    {"user_id": ObjectId(user_id)}
+                ]
+            }).sort("timestamp", -1).limit(20))
+            ai_logger.logger.info(f"DEBUG: Interactions: {recent_interactions}")
+            # Ambil rating user
+            recent_ratings = list(db.ratings.find({
+                "$or": [
+                    {"user_id": user_id},
+                    {"user_id": ObjectId(user_id)}
+                ]
+            }).sort("timestamp", -1).limit(20))
+            ai_logger.logger.info(f"DEBUG: Ratings: {recent_ratings}")
+            
+            history_text = ""
+            
+            if recent_borrowings:
+                history_text += "📚 Buku yang dipinjam akhir-akhir ini:\n"
+                for borrowing in recent_borrowings:
+                    book_id = borrowing.get("books_id") or borrowing.get("book_id")
+                    if book_id:
+                        book = db.books.find_one({"_id": book_id})
+                        if book:
+                            title = book.get("title", "N/A")
+                            author = book.get("author", "N/A")
+                            genre = book.get("genre", "N/A")
+                            borrow_date = borrowing.get("borrow_date", "")
+                            return_date = borrowing.get("return_date")
+                            
+                            status = "📖 Sedang dibaca" if not return_date else "✅ Selesai dibaca"
+                            history_text += f"- {title} oleh {author} ({genre}) {status}\n"
+                
+                ai_logger.logger.info(f"Found {len(recent_borrowings)} recent borrowings for user {user_id}")
+            
+            if recent_interactions:
+                history_text += "\n🎯 Aktivitas membaca terbaru:\n"
+                for interaction in recent_interactions:
+                    interaction_type = interaction.get("type", "")
+                    book_id = interaction.get("book_id")
+                    if book_id:
+                        book = db.books.find_one({"_id": book_id})
+                        if book:
+                            title = book.get("title", "N/A")
+                            progress = interaction.get("progress", 0)
+                            # Map interaction type ke emoji dan deskripsi
+                            type_mapping = {
+                                "bookmark": "🔖 Bookmark",
+                                "read": "📖 Membaca",
+                                "review": "⭐ Review",
+                                "rating": "⭐ Rating",
+                                "like": "❤️ Suka",
+                                "share": "📤 Bagikan",
+                                "read_later": "⏳ Read Later"  # Tambahan
+                            }
+                            activity_desc = type_mapping.get(interaction_type, interaction_type)
+                            if progress > 0:
+                                activity_desc += f" ({progress}%)"
+                            history_text += f"- {activity_desc}: {title}\n"
+                
+                ai_logger.logger.info(f"Found {len(recent_interactions)} recent interactions for user {user_id}")
+            
+            if recent_ratings:
+                history_text += "\n⭐ Rating yang diberikan:\n"
+                for rating in recent_ratings:
+                    book_id = rating.get("book_id") or rating.get("books_id")
+                    rating_value = rating.get("rating_value", 0)
+                    if book_id:
+                        book = db.books.find_one({"_id": book_id})
+                        if book:
+                            title = book.get("title", "N/A")
+                            stars = "⭐" * int(rating_value)
+                            history_text += f"- {title}: {stars} ({rating_value}/5)\n"
+                
+                ai_logger.logger.info(f"Found {len(recent_ratings)} recent ratings for user {user_id}")
+            
+            if not history_text:
+                history_text = "Belum ada aktivitas membaca yang tercatat."
+                ai_logger.logger.info(f"No reading history found for user {user_id}")
+            
+            return history_text
+            
+        except Exception as e:
+            from utils.logger import ai_logger
+            ai_logger.logger.error(f"Error getting reading history for user {user_id}: {str(e)}")
+            return ""
     
     def _get_conversation_history(self, user_id: str) -> List[Dict[str, str]]:
         """Mendapatkan riwayat percakapan untuk user tertentu"""
@@ -101,10 +223,12 @@ class BookAIService:
         return f"""Anda adalah asisten perpustakaan cerdas bernama "SmartLib Assistant" yang dapat memberikan rekomendasi buku yang personal dan akurat.
 
 ## PERAN DAN KEMAMPUAN:
-- Ahli dalam menganalisis preferensi membaca pengguna
+- Ahli dalam menganalisis preferensi membaca pengguna berdasarkan histori pembacaan
 - Mengenal berbagai genre buku dan penulis
 - Dapat memberikan rekomendasi yang sesuai dengan mood dan kebutuhan
 - Memahami konteks buku yang sedang dibaca atau diminati
+- Dapat mengakses dan menganalisis histori pembacaan pengguna
+- Memberikan insight berdasarkan aktivitas membaca user (bookmark, rating, review)
 
 ## KONTEKS YANG TERSEDIA:
 Konteks Buku:
@@ -114,32 +238,53 @@ Konteks Pengguna:
 {user_context}
 
 ## PANDUAN RESPONS:
-1. **Sambutan Personal**: Mulai dengan sambutan yang ramah dan personal
-2. **Analisis Preferensi**: Analisis preferensi pengguna berdasarkan konteks
-3. **Rekomendasi Kontekstual**: Berikan rekomendasi yang sesuai dengan buku yang sedang dibaca
-4. **Penjelasan Alasan**: Jelaskan mengapa buku tersebut direkomendasikan
-5. **Saran Tambahan**: Berikan saran untuk eksplorasi genre atau penulis serupa
-6. **Tone**: Gunakan bahasa Indonesia yang sopan, informatif, dan friendly
+1. **Sambutan Personal**: Mulai dengan sambutan yang ramah dan personal berdasarkan histori user
+2. **Analisis Aktivitas**: Analisis pola aktivitas user (genre favorit, rating tinggi, buku yang sedang dibaca)
+3. **Insight Personal**: Berikan insight tentang preferensi membaca user berdasarkan data
+4. **Konversasi Natural**: Lakukan tanya jawab natural sebelum memberikan rekomendasi
+5. **Rekomendasi Kontekstual**: Berikan rekomendasi hanya ketika user meminta secara eksplisit
+6. **Penjelasan Alasan**: Jelaskan mengapa buku tersebut direkomendasikan berdasarkan preferensi user
+7. **Tone**: Gunakan bahasa Indonesia yang sopan, informatif, dan friendly
+
+## STRATEGI KONVERSASI:
+- Analisis histori pembacaan untuk memahami preferensi user
+- Identifikasi genre favorit, penulis favorit, dan pola rating
+- Jika user bertanya tentang aktivitas membaca, berikan analisis mendalam
+- Berikan rekomendasi hanya ketika user mengatakan "berikan saya rekomendasi" atau kata-kata serupa
+- Jaga agar conversation tidak terlalu panjang (maksimal 5-6 pertukaran)
+- Gunakan data rating dan review untuk memberikan insight yang lebih akurat
 
 ## FORMAT RESPONS:
 - Gunakan emoji yang relevan untuk membuat respons lebih menarik
-- Berikan penjelasan singkat untuk setiap rekomendasi
+- Berikan penjelasan singkat dan to the point
+- Sertakan insight berdasarkan aktivitas user
 - Akhiri dengan ajakan untuk bertanya lebih lanjut
 
 ## CONTOH RESPONS YANG BAIK:
-"Hi! 👋 Senang bertemu dengan pecinta buku! 
+Ketika user bertanya tentang buku yang dibaca akhir-akhir ini:
+"Berdasarkan histori pembacaan Anda, saya melihat pola membaca yang sangat menarik! 📚
 
-Berdasarkan preferensi Anda yang menyukai novel fiksi ilmiah, saya melihat Anda memiliki selera yang sophisticated. Novel-novel yang Anda sukai cenderung mengeksplorasi teknologi masa depan dan kemungkinan-kemungkinan baru.
+📖 Buku yang sedang Anda baca:
+- "Dune" oleh Frank Herbert (Fiksi Ilmiah) - Sedang dibaca
 
-Untuk buku yang sedang Anda baca, saya merekomendasikan beberapa novel yang serupa dalam hal tema dan gaya penulisan. Novel-novel ini juga mengeksplorasi teknologi masa depan dengan pendekatan yang unik.
+⭐ Rating yang Anda berikan:
+- "The Martian" oleh Andy Weir: ⭐⭐⭐⭐⭐ (5/5)
+- "Ready Player One" oleh Ernest Cline: ⭐⭐⭐⭐ (4/5)
 
-Apakah Anda tertarik untuk mencoba genre lain yang masih dalam ranah fiksi ilmiah, atau ingin tetap fokus pada tema teknologi masa depan?"
+🎯 Aktivitas terbaru:
+- 🔖 Bookmark: "Neuromancer" oleh William Gibson
+- 📖 Membaca (75%): "Dune" oleh Frank Herbert
+
+Saya melihat Anda sangat menyukai fiksi ilmiah dengan rating tinggi untuk buku teknologi masa depan. Anda juga cenderung memberikan rating tinggi untuk buku yang mengeksplorasi konsep futuristik. Apakah Anda ingin saya memberikan rekomendasi buku serupa berdasarkan preferensi ini?"
 
 ## HAL YANG TIDAK BOLEH DILAKUKAN:
+- Jangan memberikan rekomendasi tanpa diminta secara eksplisit
 - Jangan memberikan spoiler untuk buku yang belum dibaca
 - Jangan memaksa rekomendasi yang tidak sesuai preferensi
 - Jangan memberikan informasi yang tidak akurat tentang buku
 - Jangan menggunakan bahasa yang terlalu formal atau kaku
+- Jangan membuat conversation terlalu panjang
+- Jangan mengabaikan data rating dan aktivitas user
 """
     
     def _get_ai_response(self, messages: List[Dict[str, str]]) -> str:
@@ -281,9 +426,13 @@ Apakah Anda tertarik untuk mencoba genre lain yang masih dalam ranah fiksi ilmia
     def chat(self, message: str, user_id: Optional[str] = None, book_id: Optional[str] = None) -> str:
         """Berinteraksi dengan AI untuk rekomendasi buku"""
         try:
+            from utils.logger import ai_logger
+            ai_logger.logger.info(f"DEBUG: user_id diterima di chat: {user_id}")
             # Validasi input
             if not message or not message.strip():
                 return "Pesan tidak boleh kosong"
+            if not user_id or user_id == "anonymous":
+                return "Anda harus login untuk mendapatkan rekomendasi yang personal."
             
             # Sanitasi input
             message = self._sanitize_input(message)
@@ -326,35 +475,90 @@ Apakah Anda tertarik untuk mencoba genre lain yang masih dalam ranah fiksi ilmia
                     + ai_response
                 )
             
-            # Tambahkan rekomendasi buku (fallback ke AI-Enhanced jika content-based kosong)
-            recs = self.recommendation_service.get_content_based_recommendations(book_id, 3) if book_id and not book_not_found else []
-            if not recs and (user_id or message):
-                from utils.logger import ai_logger
-                ai_logger.logger.info("Fallback ke AI-Enhanced/collaborative karena content-based kosong.")
-                recs = self.recommendation_service.get_ai_enhanced_recommendations(message, 3)
-                if not recs and user_id:
-                    recs = self.recommendation_service.get_collaborative_recommendations(user_id, 3)
+            # Deteksi apakah user meminta rekomendasi secara eksplisit
+            recommendation_keywords = [
+                'berikan saya rekomendasi', 'rekomendasi', 'sarankan', 'saran', 
+                'rekomendasikan', 'bagaimana dengan', 'apa yang bagus', 'buku apa yang bagus',
+                'tolong berikan', 'bisa berikan', 'mohon rekomendasi'
+            ]
             
-            # Hilangkan duplikasi buku berdasarkan book_id
-            seen_ids = set()
-            unique_recs = []
-            for rec in recs:
-                rec_id = rec.get('book_id') or rec.get('_id')
-                if rec_id and rec_id not in seen_ids:
-                    unique_recs.append(rec)
-                    seen_ids.add(rec_id)
-            # Format rekomendasi
-            if unique_recs:
-                final_response += "\n\n📚 **REKOMENDASI BUKU UNTUK ANDA** 📚\n"
-                final_response += "=" * 50 + "\n"
-                for i, rec in enumerate(unique_recs, 1):
-                    title = rec.get('title', 'N/A')
-                    author = rec.get('author', 'N/A')
-                    genre = rec.get('genre', 'N/A')
-                    genre_description = self._get_genre_description(genre)
-                    final_response += f"{i}. **{title}** oleh {author}\n   📖 Genre: {genre}\n   💡 {genre_description}\n\n"
-                final_response += "=" * 50 + "\n"
-                final_response += "💡 **Tips**: Rekomendasi di atas dipilih berdasarkan preferensi dan permintaan Anda!\n\n"
+            user_wants_recommendations = any(
+                keyword in message.lower() for keyword in recommendation_keywords
+            )
+            
+            # Hanya tambahkan rekomendasi jika user meminta secara eksplisit
+            if user_wants_recommendations:
+                # Coba content-based terlebih dahulu jika ada book_id
+                recs = []
+                if book_id and not book_not_found:
+                    try:
+                        recs = self.recommendation_service.get_content_based_recommendations(book_id, 3)
+                        if recs:
+                            from utils.logger import ai_logger
+                            ai_logger.logger.info(f"Content-based recommendations generated: {len(recs)}")
+                    except Exception as e:
+                        from utils.logger import ai_logger
+                        ai_logger.logger.warning(f"Content-based failed: {str(e)}")
+                if not recs and user_id:
+                    try:
+                        recs = self.recommendation_service.get_collaborative_recommendations(user_id, 3)
+                        if recs:
+                            from utils.logger import ai_logger
+                            ai_logger.logger.info(f"Collaborative recommendations generated: {len(recs)}")
+                    except Exception as e:
+                        from utils.logger import ai_logger
+                        ai_logger.logger.warning(f"Collaborative failed: {str(e)}")
+                if not recs:
+                    try:
+                        recs = self.recommendation_service.get_ai_enhanced_recommendations(message, 3)
+                        if recs:
+                            from utils.logger import ai_logger
+                            ai_logger.logger.info(f"AI-enhanced recommendations generated: {len(recs)}")
+                    except Exception as e:
+                        from utils.logger import ai_logger
+                        ai_logger.logger.warning(f"AI-enhanced failed: {str(e)}")
+                # Hilangkan duplikasi buku berdasarkan book_id
+                seen_ids = set()
+                unique_recs = []
+                for rec in recs:
+                    rec_id = rec.get('book_id') or rec.get('_id')
+                    if rec_id and rec_id not in seen_ids:
+                        unique_recs.append(rec)
+                        seen_ids.add(rec_id)
+                # Format rekomendasi profesional & hemat token
+                if unique_recs:
+                    # Ambil maksimal 3 buku
+                    unique_recs = unique_recs[:3]
+                    genre_user = None
+                    try:
+                        preferences = self.user_preference_service.analyze_user_preferences(user_id) if user_id else {}
+                        genre_user = preferences.get('preferred_genres', [None])[0]
+                    except:
+                        genre_user = None
+                    genre_text = f" pada genre {genre_user}" if genre_user else ""
+                    final_response += f"\n\nBerikut rekomendasi buku terbaik{genre_text} untuk Anda:\n"
+                    emoji_map = {
+                        "Fantasi": "🧙‍♂️",
+                        "Fiksi Ilmiah": "🚀",
+                        "Petualangan": "🌍",
+                        "Misteri": "🕵️",
+                        "Romansa": "💖",
+                        "Sejarah": "🏺",
+                        "Biografi": "👤",
+                        "Self-Help": "🌱",
+                        "Teknologi": "💻",
+                        "Filsafat": "🧠",
+                    }
+                    for i, rec in enumerate(unique_recs, 1):
+                        title = rec.get('title', 'N/A')
+                        author = rec.get('author', 'N/A')
+                        genre = rec.get('genre', 'N/A')
+                        emoji = emoji_map.get(genre, "📚")
+                        highlight = self._get_genre_description(genre)
+                        final_response += f"{i}. {emoji} {title} — {author} [{genre}]\n   {highlight}\n"
+                    final_response += "\nIngin info detail atau genre lain? Tanyakan saja."
+                else:
+                    final_response += "\n\nMaaf, belum ada data bacaan yang cukup untuk memberikan rekomendasi yang personal. Silakan baca dan beri rating beberapa buku terlebih dahulu."
             
             # Log interaksi untuk monitoring
             self._log_chat_interaction(user_id, message, final_response)
@@ -415,8 +619,7 @@ Apakah Anda tertarik untuk mencoba genre lain yang masih dalam ranah fiksi ilmia
         """Sanitasi dan validasi ID (user_id/book_id)"""
         if not id_value:
             return None
-        import re
-        id_value = re.sub(r'[^a-zA-Z0-9_-]', '', id_value)
+        id_value = str(id_value).strip()
         return id_value[:50] if id_value else None
     
     def _sanitize_user_id(self, user_id: Optional[str]) -> Optional[str]:

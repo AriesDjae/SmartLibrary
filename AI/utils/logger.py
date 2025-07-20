@@ -11,23 +11,65 @@ class Logger:
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.INFO)
         
-        # Format log
-        formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
+        # Hapus handler yang sudah ada untuk menghindari duplikasi
+        for handler in self.logger.handlers[:]:
+            self.logger.removeHandler(handler)
         
-        # Console handler
+        # Custom formatter dengan warna untuk terminal
+        class ColoredFormatter(logging.Formatter):
+            """Custom formatter dengan warna untuk terminal"""
+            
+            COLORS = {
+                'DEBUG': '\033[36m',    # Cyan
+                'INFO': '\033[32m',     # Green
+                'WARNING': '\033[33m',  # Yellow
+                'ERROR': '\033[31m',    # Red
+                'CRITICAL': '\033[35m', # Magenta
+                'RESET': '\033[0m'      # Reset
+            }
+            
+            def format(self, record):
+                # Tambahkan warna untuk level
+                level_color = self.COLORS.get(record.levelname, self.COLORS['RESET'])
+                record.levelname = f"{level_color}{record.levelname}{self.COLORS['RESET']}"
+                
+                # Tambahkan prefix berdasarkan level (tanpa emoji untuk kompatibilitas Windows)
+                prefix_map = {
+                    'DEBUG': '[DEBUG]',
+                    'INFO': '[INFO]',
+                    'WARNING': '[WARN]',
+                    'ERROR': '[ERROR]',
+                    'CRITICAL': '[CRIT]'
+                }
+                prefix = prefix_map.get(record.levelname.replace(level_color, '').replace(self.COLORS['RESET'], ''), '')
+                
+                # Format pesan dengan prefix
+                if prefix:
+                    record.msg = f"{prefix} {record.msg}"
+                
+                return super().format(record)
+        
+        # Console handler dengan warna
         console_handler = logging.StreamHandler()
-        console_handler.setFormatter(formatter)
+        console_handler.setLevel(logging.INFO)
+        console_handler.setFormatter(ColoredFormatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        ))
         self.logger.addHandler(console_handler)
         
-        # File handler (opsional)
+        # File handler (opsional) - tanpa warna
         if log_file:
             # Buat direktori logs jika belum ada
             os.makedirs('logs', exist_ok=True)
             file_handler = logging.FileHandler(f'logs/{log_file}')
-            file_handler.setFormatter(formatter)
+            file_handler.setLevel(logging.INFO)
+            file_handler.setFormatter(logging.Formatter(
+                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            ))
             self.logger.addHandler(file_handler)
+        
+        # Prevent propagation to root logger
+        self.logger.propagate = False
     
     def info(self, message: str):
         """Log info message"""

@@ -18,10 +18,11 @@ SmartLibrary AI menggunakan sistem prompt yang terstruktur dengan 3 komponen uta
 Anda adalah asisten perpustakaan cerdas bernama "SmartLib Assistant" yang dapat memberikan rekomendasi buku yang personal dan akurat.
 
 ## PERAN DAN KEMAMPUAN:
-- Ahli dalam menganalisis preferensi membaca pengguna
+- Ahli dalam menganalisis preferensi membaca pengguna berdasarkan histori pembacaan
 - Mengenal berbagai genre buku dan penulis
 - Dapat memberikan rekomendasi yang sesuai dengan mood dan kebutuhan
 - Memahami konteks buku yang sedang dibaca atau diminati
+- Dapat mengakses dan menganalisis histori pembacaan pengguna
 ```
 
 ### Konteks yang Tersedia
@@ -40,11 +41,22 @@ Konteks Pengguna:
 ```
 ## PANDUAN RESPONS:
 1. **Sambutan Personal**: Mulai dengan sambutan yang ramah dan personal
-2. **Analisis Preferensi**: Analisis preferensi pengguna berdasarkan konteks
-3. **Rekomendasi Kontekstual**: Berikan rekomendasi yang sesuai dengan buku yang sedang dibaca
-4. **Penjelasan Alasan**: Jelaskan mengapa buku tersebut direkomendasikan
-5. **Saran Tambahan**: Berikan saran untuk eksplorasi genre atau penulis serupa
+2. **Analisis Histori**: Jika user bertanya tentang buku yang dibaca akhir-akhir ini, analisis histori pembacaan mereka
+3. **Konversasi Natural**: Lakukan tanya jawab natural sebelum memberikan rekomendasi
+4. **Rekomendasi Kontekstual**: Berikan rekomendasi hanya ketika user meminta secara eksplisit
+5. **Penjelasan Alasan**: Jelaskan mengapa buku tersebut direkomendasikan
 6. **Tone**: Gunakan bahasa Indonesia yang sopan, informatif, dan friendly
+```
+
+### Strategi Konversasi
+
+```
+## STRATEGI KONVERSASI:
+- Jangan langsung memberikan rekomendasi tanpa konteks yang cukup
+- Tanyakan preferensi genre, mood, atau kebutuhan spesifik user
+- Jika user bertanya "saya suka membaca buku apa akhir-akhir ini?", analisis histori mereka
+- Berikan rekomendasi hanya ketika user mengatakan "berikan saya rekomendasi" atau kata-kata serupa
+- Jaga agar conversation tidak terlalu panjang (maksimal 5-6 pertukaran)
 ```
 
 ### Format Respons
@@ -52,7 +64,7 @@ Konteks Pengguna:
 ```
 ## FORMAT RESPONS:
 - Gunakan emoji yang relevan untuk membuat respons lebih menarik
-- Berikan penjelasan singkat untuk setiap rekomendasi
+- Berikan penjelasan singkat dan to the point
 - Akhiri dengan ajakan untuk bertanya lebih lanjut
 ```
 
@@ -60,13 +72,15 @@ Konteks Pengguna:
 
 ```
 ## CONTOH RESPONS YANG BAIK:
-"Hi! 👋 Senang bertemu dengan pecinta buku!
+Ketika user bertanya tentang buku yang dibaca akhir-akhir ini:
+"Berdasarkan histori pembacaan Anda, saya melihat Anda baru-baru ini membaca beberapa buku menarik! 📚
 
-Berdasarkan preferensi Anda yang menyukai novel fiksi ilmiah, saya melihat Anda memiliki selera yang sophisticated. Novel-novel yang Anda sukai cenderung mengeksplorasi teknologi masa depan dan kemungkinan-kemungkinan baru.
+Anda telah membaca:
+- "Dune" oleh Frank Herbert (Fiksi Ilmiah)
+- "The Martian" oleh Andy Weir (Fiksi Ilmiah)
+- "Ready Player One" oleh Ernest Cline (Fiksi Ilmiah)
 
-Untuk buku yang sedang Anda baca, saya merekomendasikan beberapa novel yang serupa dalam hal tema dan gaya penulisan. Novel-novel ini juga mengeksplorasi teknologi masa depan dengan pendekatan yang unik.
-
-Apakah Anda tertarik untuk mencoba genre lain yang masih dalam ranah fiksi ilmiah, atau ingin tetap fokus pada tema teknologi masa depan?"
+Saya melihat Anda sangat menyukai genre fiksi ilmiah dengan tema teknologi masa depan. Apakah Anda ingin saya memberikan rekomendasi buku serupa, atau ada genre lain yang ingin Anda eksplorasi?"
 ```
 
 ## 🚫 Negative Prompt
@@ -79,6 +93,7 @@ Negative prompt mencegah AI memberikan respons yang tidak diinginkan atau berkua
 
 ```
 JANGAN:
+- Berikan rekomendasi tanpa diminta secara eksplisit
 - Berikan spoiler untuk buku yang belum dibaca
 - Gunakan bahasa yang terlalu formal atau kaku
 - Berikan rekomendasi yang tidak sesuai dengan preferensi pengguna
@@ -89,24 +104,7 @@ JANGAN:
 - Berikan rekomendasi yang terlalu generik tanpa penjelasan
 - Gunakan emoji yang tidak relevan atau berlebihan
 - Berikan respons yang tidak dalam bahasa Indonesia
-```
-
-### Implementasi
-
-```python
-# Tambahkan negative prompt ke messages
-messages_with_negative = messages + [
-    {"role": "system", "content": negative_prompt}
-]
-
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=messages_with_negative,
-    temperature=0.7,
-    max_tokens=800,
-    presence_penalty=0.1,  # Mendorong variasi dalam respons
-    frequency_penalty=0.1   # Mengurangi repetisi
-)
+- Membuat conversation terlalu panjang
 ```
 
 ## 🔧 Post-Processing
@@ -144,53 +142,78 @@ if not any(phrase in response.lower() for phrase in ['bertanya', 'tanya', 'lanju
     response += "\n\nAda yang ingin Anda tanyakan lebih lanjut tentang rekomendasi buku?"
 ```
 
+## 🆕 Fitur Baru: Kontrol Rekomendasi
+
+### Deteksi Permintaan Rekomendasi
+
+Sistem AI sekarang dapat mendeteksi kapan user meminta rekomendasi secara eksplisit:
+
+```python
+recommendation_keywords = [
+    'berikan saya rekomendasi', 'rekomendasi', 'sarankan', 'saran',
+    'rekomendasikan', 'bagaimana dengan', 'apa yang bagus', 'buku apa yang bagus',
+    'tolong berikan', 'bisa berikan', 'mohon rekomendasi'
+]
+
+user_wants_recommendations = any(
+    keyword in message.lower() for keyword in recommendation_keywords
+)
+```
+
+### Akses Histori Pembacaan
+
+AI sekarang dapat mengakses dan menganalisis histori pembacaan user:
+
+```python
+def _get_user_reading_history(self, user_id: str) -> str:
+    """Mendapatkan histori pembacaan user terbaru"""
+    # Ambil buku yang dipinjam dalam 30 hari terakhir
+    # Ambil interaksi user terbaru
+    # Format histori untuk AI
+```
+
+### Kontrol UI Rekomendasi
+
+Frontend sekarang memiliki kontrol untuk menampilkan/menyembunyikan rekomendasi:
+
+```typescript
+const [showRecommendations, setShowRecommendations] = useState(false);
+
+// Tampilkan rekomendasi hanya ketika user meminta
+if (userWantsRecommendations) {
+  setShowRecommendations(true);
+}
+```
+
 ## 📊 Contoh Respons yang Dihasilkan
 
-### Respons untuk User Baru
+### Respons untuk Pertanyaan Histori
 
 ```
-Hi! 👋 Senang bertemu dengan pecinta buku!
+Berdasarkan histori pembacaan Anda, saya melihat Anda baru-baru ini membaca beberapa buku menarik! 📚
 
-Selamat datang di SmartLibrary! Saya adalah asisten AI yang akan membantu Anda menemukan buku-buku menarik sesuai dengan preferensi Anda.
+Anda telah membaca:
+- "Dune" oleh Frank Herbert (Fiksi Ilmiah) (dipinjam: 2024-01-15)
+- "The Martian" oleh Andy Weir (Fiksi Ilmiah) (dipinjam: 2024-01-10)
+- "Ready Player One" oleh Ernest Cline (Fiksi Ilmiah) (dipinjam: 2024-01-05)
 
-Karena ini adalah pertama kali Anda menggunakan sistem ini, saya akan memberikan beberapa rekomendasi populer dari berbagai genre untuk memulai perjalanan membaca Anda.
+Aktivitas membaca terbaru:
+- bookmark: Dune
+- read: The Martian
+- review: Ready Player One
+
+Saya melihat Anda sangat menyukai genre fiksi ilmiah dengan tema teknologi masa depan. Apakah Anda ingin saya memberikan rekomendasi buku serupa, atau ada genre lain yang ingin Anda eksplorasi?
+```
+
+### Respons untuk Permintaan Rekomendasi
+
+```
+Tentu! Berdasarkan preferensi Anda yang menyukai fiksi ilmiah, saya merekomendasikan beberapa buku yang serupa dengan yang Anda baca sebelumnya.
 
 📚 **REKOMENDASI BUKU UNTUK ANDA** 📚
 ==================================================
 
 🎯 Berdasarkan Konten Serupa:
-------------------------------
-1. **Dune** oleh Frank Herbert
-   📖 Genre: Fiksi Ilmiah
-   💡 Mengeksplorasi teknologi masa depan dan kemungkinan-kemungkinan baru
-
-2. **The Martian** oleh Andy Weir
-   📖 Genre: Fiksi Ilmiah
-   💡 Mengeksplorasi teknologi masa depan dan kemungkinan-kemungkinan baru
-
-3. **Ready Player One** oleh Ernest Cline
-   📖 Genre: Fiksi Ilmiah
-   💡 Mengeksplorasi teknologi masa depan dan kemungkinan-kemungkinan baru
-
-==================================================
-💡 **Tips**: Setiap rekomendasi dipilih berdasarkan algoritma yang berbeda untuk memberikan variasi yang menarik!
-
-Ada yang ingin Anda tanyakan lebih lanjut tentang rekomendasi buku?
-```
-
-### Respons untuk Preferensi Kompleks
-
-```
-Halo! 👋 Senang bertemu dengan pecinta buku yang memiliki selera yang sophisticated!
-
-Saya melihat Anda menyukai novel yang menggabungkan fiksi ilmiah dengan elemen misteri dan memiliki karakter yang kuat. Ini adalah kombinasi yang sangat menarik! Anda cenderung menyukai cerita yang tidak hanya mengeksplorasi teknologi masa depan, tetapi juga memiliki plot yang kompleks dan karakter yang berkembang dengan baik.
-
-Berdasarkan preferensi Anda, saya merekomendasikan beberapa novel yang menggabungkan elemen-elemen tersebut dengan cara yang unik.
-
-📚 **REKOMENDASI BUKU UNTUK ANDA** 📚
-==================================================
-
-🤖 Berdasarkan AI:
 ------------------------------
 1. **The Three-Body Problem** oleh Liu Cixin
    📖 Genre: Fiksi Ilmiah
@@ -207,7 +230,7 @@ Berdasarkan preferensi Anda, saya merekomendasikan beberapa novel yang menggabun
 ==================================================
 💡 **Tips**: Setiap rekomendasi dipilih berdasarkan algoritma yang berbeda untuk memberikan variasi yang menarik!
 
-Apakah Anda tertarik untuk mengeksplorasi genre lain yang masih dalam ranah fiksi ilmiah, atau ingin tetap fokus pada tema teknologi masa depan?
+Ada yang ingin Anda tanyakan lebih lanjut tentang rekomendasi buku?
 ```
 
 ## 🧪 Testing Prompts
@@ -232,6 +255,8 @@ python test_ai_prompts.py
 2. **User dengan Preferensi Kompleks**
 3. **User yang Bingung**
 4. **User yang Spesifik**
+5. **User yang Meminta Histori**
+6. **User yang Meminta Rekomendasi**
 
 ## 🔄 Monitoring dan Improvement
 
@@ -257,6 +282,8 @@ def _log_chat_interaction(self, user_id: Optional[str], message: str, response: 
 - **Response Time**: Waktu respons AI
 - **User Engagement**: Apakah user melanjutkan percakapan
 - **Error Rate**: Tingkat error dalam respons
+- **Recommendation Request Rate**: Tingkat permintaan rekomendasi
+- **Histori Access Rate**: Tingkat akses histori pembacaan
 
 ## 🚀 Best Practices
 
@@ -269,6 +296,7 @@ def _log_chat_interaction(self, user_id: Optional[str], message: str, response: 
 ### 2. Personalisasi
 
 - Gunakan konteks buku dan preferensi pengguna
+- Akses histori pembacaan untuk analisis yang lebih akurat
 - Berikan respons yang personal dan relevan
 - Hindari respons generik
 
@@ -277,18 +305,28 @@ def _log_chat_interaction(self, user_id: Optional[str], message: str, response: 
 - Selalu akhiri dengan ajakan untuk bertanya lebih lanjut
 - Gunakan emoji yang relevan dan tidak berlebihan
 - Berikan tips dan saran yang berguna
+- Jaga agar conversation tidak terlalu panjang
 
-### 4. Keamanan
+### 4. Kontrol Rekomendasi
+
+- Berikan rekomendasi hanya ketika diminta secara eksplisit
+- Deteksi kata kunci permintaan rekomendasi
+- Tampilkan komponen rekomendasi secara otomatis
+- Berikan kontrol kepada user untuk menampilkan/menyembunyikan
+
+### 5. Keamanan
 
 - Validasi semua input user
 - Masking data sensitif dalam logs
 - Rate limiting untuk mencegah abuse
+- Akses histori pembacaan dengan aman
 
-### 5. Monitoring
+### 6. Monitoring
 
 - Monitor kualitas respons secara berkala
 - Update prompt berdasarkan feedback user
 - Test dengan berbagai jenis pertanyaan
+- Monitor penggunaan fitur histori dan rekomendasi
 
 ## 📈 Continuous Improvement
 

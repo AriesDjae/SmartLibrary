@@ -51,54 +51,99 @@ class RecommendationService:
     def _load_data(self):
         """Load data dari MongoDB"""
         try:
+            from utils.logger import ai_logger
+            
             # Load buku
             books_data = list(self.books_collection.find())
             self.books_df = pd.DataFrame(books_data)
+            ai_logger.logger.info(f"Loaded {len(books_data)} books from database")
             
             # Load ratings
             ratings_data = list(self.ratings_collection.find())
             self.ratings_df = pd.DataFrame(ratings_data)
+            ai_logger.logger.info(f"Loaded {len(ratings_data)} ratings from database")
             
             if not self.books_df.empty:
                 self._prepare_content_data()
                 self._create_user_item_matrix()
+                ai_logger.logger.info("Data preparation completed successfully")
             else:
-                print("Warning: Tidak ada data buku yang ditemukan")
+                ai_logger.logger.warning("No books data found in database")
                 
         except Exception as e:
+            ai_logger.log_error("DataLoading", str(e))
             print(f"Error loading data: {str(e)}")
             self.books_df = pd.DataFrame()
             self.ratings_df = pd.DataFrame()
     
     def _prepare_content_data(self):
         """Mempersiapkan data untuk content-based filtering"""
-        # Gabungkan semua informasi buku
-        self.books_df['content'] = (
-            self.books_df['title'].fillna('') + ' ' +
-            self.books_df['description'].fillna('') + ' ' +
-            self.books_df['author'].fillna('') + ' ' +
-            self.books_df['genre'].fillna('')
-        )
+        from utils.logger import ai_logger
         
-        # Buat TF-IDF matrix
-        self.tfidf_matrix = self.tfidf_vectorizer.fit_transform(self.books_df['content'])
+        try:
+            # Gabungkan semua informasi buku
+            self.books_df['content'] = (
+                self.books_df['title'].fillna('') + ' ' +
+                self.books_df['description'].fillna('') + ' ' +
+                self.books_df['author'].fillna('') + ' ' +
+                self.books_df['genre'].fillna('')
+            )
+            
+            # Buat TF-IDF matrix
+            self.tfidf_matrix = self.tfidf_vectorizer.fit_transform(self.books_df['content'])
+            ai_logger.logger.info(f"Created TF-IDF matrix: {self.tfidf_matrix.shape}")
+            
+        except Exception as e:
+            ai_logger.logger.error(f"Failed to prepare content data: {str(e)}")
+            self.tfidf_matrix = None
     
     def _create_user_item_matrix(self):
         """Membuat user-item matrix untuk collaborative filtering"""
+        from utils.logger import ai_logger
+        
         if not self.ratings_df.empty:
-            self.user_item_matrix = self.ratings_df.pivot(
-                index='user_id',
-                columns='book_id',
-                values='rating_value'
-            ).fillna(0)
+            try:
+                self.user_item_matrix = self.ratings_df.pivot(
+                    index='user_id',
+                    columns='book_id',
+                    values='rating_value'
+                ).fillna(0)
+                ai_logger.logger.info(f"Created user-item matrix: {self.user_item_matrix.shape}")
+            except Exception as e:
+                ai_logger.logger.warning(f"Failed to create user-item matrix: {str(e)}")
+                self.user_item_matrix = pd.DataFrame()
         else:
+            ai_logger.logger.warning("No ratings data available for collaborative filtering")
             self.user_item_matrix = pd.DataFrame()
     
     def _get_book_index(self, book_id: str) -> Optional[int]:
         """Mendapatkan indeks buku dari DataFrame"""
         try:
-            return self.books_df[self.books_df['_id'] == book_id].index[0]
-        except (IndexError, KeyError):
+            from bson import ObjectId
+            
+            # Coba sebagai string biasa
+            try:
+                return self.books_df[self.books_df['_id'] == book_id].index[0]
+            except (IndexError, KeyError):
+                pass
+            
+            # Coba sebagai ObjectId
+            try:
+                obj_id = ObjectId(book_id)
+                return self.books_df[self.books_df['_id'] == obj_id].index[0]
+            except (IndexError, KeyError, ValueError):
+                pass
+            
+            # Coba sebagai string dari ObjectId
+            try:
+                return self.books_df[self.books_df['_id'].astype(str) == book_id].index[0]
+            except (IndexError, KeyError):
+                pass
+            
+            return None
+        except Exception as e:
+            from utils.logger import ai_logger
+            ai_logger.logger.warning(f"Error in _get_book_index: {str(e)}")
             return None
     
     def _get_book_by_index(self, index: int) -> Optional[Dict[str, Any]]:
@@ -189,14 +234,18 @@ class RecommendationService:
             ai_logger.logger.info(f"   Calculated similarities with {len(user_similarities)} users")
             ai_logger.logger.info(f"   Similarity range: {user_similarities.min():.4f} - {user_similarities.max():.4f}")
             
-            # Dapatkan user yang paling similar
+            # Dapatkan user yang paling similar (exclude user sendiri)
+            user_idx = self.user_item_matrix.index.get_loc(user_id)
+            user_similarities[user_idx] = 0  # Set similarity dengan diri sendiri ke 0
+            
             similar_users = user_similarities.argsort()[-n_recommendations-1:-1][::-1]
             ai_logger.logger.info(f"   Selected top {len(similar_users)} similar users")
             
-            # Log similar users
+            # Log similar users dengan detail
             for i, user_idx in enumerate(similar_users, 1):
                 similarity = user_similarities[user_idx]
-                ai_logger.logger.info(f"      {i}. User {user_idx} - Similarity: {similarity:.4f}")
+                similar_user_id = self.user_item_matrix.index[user_idx]
+                ai_logger.logger.info(f"      {i}. User {similar_user_id} - Similarity: {similarity:.4f}")
             
             # Dapatkan buku yang belum dibaca oleh user
             user_books = set(self.user_item_matrix.columns[self.user_item_matrix.loc[user_id] > 0])
@@ -222,9 +271,16 @@ class RecommendationService:
             # Urutkan berdasarkan prediksi rating
             predictions.sort(key=lambda x: x[1], reverse=True)
             
+            # Filter hanya buku dengan rating > 0 (yang benar-benar direkomendasikan)
+            positive_predictions = [(book_id, rating) for book_id, rating in predictions if rating > 0]
+            
+            if not positive_predictions:
+                ai_logger.logger.info("   No positive predictions found, using top predictions")
+                positive_predictions = predictions[:n_recommendations]
+            
             # Dapatkan detail buku yang direkomendasikan
             recommendations = []
-            for i, (book_id, predicted_rating) in enumerate(predictions[:n_recommendations], 1):
+            for i, (book_id, predicted_rating) in enumerate(positive_predictions[:n_recommendations], 1):
                 book_data = self._get_book_by_id(book_id)
                 if book_data:
                     # Simpan rating hanya untuk internal logging, tidak untuk user
@@ -233,6 +289,19 @@ class RecommendationService:
                     clean_book_data = {k: v for k, v in book_data.items() if not k.startswith('_')}
                     recommendations.append(clean_book_data)
                     ai_logger.logger.info(f"      {i}. {book_data.get('title', 'N/A')} - Predicted Rating: {predicted_rating:.2f}")
+            
+            # Jika tidak ada rekomendasi dari collaborative, coba fallback ke content-based
+            if not recommendations and len(unread_books) > 0:
+                ai_logger.logger.info("   No collaborative recommendations, trying content-based fallback")
+                # Ambil buku pertama yang belum dibaca untuk content-based
+                fallback_book_id = list(unread_books)[0]
+                # Pastikan book_id valid untuk content-based
+                if fallback_book_id in self.books_df['_id'].astype(str).values:
+                    fallback_recs = self.get_content_based_recommendations(fallback_book_id, n_recommendations)
+                    recommendations = fallback_recs[:n_recommendations]
+                    ai_logger.logger.info(f"   Content-based fallback generated {len(recommendations)} recommendations")
+                else:
+                    ai_logger.logger.warning(f"   Fallback book_id {fallback_book_id} not found in books database")
             
             ai_logger.logger.info(f"   Collaborative: Generated {len(recommendations)} recommendations")
             return recommendations
